@@ -8,3 +8,7 @@ type SetmealDish struct {
 	Price     float64 `json:"price"`
 	Copies    int     `json:"copies"`
 }
+
+func (SetmealDish) TableName() string {
+	return "setmeal_dish"
+}

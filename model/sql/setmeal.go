@@ -15,3 +15,7 @@ type Setmeal struct {
 	CreateUser  int64     `json:"create_user"`
 	UpdateUser  int64     `json:"update_user"`
 }
+
+func (Setmeal) TableName() string {
+	return "setmeal"
+}

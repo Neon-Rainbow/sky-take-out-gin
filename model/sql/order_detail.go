@@ -11,3 +11,7 @@ type OrderDetail struct {
 	Number     int     `json:"number"`
 	Amount     float64 `json:"amount"`
 }
+
+func (OrderDetail) TableName() string {
+	return "order_detail"
+}

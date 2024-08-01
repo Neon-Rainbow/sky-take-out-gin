@@ -1,9 +1,13 @@
 package category
 
+import (
+	model "sky-take-out-gin/model/sql"
+)
+
 // AdminUpdateCategoryRequest 更新分类请求
 type AdminUpdateCategoryRequest struct {
 	// 分类ID
-	ID int `json:"id" binding:"required"`
+	ID int64 `json:"id" binding:"required"`
 
 	// 分类名称
 	Name string `json:"name" binding:"required"`
@@ -16,6 +20,16 @@ type AdminUpdateCategoryRequest struct {
 
 	// 分类状态
 	Status int `json:"status" binding:"required"`
+}
+
+func (a *AdminUpdateCategoryRequest) ConvertToCategory() *model.Category {
+	return &model.Category{
+		ID:     a.ID,
+		Name:   a.Name,
+		Type:   a.Type,
+		Sort:   a.Sort,
+		Status: a.Status,
+	}
 }
 
 // AdminUpdateCategoryResponse 更新分类响应
@@ -39,7 +53,7 @@ type AdminCategoryPageRequest struct {
 
 // CategoryRecord 分类记录
 type CategoryRecord struct {
-	ID         int    `json:"id"`
+	ID         int64  `json:"id"`
 	Type       int    `json:"type"`
 	Name       string `json:"name"`
 	Sort       int    `json:"sort"`
@@ -52,7 +66,7 @@ type CategoryRecord struct {
 
 // AdminCategoryPageResponse 分类分页查询响应
 type AdminCategoryPageResponse struct {
-	Total   int              `json:"total"`
+	Total   int64            `json:"total"`
 	Records []CategoryRecord `json:"records"`
 }
 

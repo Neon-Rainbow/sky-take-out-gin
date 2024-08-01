@@ -12,3 +12,7 @@ type User struct {
 	Avatar     string    `json:"avatar"`
 	CreateTime time.Time `json:"create_time"`
 }
+
+func (User) TableName() string {
+	return "user"
+}

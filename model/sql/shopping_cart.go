@@ -14,3 +14,7 @@ type ShoppingCart struct {
 	Amount     float64   `json:"amount"`
 	CreateTime time.Time `json:"create_time"`
 }
+
+func (ShoppingCart) TableName() string {
+	return "shopping_cart"
+}

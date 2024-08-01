@@ -16,3 +16,7 @@ type Employee struct {
 	CreateUser int64     `json:"create_user"`
 	UpdateUser int64     `json:"update_user"`
 }
+
+func (Employee) TableName() string {
+	return "employee"
+}

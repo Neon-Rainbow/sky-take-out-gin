@@ -16,3 +16,7 @@ type AddressBook struct {
 	Label        string `json:"label"`
 	IsDefault    int    `json:"is_default"`
 }
+
+func (AddressBook) TableName() string {
+	return "address_book"
+}

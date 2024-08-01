@@ -28,3 +28,7 @@ type Order struct {
 	TablewareNumber       int       `json:"tableware_number"`
 	TablewareStatus       int       `json:"tableware_status"`
 }
+
+func (Order) TableName() string {
+	return "order"
+}
