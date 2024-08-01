@@ -12,3 +12,6 @@ gen
 
 # Mac OS files
 .DS_Store
+
+# 配置文件
+config.yaml
