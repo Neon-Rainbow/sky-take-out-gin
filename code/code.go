@@ -21,20 +21,26 @@ func GenerateResponseCode(ServiceError int, ModelError int, DetailError int) Res
 //
 //模块级错误码
 //2 位数进行表示
-//01: 用户模块错误
-//02: 商品模块错误
+//
+//01:管理端分类模块错误
 //
 //具体错误码
 //2 位数进行表示
 //具体根据模块中的操作定义
 
 const (
-	ServerError        = 10101
-	TooManyRequests    = 10102
-	ParamBindError     = 10103
-	AuthorizationError = 10104
-	UrlSignError       = 10105
-	MySQLExecError     = 10106
+	ServerError        ResponseCode = 10101
+	TooManyRequests    ResponseCode = 10102
+	ParamBindError     ResponseCode = 10103
+	AuthorizationError ResponseCode = 10104
+	UrlSignError       ResponseCode = 10105
+	MySQLExecError     ResponseCode = 10106
+
+	// 管理端分类模块错误
+	CategoryBindParamError ResponseCode = 20101
+	CategoryNotExist       ResponseCode = 20102
+	CategoryUpdateFailed   ResponseCode = 20103
+	CategoryGetFailed      ResponseCode = 20104
 )
 
 var ResponseCodeMessageMap = map[ResponseCode]string{
@@ -44,6 +50,12 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	AuthorizationError: "签名信息错误",
 	UrlSignError:       "参数签名错误",
 	MySQLExecError:     "数据库执行错误",
+
+	//管理端分类模块错误
+	CategoryBindParamError: "分类参数绑定错误",
+	CategoryNotExist:       "分类不存在",
+	CategoryUpdateFailed:   "更新分类失败",
+	CategoryGetFailed:      "获取分类失败",
 }
 
 func (r ResponseCode) Message() string {

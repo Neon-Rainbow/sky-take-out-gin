@@ -2,12 +2,17 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
-	"sky-take-out-gin/internal/controller/admin/category"
+	controllerCategory "sky-take-out-gin/internal/controller/admin/category"
+	daoCategory "sky-take-out-gin/internal/dao"
+	serviceCategory "sky-take-out-gin/internal/service/admin/category"
 )
 
 func CategoryRoutes(route *gin.RouterGroup) {
-	//TODO:controller应该不在这里声明,之后需要修改
-	controller := category.NewAdminCategoryControllerImpl()
+	// 实例化CategoryDaoImpl
+	dao := daoCategory.NewCategoryDaoImpl()
+	service := serviceCategory.NewCategoryService(*dao)
+	controller := controllerCategory.NewAdminCategoryControllerImpl(*service)
+
 	category_route := route.Group("/category")
 	{
 		category_route.PUT("/", controller.UpdateCategory)
