@@ -6,18 +6,22 @@ import (
 )
 
 // SetupHTTPRoute 用于初始化 HTTP 路由
-func SetupHTTPRoute() *gin.Engine {
+func SetupHTTPRoute() error {
 	route := gin.Default()
 	ApiV1 := route.Group("/api/v1")
 	{
-		UserApi := ApiV1.Group("/user")
-		{
-			admin.CategoryRoutes(UserApi)
-		}
-		AdminApi := ApiV1.Group("/admin")
+		_ = ApiV1.Group("/user")
 		{
 
 		}
+		AdminApi := ApiV1.Group("/admin")
+		{
+			admin.CategoryRoutes(AdminApi)
+		}
 	}
-	return route
+	err := route.Run(":8080")
+	if err != nil {
+		return err
+	}
+	return nil
 }
