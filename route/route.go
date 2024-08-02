@@ -17,6 +17,7 @@ func SetupHTTPRoute() error {
 		AdminApi := ApiV1.Group("/admin")
 		{
 			admin.CategoryRoutes(AdminApi)
+			admin.EmployeeRoutes(AdminApi)
 		}
 	}
 	err := route.Run(":8080")
