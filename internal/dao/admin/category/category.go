@@ -1,4 +1,4 @@
-package dao
+package category
 
 import (
 	"context"
@@ -53,4 +53,15 @@ func (dao *CategoryDaoImpl) GetCategoryPage(ctx context.Context, name string, pa
 	}
 
 	return categories, total, nil
+}
+
+// ChangeCategoryStatus 修改分类状态
+// @Param ctx context.Context 上下文
+// @Param id int64 分类ID
+// @Param status int 分类状态
+// @Return err error 错误信息
+func (dao *CategoryDaoImpl) ChangeCategoryStatus(ctx context.Context, id int64, status int) error {
+	query := dao.DB.Model(&model.Category{})
+	err := query.WithContext(ctx).Where("id = ?", id).Update("status = ?", status).Error
+	return err
 }

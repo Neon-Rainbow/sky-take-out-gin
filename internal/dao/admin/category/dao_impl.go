@@ -1,4 +1,4 @@
-package dao
+package category
 
 import (
 	"gorm.io/gorm"
