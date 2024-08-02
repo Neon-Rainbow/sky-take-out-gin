@@ -67,17 +67,17 @@ func (service *CategoryServiceImpl) GetCategoryPage(ctx context.Context, req *pa
 }
 
 // ChangeCategoryStatus 启用、禁用分类
-func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p *paramModel.AdminChangeCategoryStatusRequest) *controllerModel.ApiError {
+func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p *paramModel.AdminChangeCategoryStatusRequest) (*paramModel.AdminChangeCategoryStatusResponse, *controllerModel.ApiError) {
 	err := service.CategoryDao.ChangeCategoryStatus(ctx, p.ID, p.Status)
 	if err != nil {
-		return &controllerModel.ApiError{
+		return nil, &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
 			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
 		}
 	}
-	return nil
+	return nil, nil
 }
 
-func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *paramModel.AdminCreateCategoryRequest) *controllerModel.ApiError {
+func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *paramModel.AdminCreateCategoryRequest) (*controllerModel.ApiError, *paramModel.AdminCreateCategoryResponse) {
 	panic("implement me")
 }

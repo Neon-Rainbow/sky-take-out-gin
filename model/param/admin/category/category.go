@@ -73,9 +73,9 @@ type AdminCategoryPageResponse struct {
 // AdminChangeCategoryStatusRequest 启用、禁用分类请求
 type AdminChangeCategoryStatusRequest struct {
 	// 分类状态 1:启用 2:禁用
-	Status int `uri:"status" binding:"required"`
+	Status int `uri:"status"`
 	// 分类ID
-	ID int64 `form:"id" binding:"required"`
+	ID int64 `form:"id"`
 }
 
 // AdminChangeCategoryStatusResponse 启用、禁用分类响应

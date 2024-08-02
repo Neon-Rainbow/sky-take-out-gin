@@ -3,7 +3,7 @@ package employee
 import model "sky-take-out-gin/model/sql"
 
 type EditPasswordRequest struct {
-	Id          int    `json:"id" binding:"required"`
+	ID          int    `json:"id" binding:"required"`
 	NewPassword string `json:"newPassword" binding:"required"`
 	OldPassword string `json:"oldPassword" binding:"required"`
 }
@@ -12,8 +12,8 @@ type EditPasswordResponse struct {
 }
 
 type ChangeEmployeeStatusRequest struct {
-	Status int   `uri:"status" json:"status" binding:"required"`
-	Id     int64 `form:"id" binding:"required"`
+	Status int   `uri:"status" json:"status"`
+	ID     int64 `form:"id"`
 }
 
 type ChangeEmployeeStatusResponse struct {
@@ -36,14 +36,14 @@ type EmployeeLoginRequest struct {
 }
 
 type EmployeeLoginResponse struct {
-	Id       int64  `json:"id"`
+	ID       int64  `json:"id"`
 	Name     string `json:"name"`
 	Token    string `json:"token"`
 	Username string `json:"username"`
 }
 
 type AddEmployeeRequest struct {
-	Id       int64  `json:"id" binding:"omitempty"`
+	ID       int64  `json:"id" binding:"omitempty"`
 	IdNumber string `json:"idNumber" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Phone    string `json:"phone" binding:"required"`
@@ -55,7 +55,7 @@ type AddEmployeeResponse struct {
 }
 
 type SearchEmployeeRequest struct {
-	Id int64 `uri:"id" binding:"required"`
+	ID int64 `uri:"id" binding:"required"`
 }
 
 type SearchEmployeeResponse struct {
@@ -63,7 +63,7 @@ type SearchEmployeeResponse struct {
 }
 
 type EditEmployeeRequest struct {
-	Id       int64  `json:"id" binding:"omitempty"`
+	ID       int64  `json:"id" binding:"omitempty"`
 	IdNumber string `json:"idNumber" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Phone    string `json:"phone" binding:"required"`
