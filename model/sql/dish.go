@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Dish struct {
-	ID          int64     `json:"id" gorm:"primary_key"`
+	ID          int64     `json:"id" gorm:"primary_key;autoIncrement"`
 	Name        string    `json:"name" binding:"required" gorm:"type:longtext"`
 	CategoryID  int64     `json:"category_id" binding:"required"`
 	Price       float64   `json:"price"`

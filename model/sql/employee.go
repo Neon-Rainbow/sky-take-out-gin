@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Employee struct {
-	ID         int64     `json:"id" gorm:"primary_key"`
+	ID         int64     `json:"id" gorm:"primary_key;autoIncrement"`
 	Name       string    `json:"name"`
 	Username   string    `json:"username"`
 	Password   string    `json:"password"`

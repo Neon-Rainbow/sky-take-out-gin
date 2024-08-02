@@ -5,7 +5,7 @@ import (
 )
 
 type Category struct {
-	ID         int64     `json:"id" gorm:"primary_key"`
+	ID         int64     `json:"id" gorm:"primary_key;autoIncrement"`
 	Type       int       `json:"type"`
 	Name       string    `json:"name" binding:"required" gorm:"type:longtext"` // 指定索引前缀长度
 	Sort       int       `json:"sort"`

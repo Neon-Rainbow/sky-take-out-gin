@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Order struct {
-	ID                    int64     `json:"id" gorm:"primary_key"`
+	ID                    int64     `json:"id" gorm:"primary_key;autoIncrement"`
 	Number                string    `json:"number"`
 	Status                int       `json:"status"`
 	UserID                int64     `json:"user_id"`

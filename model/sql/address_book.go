@@ -1,7 +1,7 @@
 package model
 
 type AddressBook struct {
-	ID           int64  `json:"id" gorm:"primary_key"`
+	ID           int64  `json:"id" gorm:"primary_key;autoIncrement"`
 	UserID       int64  `json:"user_id"`
 	Consignee    string `json:"consignee"`
 	Sex          string `json:"sex"`

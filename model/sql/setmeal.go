@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Setmeal struct {
-	ID          int64     `json:"id" gorm:"primary_key"`
+	ID          int64     `json:"id" gorm:"primary_key;autoIncrement"`
 	CategoryID  int64     `json:"category_id"`
 	Name        string    `json:"name"`
 	Price       float64   `json:"price"`
