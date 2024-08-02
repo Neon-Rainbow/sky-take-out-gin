@@ -35,6 +35,7 @@ const (
 	AuthorizationError ResponseCode = 10104
 	UrlSignError       ResponseCode = 10105
 	MySQLExecError     ResponseCode = 10106
+	ParamError         ResponseCode = 10107
 
 	// 管理端分类模块错误
 	CategoryBindParamError     ResponseCode = 20101
@@ -47,6 +48,16 @@ const (
 	// 管理端员工模块错误
 	EmployeeBindParamError     ResponseCode = 20201
 	EmployeeEditPasswordFailed ResponseCode = 20202
+	EmployeeNotFound           ResponseCode = 20203
+	EmployeeChangeStatusFailed ResponseCode = 20204
+	EmployeeGetPageFailed      ResponseCode = 20205
+	EmployeeLoginFailed        ResponseCode = 20206
+	EmployeeSearchFailed       ResponseCode = 20207
+	EmployeeEditFailed         ResponseCode = 20208
+	EmployeeAddFailed          ResponseCode = 20209
+
+	// 权限校验失败
+	RequestUnauthorized ResponseCode = 21001
 )
 
 var ResponseCodeMessageMap = map[ResponseCode]string{
@@ -56,6 +67,7 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	AuthorizationError: "签名信息错误",
 	UrlSignError:       "参数签名错误",
 	MySQLExecError:     "数据库执行错误",
+	ParamError:         "参数错误",
 
 	//管理端分类模块错误
 	CategoryBindParamError:     "分类参数绑定错误",
@@ -68,6 +80,16 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	//管理端员工模块错误
 	EmployeeBindParamError:     "员工参数绑定错误",
 	EmployeeEditPasswordFailed: "修改员工密码失败",
+	EmployeeNotFound:           "员工不存在",
+	EmployeeChangeStatusFailed: "修改员工状态失败",
+	EmployeeGetPageFailed:      "获取员工分页失败",
+	EmployeeLoginFailed:        "员工登录失败",
+	EmployeeSearchFailed:       "员工查询失败",
+	EmployeeEditFailed:         "员工编辑失败",
+	EmployeeAddFailed:          "员工添加失败",
+
+	// 权限校验失败
+	RequestUnauthorized: "请求未授权",
 }
 
 func (r ResponseCode) Message() string {
