@@ -37,10 +37,16 @@ const (
 	MySQLExecError     ResponseCode = 10106
 
 	// 管理端分类模块错误
-	CategoryBindParamError ResponseCode = 20101
-	CategoryNotExist       ResponseCode = 20102
-	CategoryUpdateFailed   ResponseCode = 20103
-	CategoryGetFailed      ResponseCode = 20104
+	CategoryBindParamError     ResponseCode = 20101
+	CategoryNotExist           ResponseCode = 20102
+	CategoryUpdateFailed       ResponseCode = 20103
+	CategoryGetFailed          ResponseCode = 20104
+	CategoryChangeStatusFailed ResponseCode = 20105
+	CategoryCreateFailed       ResponseCode = 20106
+
+	// 管理端员工模块错误
+	EmployeeBindParamError     ResponseCode = 20201
+	EmployeeEditPasswordFailed ResponseCode = 20202
 )
 
 var ResponseCodeMessageMap = map[ResponseCode]string{
@@ -52,10 +58,16 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	MySQLExecError:     "数据库执行错误",
 
 	//管理端分类模块错误
-	CategoryBindParamError: "分类参数绑定错误",
-	CategoryNotExist:       "分类不存在",
-	CategoryUpdateFailed:   "更新分类失败",
-	CategoryGetFailed:      "获取分类失败",
+	CategoryBindParamError:     "分类参数绑定错误",
+	CategoryNotExist:           "分类不存在",
+	CategoryUpdateFailed:       "更新分类失败",
+	CategoryGetFailed:          "获取分类失败",
+	CategoryChangeStatusFailed: "修改分类状态失败",
+	CategoryCreateFailed:       "创建分类失败",
+
+	//管理端员工模块错误
+	EmployeeBindParamError:     "员工参数绑定错误",
+	EmployeeEditPasswordFailed: "修改员工密码失败",
 }
 
 func (r ResponseCode) Message() string {
