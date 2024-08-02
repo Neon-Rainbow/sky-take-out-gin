@@ -34,7 +34,7 @@ func (controller SetmealControllerImpl) GetSetmealPage(c *gin.Context) {
 		c,
 		&req,
 		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.service.GetSetmealPage(ctx, req.(*paramModel.GetSetmealPageRequest))
+			return controller.service.GetSetmealPage(ctx, req.(*paramModel.GetSetmealsPageRequest))
 		},
 		c.ShouldBindQuery)
 }
