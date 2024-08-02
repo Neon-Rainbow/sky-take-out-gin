@@ -15,10 +15,10 @@ import (
 )
 
 type AdminCategoryControllerImpl struct {
-	serviceCategory.CategoryServiceImpl
+	serviceCategory.CategoryService
 }
 
-func NewAdminCategoryControllerImpl(service serviceCategory.CategoryServiceImpl) *AdminCategoryControllerImpl {
+func NewAdminCategoryControllerImpl(service serviceCategory.CategoryService) *AdminCategoryControllerImpl {
 	return &AdminCategoryControllerImpl{
 		service,
 	}
@@ -65,7 +65,7 @@ func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
 		category := req.ConvertToCategory()
 
 		// 调用service层方法
-		if err := controller.CategoryServiceImpl.UpdateCategory(ctx, category); err != nil {
+		if err := controller.CategoryService.UpdateCategory(ctx, category); err != nil {
 			resultChan <- &controllerModel.ApiError{
 				Code: code.CategoryUpdateFailed,
 				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
@@ -144,7 +144,7 @@ func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
 		}
 
 		// 调用service层方法
-		res, err := controller.CategoryServiceImpl.GetCategoryPage(ctx, &req)
+		res, err := controller.CategoryService.GetCategoryPage(ctx, &req)
 		if err != nil {
 			resultChan <- &controllerModel.ApiError{
 				Code: code.CategoryGetFailed,
@@ -200,6 +200,61 @@ func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
 // @Failure 500 {object} controller.Response
 // @Router /admin/category/status/{status} [post]
 func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	resultChan := make(chan interface{})
+	defer close(resultChan)
+
+	go func() {
+		var req paramCategory.AdminChangeCategoryStatusRequest
+		err := c.ShouldBind(&req)
+		if err != nil {
+			resultChan <- &controllerModel.ApiError{
+				Code: code.CategoryBindParamError,
+				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
+					code.CategoryBindParamError,
+					code.CategoryBindParamError.Message(),
+					err.Error()),
+			}
+			return
+		}
+
+		// 调用service层方法
+		err = controller.CategoryService.ChangeCategoryStatus(ctx, &req)
+		if err != nil {
+			resultChan <- &controllerModel.ApiError{
+				Code: code.CategoryChangeStatusFailed,
+				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
+					code.CategoryChangeStatusFailed,
+					code.CategoryChangeStatusFailed.Message(),
+					err.Error()),
+			}
+			return
+		}
+		resultChan <- &paramCategory.AdminChangeCategoryStatusResponse{}
+		return
+	}()
+
+	select {
+	case <-ctx.Done():
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			controllerResponse.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
+			return
+		}
+		controllerResponse.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+		return
+	case result := <-resultChan:
+		switch res := result.(type) {
+		case *controllerModel.ApiError:
+			controllerResponse.ResponseErrorWithApiError(c, http.StatusBadRequest, res)
+			return
+		case *paramCategory.AdminChangeCategoryStatusResponse:
+			controllerResponse.ResponseSuccess(c, res)
+			return
+		}
+
+	}
 }
 
 // CreateCategory 新增分类
@@ -217,6 +272,61 @@ func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Conte
 // @Failure 500 {object} controller.Response
 // @Router /admin/category [post]
 func (controller *AdminCategoryControllerImpl) CreateCategory(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
+	defer cancel()
+
+	resultChan := make(chan interface{})
+	defer close(resultChan)
+
+	go func() {
+		var req paramCategory.AdminCreateCategoryRequest
+		err := c.ShouldBind(&req)
+		if err != nil {
+			resultChan <- &controllerModel.ApiError{
+				Code: code.CategoryBindParamError,
+				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
+					code.CategoryBindParamError,
+					code.CategoryBindParamError.Message(),
+					err.Error()),
+			}
+			return
+		}
+
+		// 调用service层方法
+		err = controller.CategoryService.CreateCategory(ctx, &req)
+		if err != nil {
+			resultChan <- &controllerModel.ApiError{
+				Code: code.CategoryCreateFailed,
+				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
+					code.CategoryCreateFailed,
+					code.CategoryCreateFailed.Message(),
+					err.Error()),
+			}
+			return
+		}
+		resultChan <- &paramCategory.AdminCreateCategoryResponse{}
+		return
+	}()
+
+	select {
+	case <-ctx.Done():
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			controllerResponse.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
+			return
+		}
+		controllerResponse.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+		return
+	case result := <-resultChan:
+		switch res := result.(type) {
+		case *controllerModel.ApiError:
+			controllerResponse.ResponseErrorWithApiError(c, http.StatusBadRequest, res)
+			return
+		case *paramCategory.AdminCreateCategoryResponse:
+			controllerResponse.ResponseSuccess(c, res)
+			return
+		}
+	}
+
 }
 
 // DeleteCategory 根据ID删除分类

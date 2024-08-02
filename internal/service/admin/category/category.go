@@ -11,7 +11,7 @@ import (
 
 // UpdateCategory 更新分类
 func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category *model.Category) *controllerModel.ApiError {
-	existingCategory, err := service.CategoryDaoImpl.GetCategoryById(ctx, category.ID)
+	existingCategory, err := service.CategoryDao.GetCategoryById(ctx, category.ID)
 	if err != nil {
 		return &controllerModel.ApiError{
 			Code: code.CategoryNotExist,
@@ -26,7 +26,7 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 	existingCategory.UpdateTime = category.UpdateTime
 	existingCategory.UpdateUser = category.UpdateUser
 
-	err = service.CategoryDaoImpl.UpdateCategoryType(ctx, existingCategory)
+	err = service.UpdateCategoryType(ctx, existingCategory)
 	if err != nil {
 		return &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
@@ -40,7 +40,7 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 // @Param ctx context.Context 上下文
 func (service *CategoryServiceImpl) GetCategoryPage(ctx context.Context, req *paramModel.AdminCategoryPageRequest) (*paramModel.AdminCategoryPageResponse, *controllerModel.ApiError) {
 	// 分页查询分类
-	categories, total, err := service.CategoryDaoImpl.GetCategoryPage(ctx, req.Name, req.Page, req.PageSize, req.Type)
+	categories, total, err := service.CategoryDao.GetCategoryPage(ctx, req.Name, req.Page, req.PageSize, req.Type)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryGetFailed,
@@ -64,4 +64,20 @@ func (service *CategoryServiceImpl) GetCategoryPage(ctx context.Context, req *pa
 		Records: records,
 		Total:   total,
 	}, nil
+}
+
+// ChangeCategoryStatus 启用、禁用分类
+func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p *paramModel.AdminChangeCategoryStatusRequest) *controllerModel.ApiError {
+	err := service.CategoryDao.ChangeCategoryStatus(ctx, p.ID, p.Status)
+	if err != nil {
+		return &controllerModel.ApiError{
+			Code: code.CategoryUpdateFailed,
+			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
+		}
+	}
+	return nil
+}
+
+func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *paramModel.AdminCreateCategoryRequest) *controllerModel.ApiError {
+	panic("implement me")
 }
