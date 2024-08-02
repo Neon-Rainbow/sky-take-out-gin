@@ -24,9 +24,15 @@ type ServerConfig struct {
 	Port int    `yaml:"port"`
 }
 
+type SecretConfig struct {
+	PasswordSecret string `yaml:"passwordSecret"`
+	JWTSecret      string `yaml:"jwtSecret"`
+}
+
 type Config struct {
 	DatabaseConfig `yaml:"database"`
 	ServerConfig   `yaml:"server"`
+	SecretConfig   `yaml:"secret"`
 }
 
 // InitConfig 初始化配置
