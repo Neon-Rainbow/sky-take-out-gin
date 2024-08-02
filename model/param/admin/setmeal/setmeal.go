@@ -1,4 +1,4 @@
-package admin
+package setmeal
 
 import model "sky-take-out-gin/model/sql"
 
@@ -16,7 +16,7 @@ type UpdateSetmealRequest struct {
 type UpdateSetmealResponse struct {
 }
 
-type GetSetmealsRequest struct {
+type GetSetmealsPageRequest struct {
 	CategoryID int64  `form:"category_id"`                  // 分类id
 	Name       string `form:"name"`                         // 套餐名称
 	Status     int    `form:"status"`                       // 套餐起售状态
@@ -24,7 +24,7 @@ type GetSetmealsRequest struct {
 	PageSize   int    `form:"page_size" binding:"required"` // 每页记录数
 }
 
-type GetSetmealsResponse struct {
+type GetSetmealsPageResponse struct {
 	Total   int             `json:"total"`
 	Records []model.Setmeal `json:"records"`
 }
