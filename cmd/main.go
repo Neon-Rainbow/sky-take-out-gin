@@ -18,6 +18,7 @@ func main() {
 	err = MySQL.InitDB()
 	if err != nil {
 		fmt.Println("初始化数据库失败, err: ", err)
+		return
 	}
 	fmt.Println("初始化MySQL数据库成功---------------------------")
 
