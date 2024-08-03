@@ -24,6 +24,22 @@ func HandleRequest(c *gin.Context,
 
 	ctx := c.Request.Context()
 
+	userID, exist := c.Get("user_id")
+	if !exist {
+		userID = 0
+	}
+
+	ctx = context.WithValue(ctx, "user_id", userID)
+
+	username, exist := c.Get("username")
+	if !exist {
+		username = "guest"
+	}
+
+	username = username.(string)
+
+	ctx = context.WithValue(ctx, "username", username)
+
 	resultChannel := make(chan interface{})
 	go func() {
 		if len(bindFunc) == 0 {

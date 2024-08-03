@@ -56,6 +56,11 @@ const (
 	EmployeeEditFailed         ResponseCode = 20208
 	EmployeeAddFailed          ResponseCode = 20209
 
+	// 套餐模块错误
+	UpdateSetmealError  ResponseCode = 20301
+	GetSetmealPageError ResponseCode = 20302
+	CreateSetmealError  ResponseCode = 20303
+
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
 )
@@ -87,6 +92,11 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	EmployeeSearchFailed:       "员工查询失败",
 	EmployeeEditFailed:         "员工编辑失败",
 	EmployeeAddFailed:          "员工添加失败",
+
+	// 套餐模块错误
+	UpdateSetmealError:  "更新套餐失败",
+	GetSetmealPageError: "获取套餐分页失败",
+	CreateSetmealError:  "创建套餐失败",
 
 	// 权限校验失败
 	RequestUnauthorized: "请求未授权",
