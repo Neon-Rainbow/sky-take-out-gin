@@ -9,7 +9,7 @@ import (
 
 const (
 	// accessTokenExpireDuration 是访问令牌的过期时间
-	accessTokenExpireDuration = time.Minute * 20
+	accessTokenExpireDuration = time.Hour * 24
 	// refreshTokenExpireDuration 是刷新令牌的过期时间
 	refreshTokenExpireDuration = time.Hour * 24 * 15
 )
