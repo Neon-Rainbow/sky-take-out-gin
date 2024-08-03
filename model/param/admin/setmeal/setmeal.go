@@ -1,6 +1,9 @@
 package setmeal
 
-import model "sky-take-out-gin/model/sql"
+import (
+	model "sky-take-out-gin/model/sql"
+	"time"
+)
 
 type UpdateSetmealRequest struct {
 	ID            int64               `json:"id" binding:"required"`          // 套餐id
@@ -17,11 +20,11 @@ type UpdateSetmealResponse struct {
 }
 
 type GetSetmealsPageRequest struct {
-	CategoryID int64  `form:"category_id"`                  // 分类id
-	Name       string `form:"name"`                         // 套餐名称
-	Status     int    `form:"status"`                       // 套餐起售状态
-	Page       int    `form:"page" binding:"required"`      // 页码
-	PageSize   int    `form:"page_size" binding:"required"` // 每页记录数
+	CategoryID int64  `form:"categoryId"`                  // 分类id
+	Name       string `form:"name"`                        // 套餐名称
+	Status     int    `form:"status"`                      // 套餐起售状态
+	Page       int    `form:"page" binding:"required"`     // 页码
+	PageSize   int    `form:"pageSize" binding:"required"` // 每页记录数
 }
 
 type GetSetmealsPageResponse struct {
@@ -62,14 +65,14 @@ type GetSetmealByIDRequest struct {
 }
 
 type GetSetmealByIDResponse struct {
-	ID            int64           `json:"id"`
-	CategoryID    int64           `json:"category_id"`
-	Name          string          `json:"name"`
-	Price         float64         `json:"price"`
-	Status        int             `json:"status"`
-	Description   string          `json:"description"`
-	Image         string          `json:"image"`
-	UpdateTime    string          `json:"update_time"`
-	CategoryName  string          `json:"category_name"`
-	SetmealDishes []model.Setmeal `json:"setmeal_dishes"`
+	ID            int64               `json:"id"`
+	CategoryID    int64               `json:"category_id"`
+	Name          string              `json:"name"`
+	Price         float64             `json:"price"`
+	Status        int                 `json:"status"`
+	Description   string              `json:"description"`
+	Image         string              `json:"image"`
+	UpdateTime    time.Time           `json:"update_time"`
+	CategoryName  string              `json:"category_name"`
+	SetmealDishes []model.SetmealDish `json:"setmeal_dishes"`
 }

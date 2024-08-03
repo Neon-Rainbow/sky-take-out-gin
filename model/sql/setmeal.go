@@ -14,7 +14,7 @@ type Setmeal struct {
 	UpdateTime    time.Time     `json:"update_time"`
 	CreateUser    int64         `json:"create_user"`
 	UpdateUser    int64         `json:"update_user"`
-	SetmealDishes []SetmealDish `json:"setmeal_dishes" gorm:"foreignKey:SetmealID"`
+	SetmealDishes []SetmealDish `json:"setmeal_dishes" gorm:"foreignKey:SetmealID;references:ID"`
 }
 
 func (Setmeal) TableName() string {
