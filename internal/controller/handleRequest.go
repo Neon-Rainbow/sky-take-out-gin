@@ -24,7 +24,7 @@ func HandleRequest(c *gin.Context,
 
 	ctx := c.Request.Context()
 
-	userID, exist := c.Get("user_id")
+	userID, exist := c.Get("userID")
 	if !exist {
 		userID = int64(0)
 	} else {
@@ -39,7 +39,7 @@ func HandleRequest(c *gin.Context,
 		}
 	}
 
-	ctx = context.WithValue(ctx, "user_id", userID)
+	ctx = context.WithValue(ctx, "userID", userID)
 
 	username, exist := c.Get("username")
 	if !exist {

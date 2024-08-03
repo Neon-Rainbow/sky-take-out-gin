@@ -101,7 +101,7 @@ type AdminCreateCategoryResponse struct {
 // AdminDeleteCategoryRequest 删除分类请求
 type AdminDeleteCategoryRequest struct {
 	// 分类ID
-	ID int `form:"id" binding:"required"`
+	ID int64 `form:"id" binding:"required"`
 }
 
 // AdminDeleteCategoryResponse 删除分类响应
@@ -114,20 +114,7 @@ type AdminGetCategoryListByTypeRequest struct {
 	Type int `form:"type" binding:"omitempty"`
 }
 
-// Category 分类结构
-type Category struct {
-	ID         int    `json:"id"`
-	Type       int    `json:"type"`
-	Name       string `json:"name"`
-	Sort       int    `json:"sort"`
-	Status     int    `json:"status"`
-	CreateTime string `json:"createTime"`
-	UpdateTime string `json:"updateTime"`
-	CreateUser int    `json:"createUser"`
-	UpdateUser int    `json:"updateUser"`
-}
-
 // AdminGetCategoryListByTypeResponse 根据类型查询分类响应
 type AdminGetCategoryListByTypeResponse struct {
-	CategoryList []Category `json:"categoryList"`
+	CategoryList []model.Category `json:"categoryList"`
 }

@@ -65,3 +65,41 @@ func (dao *CategoryDaoImpl) ChangeCategoryStatus(ctx context.Context, id int64, 
 	err := query.WithContext(ctx).Where("id = ?", id).Update("status = ?", status).Error
 	return err
 }
+
+// CreateCategory 创建分类
+// @Param ctx context.Context 上下文
+// @Param category *model.Category 分类信息
+// @Return err error 错误信息
+func (dao *CategoryDaoImpl) CreateCategory(ctx context.Context, category *model.Category) error {
+	err := dao.DB.WithContext(ctx).Create(category).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteCategory 删除分类
+// @Param ctx context.Context 上下文
+// @Param id int64 分类ID
+// @Return err error 错误信息
+func (dao *CategoryDaoImpl) DeleteCategory(ctx context.Context, id int64) error {
+	err := dao.DB.Debug().WithContext(ctx).Delete(&model.Category{}, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetCategoryByType 根据类型获取分类
+// @Param ctx context.Context 上下文
+// @Param categoryType int 分类类型
+// @Return []model.Category 分类列表
+// @Return error 错误信息
+func (dao *CategoryDaoImpl) GetCategoryByType(ctx context.Context, categoryType int) ([]model.Category, error) {
+	var categories []model.Category
+	err := dao.DB.WithContext(ctx).Where("type = ?", categoryType).Find(&categories).Error
+	if err != nil {
+		return nil, err
+	}
+	return categories, nil
+}

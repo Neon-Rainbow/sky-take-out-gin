@@ -44,6 +44,7 @@ const (
 	CategoryGetFailed          ResponseCode = 20104
 	CategoryChangeStatusFailed ResponseCode = 20105
 	CategoryCreateFailed       ResponseCode = 20106
+	CategoryDeleteFailed       ResponseCode = 20107
 
 	// 管理端员工模块错误
 	EmployeeBindParamError     ResponseCode = 20201
@@ -81,6 +82,7 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	CategoryGetFailed:          "获取分类失败",
 	CategoryChangeStatusFailed: "修改分类状态失败",
 	CategoryCreateFailed:       "创建分类失败",
+	CategoryDeleteFailed:       "删除分类失败",
 
 	//管理端员工模块错误
 	EmployeeBindParamError:     "员工参数绑定错误",
