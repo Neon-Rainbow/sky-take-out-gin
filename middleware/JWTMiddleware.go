@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"sky-take-out-gin/code"
@@ -36,8 +37,12 @@ func JWTMiddleware() func(c *gin.Context) {
 			return
 		}
 
-		if myClaims.TokenType != "access_token" {
-			controller.ResponseErrorWithMsg(c, http.StatusUnauthorized, code.RequestUnauthorized, "无效的token格式,应该为access_token")
+		if myClaims.TokenType != "access" {
+			controller.ResponseErrorWithMsg(
+				c,
+				http.StatusUnauthorized,
+				code.RequestUnauthorized,
+				fmt.Sprintf("无效的token格式,应该为access token,实际为%s", myClaims.TokenType))
 			c.Abort()
 			return
 		}
