@@ -72,7 +72,7 @@ func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req empl
 }
 
 func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req employee.EmployeeLoginRequest) (resp *employee.EmployeeLoginResponse, apiError *model.ApiError) {
-	employees, err := service.SearchEmployees(ctx, req.Username, "username = ? AND password = ?", utils.EncryptPassword(req.Password))
+	employees, err := service.SearchEmployees(ctx, "username = ? AND password = ?", req.Username, utils.EncryptPassword(req.Password))
 	if err != nil || len(employees) == 0 {
 		return nil, &model.ApiError{
 			Code: code.EmployeeLoginFailed,

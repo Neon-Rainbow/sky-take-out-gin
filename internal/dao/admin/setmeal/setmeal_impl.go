@@ -35,10 +35,10 @@ func (dao SetmealDAOImpl) GetSetmealByID(ctx context.Context, id int64) (*sqlMod
 // @Param pageSize int 每页数量
 // @Return []sqlModel.Setmeal 套餐列表
 // @Return error 错误信息
-func (dao SetmealDAOImpl) GetSetmealPage(ctx context.Context, page, pageSize int) ([]sqlModel.Setmeal, error) {
+func (dao SetmealDAOImpl) GetSetmealPage(ctx context.Context, CategoryID int64, page, pageSize int) ([]sqlModel.Setmeal, error) {
 	var setmeals []sqlModel.Setmeal
 	offset := (page - 1) * pageSize
-	if err := dao.db.WithContext(ctx).Offset(offset).Limit(pageSize).Find(&setmeals).Error; err != nil {
+	if err := dao.db.WithContext(ctx).Offset(offset).Limit(pageSize).Where("category_id = ?", CategoryID).Find(&setmeals).Error; err != nil {
 		return nil, err
 	}
 	return setmeals, nil

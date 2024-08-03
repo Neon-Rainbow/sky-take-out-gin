@@ -33,7 +33,7 @@ func (service SetmealServiceImpl) UpdateSetmeal(ctx context.Context, req *setmea
 }
 
 func (service SetmealServiceImpl) GetSetmealPage(ctx context.Context, req *setmeal.GetSetmealsPageRequest) (resp *setmeal.GetSetmealsPageResponse, apiError *model.ApiError) {
-	records, err := service.dao.GetSetmealPage(ctx, req.Page, req.PageSize)
+	records, err := service.dao.GetSetmealPage(ctx, req.CategoryID, req.Page, req.PageSize)
 	if err != nil {
 		return nil, &model.ApiError{
 			Code: code.GetSetmealPageError,
@@ -100,7 +100,9 @@ func (service SetmealServiceImpl) GetSetmealsByID(ctx context.Context, req *setm
 			Msg:  err.Error(),
 		}
 	}
-	err = convert.UpdateStructFields(s, &resp)
+	resp = &setmeal.GetSetmealByIDResponse{}
+
+	err = convert.UpdateStructFields(s, resp)
 	if err != nil {
 		return nil, &model.ApiError{
 			Code: code.ParamError,
