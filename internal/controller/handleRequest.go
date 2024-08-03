@@ -26,7 +26,17 @@ func HandleRequest(c *gin.Context,
 
 	userID, exist := c.Get("user_id")
 	if !exist {
-		userID = 0
+		userID = int64(0)
+	} else {
+		switch id := userID.(type) {
+		case int:
+			userID = int64(id)
+		case int64:
+			userID = id
+		default:
+			ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "非法的用户ID类型")
+			return
+		}
 	}
 
 	ctx = context.WithValue(ctx, "user_id", userID)
@@ -34,9 +44,14 @@ func HandleRequest(c *gin.Context,
 	username, exist := c.Get("username")
 	if !exist {
 		username = "guest"
+	} else {
+		if uname, ok := username.(string); ok {
+			username = uname
+		} else {
+			ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "Invalid username type")
+			return
+		}
 	}
-
-	username = username.(string)
 
 	ctx = context.WithValue(ctx, "username", username)
 
