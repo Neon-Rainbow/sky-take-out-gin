@@ -5,11 +5,24 @@ import (
 	"reflect"
 )
 
-// UpdateStructFields 的作用是将 src 中非零值的字段更新到 dst 中
+// UpdateStructFields 将 src 中非零值的字段更新到 dst 中
 func UpdateStructFields(src, dst interface{}) error {
-	srcVal := reflect.ValueOf(src).Elem()
-	dstVal := reflect.ValueOf(dst).Elem()
-	//dstType := dstVal.Type()
+	srcVal := reflect.ValueOf(src)
+	dstVal := reflect.ValueOf(dst)
+
+	// 检查 src 和 dst 是否为指针
+	if srcVal.Kind() != reflect.Ptr || dstVal.Kind() != reflect.Ptr {
+		return fmt.Errorf("both src and dst must be pointers")
+	}
+
+	srcVal = srcVal.Elem()
+	dstVal = dstVal.Elem()
+
+	// 确保 src 和 dst 都是结构体
+	if srcVal.Kind() != reflect.Struct || dstVal.Kind() != reflect.Struct {
+		fmt.Println(srcVal.Kind(), dstVal.Kind())
+		return fmt.Errorf("both src and dst must be pointers to structs")
+	}
 
 	for i := 0; i < srcVal.NumField(); i++ {
 		srcField := srcVal.Field(i)
