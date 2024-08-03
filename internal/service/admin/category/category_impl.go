@@ -5,9 +5,9 @@ import (
 )
 
 type CategoryServiceImpl struct {
-	category.CategoryDao
+	category.CategoryDaoInfertace
 }
 
-func NewCategoryService(categoryDao category.CategoryDao) *CategoryServiceImpl {
+func NewCategoryService(categoryDao category.CategoryDaoInfertace) *CategoryServiceImpl {
 	return &CategoryServiceImpl{categoryDao}
 }

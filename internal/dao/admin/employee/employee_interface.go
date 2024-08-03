@@ -5,8 +5,8 @@ import (
 	model "sky-take-out-gin/model/sql"
 )
 
-// EmployeeDAO 员工数据访问接口
-type EmployeeDAO interface {
+// EmployeeDAOInterface 员工数据访问接口
+type EmployeeDAOInterface interface {
 	GetEmployeeByID(ctx context.Context, id int64) (*model.Employee, error)
 	GetEmployees(ctx context.Context, page, pageSize int) ([]model.Employee, error)
 	SearchEmployees(ctx context.Context, condition string, args ...interface{}) ([]model.Employee, error)

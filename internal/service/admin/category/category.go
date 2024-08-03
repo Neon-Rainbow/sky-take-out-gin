@@ -13,7 +13,7 @@ import (
 
 // UpdateCategory 更新分类
 func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category *model.Category) *controllerModel.ApiError {
-	existingCategory, err := service.CategoryDao.GetCategoryById(ctx, category.ID)
+	existingCategory, err := service.CategoryDaoInfertace.GetCategoryById(ctx, category.ID)
 	if err != nil {
 		return &controllerModel.ApiError{
 			Code: code.CategoryNotExist,
@@ -43,7 +43,7 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 // @Param ctx context.Context 上下文
 func (service *CategoryServiceImpl) GetCategoryPage(ctx context.Context, req *paramModel.AdminCategoryPageRequest) (*paramModel.AdminCategoryPageResponse, *controllerModel.ApiError) {
 	// 分页查询分类
-	categories, total, err := service.CategoryDao.GetCategoryPage(ctx, req.Name, req.Page, req.PageSize, req.Type)
+	categories, total, err := service.CategoryDaoInfertace.GetCategoryPage(ctx, req.Name, req.Page, req.PageSize, req.Type)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryGetFailed,
@@ -71,7 +71,7 @@ func (service *CategoryServiceImpl) GetCategoryPage(ctx context.Context, req *pa
 
 // ChangeCategoryStatus 启用、禁用分类
 func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p *paramModel.AdminChangeCategoryStatusRequest) (*paramModel.AdminChangeCategoryStatusResponse, *controllerModel.ApiError) {
-	err := service.CategoryDao.ChangeCategoryStatus(ctx, p.ID, p.Status)
+	err := service.CategoryDaoInfertace.ChangeCategoryStatus(ctx, p.ID, p.Status)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
@@ -99,7 +99,7 @@ func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *param
 		UpdateTime: time.Now(),
 		UpdateUser: userID,
 	}
-	err := service.CategoryDao.CreateCategory(ctx, category)
+	err := service.CategoryDaoInfertace.CreateCategory(ctx, category)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryCreateFailed,
@@ -115,7 +115,7 @@ func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *param
 // @Return *paramModel.AdminDeleteCategoryResponse 删除分类响应
 // @Return *controllerModel.ApiError 错误信息
 func (service *CategoryServiceImpl) DeleteCategory(ctx context.Context, p *paramModel.AdminDeleteCategoryRequest) (*paramModel.AdminDeleteCategoryResponse, *controllerModel.ApiError) {
-	err := service.CategoryDao.DeleteCategory(ctx, p.ID)
+	err := service.CategoryDaoInfertace.DeleteCategory(ctx, p.ID)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryDeleteFailed,
@@ -130,7 +130,7 @@ func (service *CategoryServiceImpl) DeleteCategory(ctx context.Context, p *param
 // @Param p *paramModel.AdminGetCategoryListByTypeRequest 根据类型查询分类请求
 
 func (service *CategoryServiceImpl) GetCategoryByType(ctx context.Context, p *paramModel.AdminGetCategoryListByTypeRequest) (*paramModel.AdminGetCategoryListByTypeResponse, *controllerModel.ApiError) {
-	categories, err := service.CategoryDao.GetCategoryByType(ctx, p.Type)
+	categories, err := service.CategoryDaoInfertace.GetCategoryByType(ctx, p.Type)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryGetFailed,

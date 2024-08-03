@@ -14,7 +14,7 @@ import (
 )
 
 type EmployeeServiceImpl struct {
-	employeeDao.EmployeeDAO
+	employeeDao.EmployeeDAOInterface
 }
 
 func (service EmployeeServiceImpl) EditPassword(ctx context.Context, req employee.EditPasswordRequest) (*employee.EditPasswordResponse, *model.ApiError) {
@@ -103,7 +103,7 @@ func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req employee
 	e.UpdateTime = time.Now()
 	e.Status = 1
 	e.Password = utils.EncryptPassword("123456")
-	err = service.EmployeeDAO.AddEmployee(ctx, &e)
+	err = service.EmployeeDAOInterface.AddEmployee(ctx, &e)
 	if err != nil {
 		return nil, &model.ApiError{
 			Code: code.EmployeeAddFailed,
@@ -159,6 +159,6 @@ func (service EmployeeServiceImpl) EmployeeLogout(ctx context.Context, req emplo
 	return nil, nil
 }
 
-func NewEmployeeService(employeeDao employeeDao.EmployeeDAO) *EmployeeServiceImpl {
+func NewEmployeeService(employeeDao employeeDao.EmployeeDAOInterface) *EmployeeServiceImpl {
 	return &EmployeeServiceImpl{employeeDao}
 }
