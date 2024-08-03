@@ -83,7 +83,7 @@ func (dao *CategoryDaoImpl) CreateCategory(ctx context.Context, category *model.
 // @Param id int64 分类ID
 // @Return err error 错误信息
 func (dao *CategoryDaoImpl) DeleteCategory(ctx context.Context, id int64) error {
-	err := dao.DB.Debug().WithContext(ctx).Delete(&model.Category{}, id).Error
+	err := dao.DB.WithContext(ctx).Delete(&model.Category{}, id).Error
 	if err != nil {
 		return err
 	}
