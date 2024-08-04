@@ -1,7 +1,9 @@
 package route
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"sky-take-out-gin/config"
 	adminRoute "sky-take-out-gin/route/api/v1/admin"
 )
 
@@ -21,10 +23,14 @@ func SetupHTTPRoute() error {
 			adminRoute.SetmealRoutes(AdminApi)
 			adminRoute.ShopRoutes(AdminApi)
 			adminRoute.FileRoutes(AdminApi)
-
+			adminRoute.DishRoutes(AdminApi)
 		}
 	}
-	err := route.Run(":8080")
+	err := route.Run(fmt.Sprintf(
+		"%s:%d",
+		config.GetConfig().ServerConfig.Host,
+		config.GetConfig().ServerConfig.Port),
+	)
 	if err != nil {
 		return err
 	}
