@@ -2,7 +2,7 @@ package route
 
 import (
 	"github.com/gin-gonic/gin"
-	"sky-take-out-gin/route/api/v1/admin"
+	adminRoute "sky-take-out-gin/route/api/v1/admin"
 )
 
 // SetupHTTPRoute 用于初始化 HTTP 路由
@@ -16,9 +16,12 @@ func SetupHTTPRoute() error {
 		}
 		AdminApi := ApiV1.Group("/admin")
 		{
-			admin.CategoryRoutes(AdminApi)
-			admin.EmployeeRoutes(AdminApi)
-			admin.SetmealRoutes(AdminApi)
+			adminRoute.CategoryRoutes(AdminApi)
+			adminRoute.EmployeeRoutes(AdminApi)
+			adminRoute.SetmealRoutes(AdminApi)
+			adminRoute.ShopRoutes(AdminApi)
+			adminRoute.FileRoutes(AdminApi)
+
 		}
 	}
 	err := route.Run(":8080")
