@@ -28,7 +28,7 @@ func (dao DishDaoImpl) DeleteDish(ctx context.Context, ids []int64) error {
 
 func (dao DishDaoImpl) SearchDishByID(ctx context.Context, id int64) (*model.Dish, error) {
 	var dish *model.Dish
-	err := dao.db.WithContext(ctx).Where("id = ?", id).Preload("dish_flavor").First(dish).Error
+	err := dao.db.WithContext(ctx).Preload("DishFlavors").Where("id = ?", id).First(&dish).Error
 	if err != nil {
 		return nil, err
 	}
