@@ -62,9 +62,18 @@ const (
 	GetSetmealPageError ResponseCode = 20302
 	CreateSetmealError  ResponseCode = 20303
 
-	//
+	// 商店模块错误
 	GetShopStatusError ResponseCode = 20401
 	SetShopStatusError ResponseCode = 20402
+
+	// 菜品模块错误
+	UpdateDishError           ResponseCode = 20501
+	DeleteDishError           ResponseCode = 20502
+	CreateDishError           ResponseCode = 20503
+	SearchDishByIDError       ResponseCode = 20504
+	SearchDishByCategoryError ResponseCode = 20505
+	SearchDishByPageError     ResponseCode = 20506
+	ChangeDishStatusError     ResponseCode = 20507
 
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
@@ -104,9 +113,18 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	GetSetmealPageError: "获取套餐分页失败",
 	CreateSetmealError:  "创建套餐失败",
 
-	//
+	// 店铺模块错误
 	GetShopStatusError: "获取店铺状态失败",
 	SetShopStatusError: "设置店铺状态失败",
+
+	// 菜品模块错误
+	UpdateDishError:           "更新菜品失败",
+	DeleteDishError:           "删除菜品失败",
+	CreateDishError:           "创建菜品失败",
+	SearchDishByIDError:       "查询菜品失败",
+	SearchDishByCategoryError: "查询菜品失败",
+	SearchDishByPageError:     "查询菜品失败",
+	ChangeDishStatusError:     "修改菜品状态失败",
 
 	// 权限校验失败
 	RequestUnauthorized: "请求未授权",
