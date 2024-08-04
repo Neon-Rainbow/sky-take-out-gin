@@ -62,6 +62,10 @@ const (
 	GetSetmealPageError ResponseCode = 20302
 	CreateSetmealError  ResponseCode = 20303
 
+	//
+	GetShopStatusError ResponseCode = 20401
+	SetShopStatusError ResponseCode = 20402
+
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
 )
@@ -99,6 +103,10 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	UpdateSetmealError:  "更新套餐失败",
 	GetSetmealPageError: "获取套餐分页失败",
 	CreateSetmealError:  "创建套餐失败",
+
+	//
+	GetShopStatusError: "获取店铺状态失败",
+	SetShopStatusError: "设置店铺状态失败",
 
 	// 权限校验失败
 	RequestUnauthorized: "请求未授权",
