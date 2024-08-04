@@ -5,6 +5,7 @@ import (
 	"sky-take-out-gin/config"
 	"sky-take-out-gin/route"
 	"sky-take-out-gin/utils/MySQL"
+	"sky-take-out-gin/utils/Redis"
 )
 
 func main() {
@@ -21,6 +22,13 @@ func main() {
 		return
 	}
 	fmt.Println("初始化MySQL数据库成功---------------------------")
+
+	err = Redis.InitRedis()
+	if err != nil {
+		fmt.Println("初始化Redis失败, err: ", err)
+		return
+	}
+	fmt.Println("初始化Redis成功---------------------------")
 
 	err = route.SetupHTTPRoute()
 	if err != nil {

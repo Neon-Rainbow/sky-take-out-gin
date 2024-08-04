@@ -19,6 +19,14 @@ type DatabaseConfig struct {
 	Loc       string `yaml:"loc"`
 }
 
+type RedisConfig struct {
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	DB       int    `yaml:"db"`
+}
+
 type ServerConfig struct {
 	Host string `yaml:"host"`
 	Port int    `yaml:"port"`
@@ -31,6 +39,7 @@ type SecretConfig struct {
 
 type Config struct {
 	DatabaseConfig `yaml:"database"`
+	RedisConfig    `yaml:"redis"`
 	ServerConfig   `yaml:"server"`
 	SecretConfig   `yaml:"secret"`
 }
