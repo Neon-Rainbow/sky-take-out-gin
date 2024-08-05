@@ -28,8 +28,9 @@ type RedisConfig struct {
 }
 
 type ServerConfig struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
+	Host        string `yaml:"host"`
+	Port        int    `yaml:"port"`
+	LogFilePath string `yaml:"logFilePath"`
 }
 
 type SecretConfig struct {

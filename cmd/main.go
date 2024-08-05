@@ -1,39 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"sky-take-out-gin/pkg/common/config"
-	"sky-take-out-gin/pkg/common/database/MySQL"
-	"sky-take-out-gin/pkg/common/database/Redis"
-	"sky-take-out-gin/route"
+	"go.uber.org/zap"
+	"sky-take-out-gin/internal/utils/init"
 )
 
 func main() {
-	err := config.InitConfig()
+	err := init.Initialize()
 	if err != nil {
-		fmt.Println("初始化配置失败, err: ", err)
-		return
+		zap.L().Fatal("初始化失败", zap.Error(err))
 	}
-	fmt.Println("初始化配置成功----------------------------------")
-
-	err = MySQL.InitDB()
-	if err != nil {
-		fmt.Println("初始化数据库失败, err: ", err)
-		return
-	}
-	fmt.Println("初始化MySQL数据库成功---------------------------")
-
-	err = Redis.InitRedis()
-	if err != nil {
-		fmt.Println("初始化Redis失败, err: ", err)
-		return
-	}
-	fmt.Println("初始化Redis成功---------------------------")
-
-	err = route.SetupHTTPRoute()
-	if err != nil {
-		fmt.Println("初始化路由失败, err: ", err)
-		return
-	}
-	fmt.Println("初始化路由成功---------------------------")
 }
