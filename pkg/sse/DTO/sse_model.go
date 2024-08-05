@@ -18,9 +18,6 @@ const (
 
 // Message 定义了SSE传递的消息结构
 type Message struct {
-	// Type 消息类型  1:用户->商家,2:商家->用户
-	Type MessageType `json:"type"`
-
 	// From 消息来源
 	From Participant `json:"from"`
 
