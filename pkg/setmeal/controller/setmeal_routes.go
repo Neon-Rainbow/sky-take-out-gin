@@ -12,13 +12,13 @@ func SetmealRoutes(route *gin.RouterGroup) {
 	service := setmealService.NewSetmealServiceImpl(dao)
 	controller := NewSetmealControllerImpl(service)
 
-	setmeal_route := route.Group("/setmeal").Use(middleware.JWTMiddleware())
+	setmealRoute := route.Group("/setmeal").Use(middleware.JWTMiddleware())
 	{
-		setmeal_route.PUT("/", controller.UpdateSetmeal)
-		setmeal_route.GET("/page", controller.GetSetmealPage)
-		setmeal_route.POST("/status/:status", controller.ChangeSetmealStatus)
-		setmeal_route.DELETE("/", controller.DeleteSetmeals)
-		setmeal_route.POST("/", controller.CreateSetmeals)
-		setmeal_route.GET("/:id", controller.GetSetmealsByID)
+		setmealRoute.PUT("/", controller.UpdateSetmeal)
+		setmealRoute.GET("/page", controller.GetSetmealPage)
+		setmealRoute.POST("/status/:status", controller.ChangeSetmealStatus)
+		setmealRoute.DELETE("/", controller.DeleteSetmeals)
+		setmealRoute.POST("/", controller.CreateSetmeals)
+		setmealRoute.GET("/:id", controller.GetSetmealsByID)
 	}
 }

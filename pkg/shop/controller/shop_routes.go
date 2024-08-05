@@ -13,9 +13,9 @@ func ShopRoutes(route *gin.RouterGroup) {
 	service := shopService.NewShopServiceImpl(dao)
 	controller := NewShopControllerImpl(service)
 
-	shop_route := route.Group("/shop").Use(middleware.JWTMiddleware())
+	shopRoute := route.Group("/shop").Use(middleware.JWTMiddleware())
 	{
-		shop_route.GET("/status", controller.GetShopStatus)
-		shop_route.PUT("/status/:status", controller.SetShopStatus)
+		shopRoute.GET("/status", controller.GetShopStatus)
+		shopRoute.PUT("/status/:status", controller.SetShopStatus)
 	}
 }

@@ -12,13 +12,13 @@ func CategoryRoutes(route *gin.RouterGroup) {
 	service := serviceCategory.NewCategoryService(dao)
 	controller := NewAdminCategoryControllerImpl(service)
 
-	category_route := route.Group("/category")
+	categoryRoute := route.Group("/category")
 	{
-		category_route.PUT("/", controller.UpdateCategory)
-		category_route.GET("/page", controller.GetCategoryPage)
-		category_route.POST("/status/:status", controller.ChangeCategoryStatus)
-		category_route.POST("/", controller.CreateCategory)
-		category_route.DELETE("/", controller.DeleteCategory)
-		category_route.GET("/list", controller.GetCategoryListByType)
+		categoryRoute.PUT("/", controller.UpdateCategory)
+		categoryRoute.GET("/page", controller.GetCategoryPage)
+		categoryRoute.POST("/status/:status", controller.ChangeCategoryStatus)
+		categoryRoute.POST("/", controller.CreateCategory)
+		categoryRoute.DELETE("/", controller.DeleteCategory)
+		categoryRoute.GET("/list", controller.GetCategoryListByType)
 	}
 }

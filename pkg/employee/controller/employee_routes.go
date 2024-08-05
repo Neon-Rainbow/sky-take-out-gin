@@ -12,15 +12,15 @@ func EmployeeRoutes(route *gin.RouterGroup) {
 	service := service.NewEmployeeService(dao)
 	controller := NewEmployeeControllerImpl(service)
 
-	employee_route := route.Group("/employee")
+	employeeRoute := route.Group("/employee")
 	{
-		employee_route.PUT("/password", controller.EditPassword)
-		employee_route.POST("/status/:status", controller.ChangeEmployeeStatus)
-		employee_route.GET("/page", controller.EmployeePage)
-		employee_route.POST("/login", controller.EmployeeLogin)
-		employee_route.POST("/", controller.AddEmployee)
-		employee_route.GET("/:id", controller.SearchEmployee)
-		employee_route.PUT("/", controller.EditEmployee)
-		employee_route.POST("/logout", controller.EmployeeLogout)
+		employeeRoute.PUT("/password", controller.EditPassword)
+		employeeRoute.POST("/status/:status", controller.ChangeEmployeeStatus)
+		employeeRoute.GET("/page", controller.EmployeePage)
+		employeeRoute.POST("/login", controller.EmployeeLogin)
+		employeeRoute.POST("/", controller.AddEmployee)
+		employeeRoute.GET("/:id", controller.SearchEmployee)
+		employeeRoute.PUT("/", controller.EditEmployee)
+		employeeRoute.POST("/logout", controller.EmployeeLogout)
 	}
 }
