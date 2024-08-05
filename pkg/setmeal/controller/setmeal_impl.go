@@ -1,12 +1,12 @@
-package setmeal
+package controller
 
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	HandleRequest "sky-take-out-gin/internal/controller"
-	setmealService "sky-take-out-gin/internal/service/admin/setmeal"
-	"sky-take-out-gin/model"
-	paramModel "sky-take-out-gin/model/param/admin/setmeal"
+	error2 "sky-take-out-gin/pkg/common/error"
+	HandleRequest "sky-take-out-gin/pkg/common/request_handle"
+	paramModel "sky-take-out-gin/pkg/setmeal/DTO"
+	setmealService "sky-take-out-gin/pkg/setmeal/service"
 )
 
 type SetmealControllerImpl struct {
@@ -22,7 +22,7 @@ func (controller SetmealControllerImpl) UpdateSetmeal(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.UpdateSetmeal(ctx, req.(*paramModel.UpdateSetmealRequest))
 		},
 		c.ShouldBindBodyWithJSON)
@@ -33,7 +33,7 @@ func (controller SetmealControllerImpl) GetSetmealPage(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.GetSetmealPage(ctx, req.(*paramModel.GetSetmealsPageRequest))
 		},
 		c.ShouldBindQuery)
@@ -44,7 +44,7 @@ func (controller SetmealControllerImpl) ChangeSetmealStatus(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.ChangeSetmealStatus(ctx, req.(*paramModel.UpdateSetmealStatusRequest))
 		},
 		c.ShouldBindUri,
@@ -56,7 +56,7 @@ func (controller SetmealControllerImpl) DeleteSetmeals(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.DeleteSetmeals(ctx, req.(*paramModel.DeleteSetmealsRequest))
 		},
 		c.ShouldBindQuery)
@@ -67,7 +67,7 @@ func (controller SetmealControllerImpl) CreateSetmeals(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.CreateSetmeals(ctx, req.(*paramModel.AddSetmealRequest))
 		},
 		c.ShouldBindBodyWithJSON)
@@ -78,7 +78,7 @@ func (controller SetmealControllerImpl) GetSetmealsByID(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return controller.service.GetSetmealsByID(ctx, req.(*paramModel.GetSetmealByIDRequest))
 		},
 		c.ShouldBindUri)

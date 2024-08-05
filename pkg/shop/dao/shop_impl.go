@@ -1,10 +1,10 @@
-package shop
+package dao
 
 import (
 	"context"
 	"errors"
 	"github.com/go-redis/redis/v8"
-	"sky-take-out-gin/pkg/common/Redis"
+	"sky-take-out-gin/pkg/common/database/Redis"
 	"time"
 )
 

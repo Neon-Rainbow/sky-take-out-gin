@@ -1,13 +1,13 @@
-package category
+package service
 
 import (
-	"sky-take-out-gin/internal/dao/admin/category"
+	"sky-take-out-gin/pkg/category/dao"
 )
 
 type CategoryServiceImpl struct {
-	category.CategoryDaoInfertace
+	dao.CategoryDaoInfertace
 }
 
-func NewCategoryService(categoryDao category.CategoryDaoInfertace) *CategoryServiceImpl {
+func NewCategoryService(categoryDao dao.CategoryDaoInfertace) *CategoryServiceImpl {
 	return &CategoryServiceImpl{categoryDao}
 }

@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"sky-take-out-gin/config"
+	"sky-take-out-gin/pkg/common/config"
+	"sky-take-out-gin/pkg/common/database/MySQL"
+	"sky-take-out-gin/pkg/common/database/Redis"
 	"sky-take-out-gin/route"
-	"sky-take-out-gin/utils/MySQL"
-	"sky-take-out-gin/utils/Redis"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package setmeal
+package dao
 
 import (
 	"context"

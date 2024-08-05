@@ -1,8 +1,8 @@
-package api_error
+package error
 
 import (
 	"fmt"
-	"sky-take-out-gin/code"
+	"sky-take-out-gin/pkg/common/code"
 )
 
 type ApiError struct {

@@ -1,6 +1,8 @@
-package employee
+package DTO
 
-import model "sky-take-out-gin/model/sql"
+import (
+	"sky-take-out-gin/model/sql"
+)
 
 type EditPasswordRequest struct {
 	ID          int    `json:"id" binding:"required"`

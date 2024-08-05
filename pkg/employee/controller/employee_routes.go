@@ -1,17 +1,16 @@
-package admin
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	employeeController "sky-take-out-gin/internal/controller/admin/employee"
-	employeeDao "sky-take-out-gin/internal/dao/admin/employee"
-	"sky-take-out-gin/internal/service/admin/employee"
+	employeeDao "sky-take-out-gin/pkg/employee/dao"
+	"sky-take-out-gin/pkg/employee/service"
 )
 
 func EmployeeRoutes(route *gin.RouterGroup) {
 	// 实例化EmployeeServiceImpl
 	dao := employeeDao.NewEmployeeDAOImpl()
-	service := employee.NewEmployeeService(dao)
-	controller := employeeController.NewEmployeeControllerImpl(service)
+	service := service.NewEmployeeService(dao)
+	controller := NewEmployeeControllerImpl(service)
 
 	employee_route := route.Group("/employee")
 	{

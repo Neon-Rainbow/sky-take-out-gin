@@ -1,4 +1,4 @@
-package shop
+package DTO
 
 type GetShopStatusRequest struct {
 }

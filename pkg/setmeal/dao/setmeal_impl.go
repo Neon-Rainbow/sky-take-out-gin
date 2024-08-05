@@ -1,10 +1,10 @@
-package setmeal
+package dao
 
 import (
 	"context"
 	"gorm.io/gorm"
 	sqlModel "sky-take-out-gin/model/sql"
-	"sky-take-out-gin/pkg/common/MySQL"
+	"sky-take-out-gin/pkg/common/database/MySQL"
 )
 
 type SetmealDAOImpl struct {

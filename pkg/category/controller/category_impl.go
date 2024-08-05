@@ -1,4 +1,4 @@
-package category
+package controller
 
 import (
 	"context"
@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"sky-take-out-gin/code"
-	controllerResponse "sky-take-out-gin/internal/controller"
-	serviceCategory "sky-take-out-gin/internal/service/admin/category"
-	controllerModel "sky-take-out-gin/model"
-	paramCategory "sky-take-out-gin/model/param/admin/category"
+	paramCategory "sky-take-out-gin/pkg/category/DTO"
+	serviceCategory "sky-take-out-gin/pkg/category/service"
+	"sky-take-out-gin/pkg/common/code"
+	controllerModel "sky-take-out-gin/pkg/common/error"
+	controllerResponse "sky-take-out-gin/pkg/common/request_handle"
+	"sky-take-out-gin/pkg/common/response"
 	"time"
 )
 
@@ -83,23 +84,23 @@ func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
 	select {
 	case <-ctx.Done():
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			controllerResponse.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
+			response.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
 			return
 		}
 		if errors.Is(ctx.Err(), context.Canceled) {
-			controllerResponse.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+			response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
 			return
 		}
 	case result := <-resultChan:
 		switch res := result.(type) {
 		case *controllerModel.ApiError:
-			controllerResponse.ResponseErrorWithApiError(c, http.StatusBadRequest, res)
+			response.ResponseErrorWithApiError(c, http.StatusBadRequest, res)
 			return
 		case *paramCategory.AdminUpdateCategoryResponse:
-			controllerResponse.ResponseSuccess(c, res)
+			response.ResponseSuccess(c, res)
 			return
 		default:
-			controllerResponse.ResponseErrorWithApiError(c, http.StatusInternalServerError, &controllerModel.ApiError{
+			response.ResponseErrorWithApiError(c, http.StatusInternalServerError, &controllerModel.ApiError{
 				Code: code.ServerError,
 				Msg:  fmt.Sprintf("未知类型错误, 类型为: %T", res),
 			})

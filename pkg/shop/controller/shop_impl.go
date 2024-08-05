@@ -1,12 +1,12 @@
-package shop
+package controller
 
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	HandleRequest "sky-take-out-gin/internal/controller"
-	shopService "sky-take-out-gin/internal/service/admin/shop"
-	"sky-take-out-gin/model"
-	paramModel "sky-take-out-gin/model/param/admin/shop"
+	error2 "sky-take-out-gin/pkg/common/error"
+	HandleRequest "sky-take-out-gin/pkg/common/request_handle"
+	paramModel "sky-take-out-gin/pkg/shop/DTO"
+	shopService "sky-take-out-gin/pkg/shop/service"
 )
 
 type ShopControllerImpl struct {
@@ -18,7 +18,7 @@ func (s ShopControllerImpl) GetShopStatus(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return s.shopService.GetShopStatus(ctx, req.(*paramModel.GetShopStatusRequest))
 		},
 	)
@@ -29,7 +29,7 @@ func (s ShopControllerImpl) SetShopStatus(c *gin.Context) {
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
 			return s.shopService.SetShopStatus(ctx, req.(*paramModel.SetShopStatusRequest))
 		},
 		c.ShouldBindUri,

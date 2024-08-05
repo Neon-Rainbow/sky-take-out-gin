@@ -3,8 +3,13 @@ package route
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"sky-take-out-gin/config"
-	adminRoute "sky-take-out-gin/route/api/v1/admin"
+	categoryRoute "sky-take-out-gin/pkg/category/controller"
+	"sky-take-out-gin/pkg/common/config"
+	dishRoute "sky-take-out-gin/pkg/dish/controller"
+	employeeRoute "sky-take-out-gin/pkg/employee/controller"
+	fileRoute "sky-take-out-gin/pkg/file/controller"
+	setmealRoute "sky-take-out-gin/pkg/setmeal/controller"
+	shopRoute "sky-take-out-gin/pkg/shop/controller"
 )
 
 // SetupHTTPRoute 用于初始化 HTTP 路由
@@ -18,12 +23,12 @@ func SetupHTTPRoute() error {
 		}
 		AdminApi := ApiV1.Group("/admin")
 		{
-			adminRoute.CategoryRoutes(AdminApi)
-			adminRoute.EmployeeRoutes(AdminApi)
-			adminRoute.SetmealRoutes(AdminApi)
-			adminRoute.ShopRoutes(AdminApi)
-			adminRoute.FileRoutes(AdminApi)
-			adminRoute.DishRoutes(AdminApi)
+			categoryRoute.CategoryRoutes(AdminApi)
+			employeeRoute.EmployeeRoutes(AdminApi)
+			setmealRoute.SetmealRoutes(AdminApi)
+			shopRoute.ShopRoutes(AdminApi)
+			fileRoute.FileRoutes(AdminApi)
+			dishRoute.DishRoutes(AdminApi)
 		}
 	}
 	err := route.Run(fmt.Sprintf(

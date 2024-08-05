@@ -1,10 +1,10 @@
-package dish
+package dao
 
 import (
 	"context"
 	"gorm.io/gorm"
 	model "sky-take-out-gin/model/sql"
-	"sky-take-out-gin/pkg/common/MySQL"
+	"sky-take-out-gin/pkg/common/database/MySQL"
 )
 
 type DishDaoImpl struct {

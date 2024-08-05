@@ -1,12 +1,12 @@
-package controller
+package request_handle
 
 import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"sky-take-out-gin/code"
-	"sky-take-out-gin/model"
+	"sky-take-out-gin/pkg/common/code"
+	error2 "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/common/response"
 )
 
@@ -18,7 +18,7 @@ import (
 // @Return
 func HandleRequest(c *gin.Context,
 	req interface{},
-	serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err *model.ApiError),
+	serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err *error2.ApiError),
 	bindFunc ...func(interface{}) error) {
 	//ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	//defer cancel()
@@ -61,7 +61,7 @@ func HandleRequest(c *gin.Context,
 		if len(bindFunc) == 0 {
 			err := c.ShouldBind(req)
 			if err != nil {
-				resultChannel <- &model.ApiError{
+				resultChannel <- &error2.ApiError{
 					Code: code.ParamError,
 					Msg:  err.Error(),
 				}
@@ -70,7 +70,7 @@ func HandleRequest(c *gin.Context,
 		} else {
 			for _, bindFunc := range bindFunc {
 				if err := bindFunc(req); err != nil {
-					resultChannel <- &model.ApiError{
+					resultChannel <- &error2.ApiError{
 						Code: code.ParamError,
 						Msg:  err.Error(),
 					}
@@ -100,8 +100,8 @@ func HandleRequest(c *gin.Context,
 		}
 	case result := <-resultChannel:
 		switch result.(type) {
-		case *model.ApiError:
-			response.ResponseErrorWithApiError(c, http.StatusBadRequest, result.(*model.ApiError))
+		case *error2.ApiError:
+			response.ResponseErrorWithApiError(c, http.StatusBadRequest, result.(*error2.ApiError))
 			return
 		default:
 			response.ResponseSuccess(c, result)

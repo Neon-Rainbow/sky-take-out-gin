@@ -1,4 +1,4 @@
-package category
+package dao
 
 import (
 	"context"

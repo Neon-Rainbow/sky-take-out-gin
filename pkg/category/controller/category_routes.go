@@ -1,17 +1,16 @@
-package admin
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	controllerCategory "sky-take-out-gin/internal/controller/admin/category"
-	daoCategory "sky-take-out-gin/internal/dao/admin/category"
-	serviceCategory "sky-take-out-gin/internal/service/admin/category"
+	daoCategory "sky-take-out-gin/pkg/category/dao"
+	serviceCategory "sky-take-out-gin/pkg/category/service"
 )
 
 func CategoryRoutes(route *gin.RouterGroup) {
 	// 实例化CategoryDaoImpl
 	dao := daoCategory.NewCategoryDaoImpl()
 	service := serviceCategory.NewCategoryService(dao)
-	controller := controllerCategory.NewAdminCategoryControllerImpl(service)
+	controller := NewAdminCategoryControllerImpl(service)
 
 	category_route := route.Group("/category")
 	{

@@ -1,10 +1,10 @@
-package controller
+package response
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"sky-take-out-gin/code"
-	"sky-take-out-gin/model"
+	"sky-take-out-gin/pkg/common/code"
+	error2 "sky-take-out-gin/pkg/common/error"
 )
 
 // Response 用于返回响应
@@ -61,7 +61,7 @@ func ResponseErrorWithMsg(c *gin.Context, httpStatus int, code code.ResponseCode
 // @param httpStatus int
 // @param apiError *model.ApiError
 // @return
-func ResponseErrorWithApiError(c *gin.Context, httpStatus int, apiError *model.ApiError) {
+func ResponseErrorWithApiError(c *gin.Context, httpStatus int, apiError *error2.ApiError) {
 	var msg string
 	if apiError.Msg == "" {
 		msg = apiError.Code.Message()

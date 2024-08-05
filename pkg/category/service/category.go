@@ -1,13 +1,13 @@
-package category
+package service
 
 import (
 	"context"
 	"fmt"
-	"sky-take-out-gin/code"
-	controllerModel "sky-take-out-gin/model"
-	paramModel "sky-take-out-gin/model/param/admin/category"
+	"sky-take-out-gin/internal/utils/convert"
 	"sky-take-out-gin/model/sql"
-	"sky-take-out-gin/utils/convert"
+	paramModel "sky-take-out-gin/pkg/category/DTO"
+	"sky-take-out-gin/pkg/common/code"
+	controllerModel "sky-take-out-gin/pkg/common/error"
 	"time"
 )
 

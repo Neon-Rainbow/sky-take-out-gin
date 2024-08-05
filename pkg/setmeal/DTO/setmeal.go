@@ -1,4 +1,4 @@
-package setmeal
+package DTO
 
 import (
 	model "sky-take-out-gin/model/sql"

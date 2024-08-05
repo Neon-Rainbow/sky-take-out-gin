@@ -1,9 +1,8 @@
-package admin
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
 	"sky-take-out-gin/pkg/common/middleware"
-	setmealController "sky-take-out-gin/pkg/setmeal/controller"
 	setmealDao "sky-take-out-gin/pkg/setmeal/dao"
 	setmealService "sky-take-out-gin/pkg/setmeal/service"
 )
@@ -11,7 +10,7 @@ import (
 func SetmealRoutes(route *gin.RouterGroup) {
 	dao := setmealDao.NewSetmealDAOImpl()
 	service := setmealService.NewSetmealServiceImpl(dao)
-	controller := setmealController.NewSetmealControllerImpl(service)
+	controller := NewSetmealControllerImpl(service)
 
 	setmeal_route := route.Group("/setmeal").Use(middleware.JWTMiddleware())
 	{

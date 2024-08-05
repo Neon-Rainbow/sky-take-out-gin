@@ -1,8 +1,8 @@
-package category
+package dao
 
 import (
 	"gorm.io/gorm"
-	"sky-take-out-gin/pkg/common/MySQL"
+	"sky-take-out-gin/pkg/common/database/MySQL"
 )
 
 type CategoryDaoImpl struct {

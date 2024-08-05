@@ -1,12 +1,12 @@
-package dish
+package service
 
 import (
 	"context"
-	"sky-take-out-gin/code"
-	dishDao "sky-take-out-gin/internal/dao/admin/dish"
-	"sky-take-out-gin/model"
-	paramModel "sky-take-out-gin/model/param/admin/dish"
-	"sky-take-out-gin/utils/convert"
+	"sky-take-out-gin/internal/utils/convert"
+	"sky-take-out-gin/pkg/common/code"
+	error2 "sky-take-out-gin/pkg/common/error"
+	paramModel "sky-take-out-gin/pkg/dish/DTO"
+	dishDao "sky-take-out-gin/pkg/dish/dao"
 	"time"
 )
 
@@ -14,10 +14,10 @@ type DishServiceImpl struct {
 	dao dishDao.DishDaoInterface
 }
 
-func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.UpdateDishRequest) (resp *paramModel.UpdateDishResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.UpdateDishRequest) (resp *paramModel.UpdateDishResponse, apiError *error2.ApiError) {
 	dish, err := service.dao.SearchDishByID(ctx, req.Dish.ID)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.SearchDishByIDError,
 			Msg:  err.Error(),
 		}
@@ -25,7 +25,7 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 
 	err = convert.UpdateStructFields(req.Dish, dish)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.UpdateDishError,
 			Msg:  err.Error(),
 		}
@@ -36,7 +36,7 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 
 	err = service.dao.UpdateDish(ctx, *dish)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.UpdateDishError,
 			Msg:  err.Error(),
 		}
@@ -44,10 +44,10 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 	return &paramModel.UpdateDishResponse{}, nil
 }
 
-func (service DishServiceImpl) DeleteDish(ctx context.Context, req *paramModel.DeleteDishRequest) (resp *paramModel.DeleteDishResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) DeleteDish(ctx context.Context, req *paramModel.DeleteDishRequest) (resp *paramModel.DeleteDishResponse, apiError *error2.ApiError) {
 	err := service.dao.DeleteDish(ctx, req.IDs)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.DeleteDishError,
 			Msg:  err.Error(),
 		}
@@ -55,10 +55,10 @@ func (service DishServiceImpl) DeleteDish(ctx context.Context, req *paramModel.D
 	return &paramModel.DeleteDishResponse{}, nil
 }
 
-func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddDishRequest) (resp *paramModel.AddDishResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddDishRequest) (resp *paramModel.AddDishResponse, apiError *error2.ApiError) {
 	err := service.dao.CreateDish(ctx, req.Dish)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.CreateDishError,
 			Msg:  err.Error(),
 		}
@@ -66,10 +66,10 @@ func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddD
 	return &paramModel.AddDishResponse{}, nil
 }
 
-func (service DishServiceImpl) SearchDishByID(ctx context.Context, req *paramModel.SearchDishByIDRequest) (resp *paramModel.SearchDishByIDResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) SearchDishByID(ctx context.Context, req *paramModel.SearchDishByIDRequest) (resp *paramModel.SearchDishByIDResponse, apiError *error2.ApiError) {
 	dish, err := service.dao.SearchDishByID(ctx, req.ID)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.SearchDishByIDError,
 			Msg:  err.Error(),
 		}
@@ -77,10 +77,10 @@ func (service DishServiceImpl) SearchDishByID(ctx context.Context, req *paramMod
 	return &paramModel.SearchDishByIDResponse{Dish: *dish}, nil
 }
 
-func (service DishServiceImpl) SearchDishByCategory(ctx context.Context, req *paramModel.SearchDishByCategoryRequest) (resp *paramModel.SearchDishByCategoryResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) SearchDishByCategory(ctx context.Context, req *paramModel.SearchDishByCategoryRequest) (resp *paramModel.SearchDishByCategoryResponse, apiError *error2.ApiError) {
 	dish, err := service.dao.SearchDishByCategory(ctx, req.CategoryID)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.SearchDishByCategoryError,
 			Msg:  err.Error(),
 		}
@@ -88,10 +88,10 @@ func (service DishServiceImpl) SearchDishByCategory(ctx context.Context, req *pa
 	return &paramModel.SearchDishByCategoryResponse{Records: dish}, nil
 }
 
-func (service DishServiceImpl) SearchDishByPage(ctx context.Context, req *paramModel.SearchDishByPageRequest) (resp *paramModel.SearchDishByPageResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) SearchDishByPage(ctx context.Context, req *paramModel.SearchDishByPageRequest) (resp *paramModel.SearchDishByPageResponse, apiError *error2.ApiError) {
 	total, dishes, err := service.dao.SearchDishByPage(ctx, req.CategoryID, req.Name, req.Status, req.Page, req.PageSize)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.SearchDishByPageError,
 			Msg:  err.Error(),
 		}
@@ -99,10 +99,10 @@ func (service DishServiceImpl) SearchDishByPage(ctx context.Context, req *paramM
 	return &paramModel.SearchDishByPageResponse{Total: total, Records: dishes}, nil
 }
 
-func (service DishServiceImpl) ChangeDishStatus(ctx context.Context, req *paramModel.ChangeDishStatusRequest) (resp *paramModel.ChangeDishStatusResponse, apiError *model.ApiError) {
+func (service DishServiceImpl) ChangeDishStatus(ctx context.Context, req *paramModel.ChangeDishStatusRequest) (resp *paramModel.ChangeDishStatusResponse, apiError *error2.ApiError) {
 	err := service.dao.ChangeDishStatus(ctx, req.ID, req.Status)
 	if err != nil {
-		return nil, &model.ApiError{
+		return nil, &error2.ApiError{
 			Code: code.ChangeDishStatusError,
 			Msg:  err.Error(),
 		}

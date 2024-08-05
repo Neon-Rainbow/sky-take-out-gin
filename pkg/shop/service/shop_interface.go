@@ -1,12 +1,12 @@
-package shop
+package service
 
 import (
 	"context"
-	"sky-take-out-gin/model"
-	"sky-take-out-gin/model/param/admin/shop"
+	error2 "sky-take-out-gin/pkg/common/error"
+	"sky-take-out-gin/pkg/shop/DTO"
 )
 
 type ShopServiceInterface interface {
-	GetShopStatus(ctx context.Context, req *shop.GetShopStatusRequest) (*shop.GetShopStatusResponse, *model.ApiError)
-	SetShopStatus(ctx context.Context, req *shop.SetShopStatusRequest) (*shop.SetShopStatusResponse, *model.ApiError)
+	GetShopStatus(ctx context.Context, req *DTO.GetShopStatusRequest) (*DTO.GetShopStatusResponse, *error2.ApiError)
+	SetShopStatus(ctx context.Context, req *DTO.SetShopStatusRequest) (*DTO.SetShopStatusResponse, *error2.ApiError)
 }

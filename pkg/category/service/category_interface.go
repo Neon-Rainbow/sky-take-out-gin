@@ -1,10 +1,10 @@
-package category
+package service
 
 import (
 	"context"
-	model2 "sky-take-out-gin/model"
-	paramModel "sky-take-out-gin/model/param/admin/category"
 	model "sky-take-out-gin/model/sql"
+	paramModel "sky-take-out-gin/pkg/category/DTO"
+	model2 "sky-take-out-gin/pkg/common/error"
 )
 
 type CategoryService interface {

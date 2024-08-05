@@ -1,8 +1,8 @@
-package employee
+package dao
 
 import (
 	"context"
-	model "sky-take-out-gin/model/sql"
+	"sky-take-out-gin/model/sql"
 )
 
 // EmployeeDAOInterface 员工数据访问接口

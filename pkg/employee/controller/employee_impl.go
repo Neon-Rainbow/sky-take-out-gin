@@ -1,12 +1,12 @@
-package employee
+package controller
 
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	HandleRequest "sky-take-out-gin/internal/controller"
-	employeeService "sky-take-out-gin/internal/service/admin/employee"
-	"sky-take-out-gin/model"
-	"sky-take-out-gin/model/param/admin/employee"
+	error2 "sky-take-out-gin/pkg/common/error"
+	HandleRequest "sky-take-out-gin/pkg/common/request_handle"
+	"sky-take-out-gin/pkg/employee/DTO"
+	employeeService "sky-take-out-gin/pkg/employee/service"
 )
 
 // EmployeeControllerImpl 员工控制器实现
@@ -20,82 +20,82 @@ func NewEmployeeControllerImpl(service employeeService.EmployeeService) *Employe
 }
 
 func (controller *EmployeeControllerImpl) EditPassword(c *gin.Context) {
-	req := employee.EditPasswordRequest{}
+	req := DTO.EditPasswordRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.EditPassword(ctx, *req.(*employee.EditPasswordRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.EditPassword(ctx, *req.(*DTO.EditPasswordRequest))
 		})
 
 }
 
 func (controller *EmployeeControllerImpl) ChangeEmployeeStatus(c *gin.Context) {
-	req := employee.ChangeEmployeeStatusRequest{}
+	req := DTO.ChangeEmployeeStatusRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.ChangeEmployeeStatus(ctx, *req.(*employee.ChangeEmployeeStatusRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.ChangeEmployeeStatus(ctx, *req.(*DTO.ChangeEmployeeStatusRequest))
 		},
 		c.ShouldBindQuery,
 		c.ShouldBindUri)
 }
 
 func (controller *EmployeeControllerImpl) EmployeePage(c *gin.Context) {
-	req := employee.EmployeePageRequest{}
-	HandleRequest.HandleRequest(c, &req, func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-		return controller.EmployeeService.GetEmployeePage(ctx, *req.(*employee.EmployeePageRequest))
+	req := DTO.EmployeePageRequest{}
+	HandleRequest.HandleRequest(c, &req, func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+		return controller.EmployeeService.GetEmployeePage(ctx, *req.(*DTO.EmployeePageRequest))
 	})
 }
 
 func (controller *EmployeeControllerImpl) EmployeeLogin(c *gin.Context) {
-	req := employee.EmployeeLoginRequest{}
+	req := DTO.EmployeeLoginRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.EmployeeLogin(ctx, *req.(*employee.EmployeeLoginRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.EmployeeLogin(ctx, *req.(*DTO.EmployeeLoginRequest))
 		})
 }
 
 func (controller *EmployeeControllerImpl) AddEmployee(c *gin.Context) {
-	req := employee.AddEmployeeRequest{}
+	req := DTO.AddEmployeeRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.AddEmployee(ctx, *req.(*employee.AddEmployeeRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.AddEmployee(ctx, *req.(*DTO.AddEmployeeRequest))
 		})
 }
 
 func (controller *EmployeeControllerImpl) SearchEmployee(c *gin.Context) {
-	req := employee.SearchEmployeeRequest{}
+	req := DTO.SearchEmployeeRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.SearchEmployee(ctx, *req.(*employee.SearchEmployeeRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.SearchEmployee(ctx, *req.(*DTO.SearchEmployeeRequest))
 		},
 		c.ShouldBindUri)
 }
 
 func (controller *EmployeeControllerImpl) EditEmployee(c *gin.Context) {
-	req := employee.EditEmployeeRequest{}
+	req := DTO.EditEmployeeRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.EditEmployee(ctx, *req.(*employee.EditEmployeeRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.EditEmployee(ctx, *req.(*DTO.EditEmployeeRequest))
 		})
 }
 
 func (controller *EmployeeControllerImpl) EmployeeLogout(c *gin.Context) {
-	req := employee.EmployeeLogoutRequest{}
+	req := DTO.EmployeeLogoutRequest{}
 	HandleRequest.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *model.ApiError) {
-			return controller.EmployeeService.EmployeeLogout(ctx, *req.(*employee.EmployeeLogoutRequest))
+		func(ctx context.Context, req interface{}) (interface{}, *error2.ApiError) {
+			return controller.EmployeeService.EmployeeLogout(ctx, *req.(*DTO.EmployeeLogoutRequest))
 		})
 }

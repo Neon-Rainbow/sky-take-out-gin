@@ -1,4 +1,4 @@
-package shop
+package dao
 
 import "context"
 

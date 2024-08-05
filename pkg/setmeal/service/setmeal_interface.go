@@ -1,16 +1,16 @@
-package setmeal
+package service
 
 import (
 	"context"
-	"sky-take-out-gin/model"
-	"sky-take-out-gin/model/param/admin/setmeal"
+	error2 "sky-take-out-gin/pkg/common/error"
+	"sky-take-out-gin/pkg/setmeal/DTO"
 )
 
 type SetmealServiceInterface interface {
-	UpdateSetmeal(ctx context.Context, req *setmeal.UpdateSetmealRequest) (resp *setmeal.UpdateSetmealResponse, apiError *model.ApiError)
-	GetSetmealPage(ctx context.Context, req *setmeal.GetSetmealsPageRequest) (resp *setmeal.GetSetmealsPageResponse, apiError *model.ApiError)
-	ChangeSetmealStatus(ctx context.Context, req *setmeal.UpdateSetmealStatusRequest) (resp *setmeal.UpdateSetmealStatusResponse, apiError *model.ApiError)
-	DeleteSetmeals(ctx context.Context, req *setmeal.DeleteSetmealsRequest) (resp *setmeal.DeleteSetmealsResponse, apiError *model.ApiError)
-	CreateSetmeals(ctx context.Context, req *setmeal.AddSetmealRequest) (resp *setmeal.AddSetmealResponse, apiError *model.ApiError)
-	GetSetmealsByID(ctx context.Context, req *setmeal.GetSetmealByIDRequest) (resp *setmeal.GetSetmealByIDResponse, apiError *model.ApiError)
+	UpdateSetmeal(ctx context.Context, req *DTO.UpdateSetmealRequest) (resp *DTO.UpdateSetmealResponse, apiError *error2.ApiError)
+	GetSetmealPage(ctx context.Context, req *DTO.GetSetmealsPageRequest) (resp *DTO.GetSetmealsPageResponse, apiError *error2.ApiError)
+	ChangeSetmealStatus(ctx context.Context, req *DTO.UpdateSetmealStatusRequest) (resp *DTO.UpdateSetmealStatusResponse, apiError *error2.ApiError)
+	DeleteSetmeals(ctx context.Context, req *DTO.DeleteSetmealsRequest) (resp *DTO.DeleteSetmealsResponse, apiError *error2.ApiError)
+	CreateSetmeals(ctx context.Context, req *DTO.AddSetmealRequest) (resp *DTO.AddSetmealResponse, apiError *error2.ApiError)
+	GetSetmealsByID(ctx context.Context, req *DTO.GetSetmealByIDRequest) (resp *DTO.GetSetmealByIDResponse, apiError *error2.ApiError)
 }

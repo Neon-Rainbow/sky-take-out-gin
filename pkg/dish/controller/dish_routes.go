@@ -1,17 +1,16 @@
-package admin
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	dishController "sky-take-out-gin/internal/controller/admin/dish"
-	dishDao "sky-take-out-gin/internal/dao/admin/dish"
-	dishService "sky-take-out-gin/internal/service/admin/dish"
+	dishDao "sky-take-out-gin/pkg/dish/dao"
+	dishService "sky-take-out-gin/pkg/dish/service"
 )
 
 func DishRoutes(route *gin.RouterGroup) {
 	// 实例化DishServiceImpl
 	dao := dishDao.NewDishDaoImpl()
 	service := dishService.NewDishServiceImpl(dao)
-	controller := dishController.NewDishControllerImpl(service)
+	controller := NewDishControllerImpl(service)
 
 	dish_route := route.Group("/dish")
 	{
