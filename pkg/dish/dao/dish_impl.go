@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"gorm.io/gorm"
 	model "sky-take-out-gin/model/sql"
 	"sky-take-out-gin/pkg/common/database"
 )
@@ -15,8 +16,18 @@ func (dao DishDaoImpl) CreateDish(ctx context.Context, dish model.Dish) error {
 	return err
 }
 
+func (dao DishDaoImpl) CreateDishWithTransaction(ctx context.Context, tx *gorm.DB, dish *model.Dish) error {
+	err := tx.WithContext(ctx).Create(&dish).Error
+	return err
+}
+
 func (dao DishDaoImpl) UpdateDish(ctx context.Context, dish model.Dish) error {
 	err := dao.db.GetDB().WithContext(ctx).Save(&dish).Error
+	return err
+}
+
+func (dao DishDaoImpl) UpdateDishWithTransaction(ctx context.Context, tx *gorm.DB, dish *model.Dish) error {
+	err := tx.WithContext(ctx).Save(&dish).Error
 	return err
 }
 
@@ -64,6 +75,30 @@ func (dao DishDaoImpl) SearchDishByPage(ctx context.Context, categoryID uint, na
 func (dao DishDaoImpl) ChangeDishStatus(ctx context.Context, id uint, status int) error {
 	err := dao.db.GetDB().WithContext(ctx).Model(&model.Dish{}).Where("id = ?", id).Update("status", status).Error
 	return err
+}
+
+func (dao DishDaoImpl) UpdateDishFlavor(ctx context.Context, flavor model.DishFlavor) error {
+	err := dao.db.GetDB().WithContext(ctx).Save(&flavor).Error
+	return err
+}
+
+func (dao DishDaoImpl) CreateDishFlavor(ctx context.Context, flavor model.DishFlavor) error {
+	err := dao.db.GetDB().WithContext(ctx).Create(&flavor).Error
+	return err
+}
+
+func (dao DishDaoImpl) CreateDishFlavorWithTransaction(ctx context.Context, tx *gorm.DB, flavor model.DishFlavor) error {
+	err := tx.WithContext(ctx).Create(&flavor).Error
+	return err
+}
+
+func (dao DishDaoImpl) DeleteDishFlavorsByDishIDWithTransaction(ctx context.Context, tx *gorm.DB, dishID uint) error {
+	err := tx.WithContext(ctx).Where("dish_id = ?", dishID).Delete(&model.DishFlavor{}).Error
+	return err
+}
+
+func (dao DishDaoImpl) BeginTransaction() *gorm.DB {
+	return dao.db.GetDB().Begin()
 }
 
 func NewDishDaoImpl(db database.DatabaseInterface) *DishDaoImpl {

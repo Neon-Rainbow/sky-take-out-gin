@@ -1,9 +1,25 @@
 package DTO
 
-import model "sky-take-out-gin/model/sql"
+import (
+	model "sky-take-out-gin/model/sql"
+)
+
+type DishFlavorDTO struct {
+	DishID uint     `json:"dishId"`
+	ID     uint     `json:"id"`
+	Name   string   `json:"name" binding:"required"`
+	Value  []string `json:"value" binding:"required"`
+}
 
 type UpdateDishRequest struct {
-	model.Dish
+	ID          uint            `json:"id" binding:"required"` // 菜品id
+	Name        string          `json:"name"`                  // 菜品名称
+	CategoryID  uint            `json:"category_id"`           // 分类id
+	Price       float64         `json:"price"`                 // 价格
+	Image       string          `json:"image"`                 // 图片
+	Description string          `json:"description"`           // 描述
+	Status      int             `json:"status"`                // 状态
+	Flavors     []DishFlavorDTO `json:"flavors"`
 }
 
 type UpdateDishResponse struct {
@@ -17,7 +33,14 @@ type DeleteDishResponse struct {
 }
 
 type AddDishRequest struct {
-	model.Dish
+	ID          uint            `json:"id"`          // 菜品id
+	Name        string          `json:"name"`        // 菜品名称
+	CategoryID  uint            `json:"category_id"` // 分类id
+	Price       float64         `json:"price"`       // 价格
+	Image       string          `json:"image"`       // 图片
+	Description string          `json:"description"` // 描述
+	Status      int             `json:"status"`      // 状态
+	Flavors     []DishFlavorDTO `json:"flavors"`
 }
 
 type AddDishResponse struct {

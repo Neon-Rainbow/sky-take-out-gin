@@ -74,6 +74,9 @@ const (
 	SearchDishByCategoryError ResponseCode = 20505
 	SearchDishByPageError     ResponseCode = 20506
 	ChangeDishStatusError     ResponseCode = 20507
+	UpdateDishFlavorError     ResponseCode = 20508
+	CreateDishFlavorError     ResponseCode = 20509
+	DeleteDishFlavorError     ResponseCode = 20510
 
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
@@ -125,6 +128,9 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	SearchDishByCategoryError: "查询菜品失败",
 	SearchDishByPageError:     "查询菜品失败",
 	ChangeDishStatusError:     "修改菜品状态失败",
+	UpdateDishFlavorError:     "更新菜品口味失败",
+	CreateDishFlavorError:     "创建菜品口味失败",
+	DeleteDishFlavorError:     "删除菜品口味失败",
 
 	// 权限校验失败
 	RequestUnauthorized: "请求未授权",

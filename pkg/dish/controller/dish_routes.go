@@ -16,9 +16,9 @@ func DishRoutes(route *gin.RouterGroup) {
 
 	dishRoute := route.Group("/dish")
 	{
-		dishRoute.PUT("/", controller.UpdateDish)
-		dishRoute.DELETE("/", controller.DeleteDish)
-		dishRoute.POST("/", controller.AddDish)
+		dishRoute.PUT("", controller.UpdateDish)
+		dishRoute.DELETE("", controller.DeleteDish)
+		dishRoute.POST("", controller.AddDish)
 		dishRoute.GET("/:id", controller.SearchDishByID)
 		dishRoute.GET("/list/:category_id", controller.SearchDishByCategory)
 		dishRoute.GET("/page", controller.SearchDishByPage)
