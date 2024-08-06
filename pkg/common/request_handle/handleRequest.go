@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"net/http"
 	"sky-take-out-gin/pkg/common/code"
 	error2 "sky-take-out-gin/pkg/common/error"
@@ -36,6 +37,7 @@ func HandleRequest(c *gin.Context,
 			userID = id
 		default:
 			response.ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "非法的用户ID类型")
+			zap.L().Error("非法的用户ID类型", zap.Any("userID", userID))
 			return
 		}
 	}
@@ -50,6 +52,7 @@ func HandleRequest(c *gin.Context,
 			username = uname
 		} else {
 			response.ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "Invalid username type")
+			zap.L().Error("非法的username类型", zap.Any("username", username))
 			return
 		}
 	}

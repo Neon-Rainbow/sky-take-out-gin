@@ -72,13 +72,26 @@ func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req DTO.
 }
 
 func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req DTO.EmployeeLoginRequest) (resp *DTO.EmployeeLoginResponse, apiError *error2.ApiError) {
-	employees, err := service.SearchEmployees(ctx, "username = ? AND password = ?", req.Username, encrypt.EncryptPassword(req.Password))
-	if err != nil || len(employees) == 0 {
+	employees, err := service.SearchEmployees(ctx, "username = ?", req.Username)
+	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.EmployeeLoginFailed,
 			Msg:  "Invalid username or password",
 		}
 	}
+	if len(employees) == 0 {
+		return nil, &error2.ApiError{
+			Code: code.EmployeeLoginFailed,
+			Msg:  "用户不存在",
+		}
+	}
+	if encrypt.ComparePassword(req.Password, employees[0].Password) == false {
+		return nil, &error2.ApiError{
+			Code: code.EmployeeLoginFailed,
+			Msg:  "密码错误",
+		}
+	}
+
 	employeeResult := employees[0]
 	resp = &DTO.EmployeeLoginResponse{}
 	resp.ID = employeeResult.ID

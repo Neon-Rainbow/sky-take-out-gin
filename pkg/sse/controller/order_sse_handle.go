@@ -1,4 +1,4 @@
-package controller
+package sseRoute
 
 import (
 	"github.com/gin-gonic/gin"
@@ -20,9 +20,23 @@ func SSEHandler(c *gin.Context) {
 		return
 	}
 
+	idTypeStr := c.Query("type")
+	idType, err := strconv.ParseInt(idTypeStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "非法type",
+		})
+	}
+	var t sseModel.ParticipantType
+	if idType == 1 {
+		t = sseModel.User
+	} else {
+		t = sseModel.Merchant
+	}
+
 	participant := sseModel.Participant{
-		ID:   id, // 假设ID从查询参数中获取
-		Type: 1,  // 假设类型为1
+		ID:   id,
+		Type: t,
 	}
 
 	clientChan := sseEvent.AddClient(participant)

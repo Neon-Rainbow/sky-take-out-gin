@@ -41,7 +41,7 @@ func (dao EmployeeDAOImpl) GetEmployees(ctx context.Context, page, pageSize int)
 // @Return error 错误信息
 func (dao EmployeeDAOImpl) SearchEmployees(ctx context.Context, condition string, args ...interface{}) ([]model.Employee, error) {
 	var employees []model.Employee
-	if err := dao.db.Where(condition, args...).Find(&employees).Error; err != nil {
+	if err := dao.db.Where(condition, args...).Find(&employees).Debug().Error; err != nil {
 		return nil, err
 	}
 	return employees, nil

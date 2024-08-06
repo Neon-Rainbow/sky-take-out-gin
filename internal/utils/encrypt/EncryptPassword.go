@@ -15,3 +15,10 @@ func EncryptPassword(password string) string {
 	h.Write([]byte(secret))
 	return hex.EncodeToString(h.Sum([]byte(password)))
 }
+
+// ComparePassword 比较密码
+// @Param password: 密码
+// @Param encryptedPassword: 加密后的密码
+func ComparePassword(password, encryptedPassword string) bool {
+	return EncryptPassword(password) == encryptedPassword
+}
