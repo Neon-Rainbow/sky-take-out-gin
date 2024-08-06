@@ -1,22 +1,23 @@
 package model
 
-type AddressBook struct {
-	ID           int64  `json:"id" gorm:"primary_key;autoIncrement"`
-	UserID       int64  `json:"user_id"`
-	Consignee    string `json:"consignee"`
-	Sex          string `json:"sex"`
-	Phone        string `json:"phone"`
-	ProvinceCode string `json:"province_code"`
-	ProvinceName string `json:"province_name"`
-	CityCode     string `json:"city_code"`
-	CityName     string `json:"city_name"`
-	DistrictCode string `json:"district_code"`
-	DistrictName string `json:"district_name"`
-	Detail       string `json:"detail"`
-	Label        string `json:"label"`
-	IsDefault    int    `json:"is_default"`
-}
+import (
+	"gorm.io/gorm"
+)
 
-func (AddressBook) TableName() string {
-	return "address_book"
+// AddressBook 地址簿
+type AddressBook struct {
+	gorm.Model
+	UserID       int64  `gorm:"not null;comment:'用户id'"`
+	Consignee    string `gorm:"type:varchar(50);comment:'收货人'"`
+	Sex          string `gorm:"type:varchar(2);comment:'性别'"`
+	Phone        string `gorm:"type:varchar(11);not null;comment:'手机号'"`
+	ProvinceCode string `gorm:"type:varchar(12);comment:'省级区划编号'"`
+	ProvinceName string `gorm:"type:varchar(32);comment:'省级名称'"`
+	CityCode     string `gorm:"type:varchar(12);comment:'市级区划编号'"`
+	CityName     string `gorm:"type:varchar(32);comment:'市级名称'"`
+	DistrictCode string `gorm:"type:varchar(12);comment:'区级区划编号'"`
+	DistrictName string `gorm:"type:varchar(32);comment:'区级名称'"`
+	Detail       string `gorm:"type:varchar(200);comment:'详细地址'"`
+	Label        string `gorm:"type:varchar(100);comment:'标签'"`
+	IsDefault    bool   `gorm:"default:false;comment:'默认 0 否 1是'"`
 }

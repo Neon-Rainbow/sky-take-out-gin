@@ -6,8 +6,8 @@ import (
 )
 
 type UpdateSetmealRequest struct {
-	ID            int64               `json:"id" binding:"required"`          // 套餐id
-	CategoryID    int64               `json:"category_id" binding:"required"` // 分类id
+	ID            uint                `json:"id" binding:"required"`          // 套餐id
+	CategoryID    uint                `json:"category_id" binding:"required"` // 分类id
 	Name          string              `json:"name" binding:"required"`        // 套餐名称
 	Price         float64             `json:"price" binding:"required"`       // 套餐价格
 	Status        int                 `json:"status"`                         // 套餐起售状态
@@ -20,7 +20,7 @@ type UpdateSetmealResponse struct {
 }
 
 type GetSetmealsPageRequest struct {
-	CategoryID int64  `form:"categoryId"`                  // 分类id
+	CategoryID uint   `form:"categoryId"`                  // 分类id
 	Name       string `form:"name"`                        // 套餐名称
 	Status     int    `form:"status"`                      // 套餐起售状态
 	Page       int    `form:"page" binding:"required"`     // 页码
@@ -33,22 +33,22 @@ type GetSetmealsPageResponse struct {
 }
 
 type UpdateSetmealStatusRequest struct {
-	Status int   `uri:"status"` // 套餐状态，1表示起售，0表示停售
-	ID     int64 `form:"id"`    // 套餐id
+	Status int  `uri:"status"` // 套餐状态，1表示起售，0表示停售
+	ID     uint `form:"id"`    // 套餐id
 }
 
 type UpdateSetmealStatusResponse struct {
 }
 
 type DeleteSetmealsRequest struct {
-	IDs []int64 `form:"ids" binding:"required"` // ids
+	IDs []uint `form:"ids" binding:"required"` // ids
 }
 
 type DeleteSetmealsResponse struct {
 }
 
 type AddSetmealRequest struct {
-	CategoryID    int64           `json:"category_id" binding:"required"`    // 分类id
+	CategoryID    uint            `json:"category_id" binding:"required"`    // 分类id
 	Name          string          `json:"name" binding:"required"`           // 套餐名称
 	Price         float64         `json:"price" binding:"required"`          // 套餐价格
 	Status        int             `json:"status" binding:"required"`         // 套餐状态：1为起售 0为停售
@@ -61,12 +61,12 @@ type AddSetmealResponse struct {
 }
 
 type GetSetmealByIDRequest struct {
-	ID int64 `uri:"id" binding:"required"` // 套餐id
+	ID uint `uri:"id" binding:"required"` // 套餐id
 }
 
 type GetSetmealByIDResponse struct {
-	ID            int64               `json:"id"`
-	CategoryID    int64               `json:"category_id"`
+	ID            uint                `json:"id"`
+	CategoryID    uint                `json:"category_id"`
 	Name          string              `json:"name"`
 	Price         float64             `json:"price"`
 	Status        int                 `json:"status"`

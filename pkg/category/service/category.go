@@ -8,14 +8,13 @@ import (
 	paramModel "sky-take-out-gin/pkg/category/DTO"
 	"sky-take-out-gin/pkg/common/code"
 	controllerModel "sky-take-out-gin/pkg/common/error"
-	"time"
 )
 
 // UpdateCategory 更新分类
-func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category *model.Category) *controllerModel.ApiError {
+func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category *paramModel.AdminUpdateCategoryRequest) (*paramModel.AdminUpdateCategoryResponse, *controllerModel.ApiError) {
 	existingCategory, err := service.CategoryDaoInfertace.GetCategoryById(ctx, category.ID)
 	if err != nil {
-		return &controllerModel.ApiError{
+		return nil, &controllerModel.ApiError{
 			Code: code.CategoryNotExist,
 			Msg:  fmt.Sprintf("分类不存在, err: %v", err),
 		}
@@ -23,7 +22,7 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 
 	err = convert.UpdateStructFields(category, existingCategory)
 	if err != nil {
-		return &controllerModel.ApiError{
+		return nil, &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
 			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
 		}
@@ -31,12 +30,12 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 
 	err = service.UpdateCategoryType(ctx, existingCategory)
 	if err != nil {
-		return &controllerModel.ApiError{
+		return nil, &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
 			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
 		}
 	}
-	return nil
+	return nil, nil
 }
 
 // GetCategoryPage 分页查询分类
@@ -82,7 +81,7 @@ func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p 
 }
 
 func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *paramModel.AdminCreateCategoryRequest) (*paramModel.AdminCreateCategoryResponse, *controllerModel.ApiError) {
-	userID, ok := ctx.Value("userID").(int64)
+	userID, ok := ctx.Value("userID").(uint)
 	if !ok {
 		return nil, &controllerModel.ApiError{
 			Code: code.ParamError,
@@ -94,9 +93,7 @@ func (service *CategoryServiceImpl) CreateCategory(ctx context.Context, p *param
 		Name:       p.Name,
 		Sort:       p.Sort,
 		Status:     1,
-		CreateTime: time.Now(),
 		CreateUser: userID,
-		UpdateTime: time.Now(),
 		UpdateUser: userID,
 	}
 	err := service.CategoryDaoInfertace.CreateCategory(ctx, category)

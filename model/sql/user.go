@@ -1,18 +1,15 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type User struct {
-	ID         int64     `json:"id" gorm:"primary_key;autoIncrement"`
-	OpenID     string    `json:"openid"`
-	Name       string    `json:"name"`
-	Phone      string    `json:"phone"`
-	Sex        string    `json:"sex"`
-	IDNumber   string    `json:"id_number"`
-	Avatar     string    `json:"avatar"`
-	CreateTime time.Time `json:"create_time"`
-}
-
-func (User) TableName() string {
-	return "user"
+	gorm.Model
+	OpenID   string `gorm:"type:varchar(45);comment:'微信用户唯一标识'"`
+	Name     string `gorm:"type:varchar(32);comment:'姓名'"`
+	Phone    string `gorm:"type:varchar(11);comment:'手机号'"`
+	Sex      string `gorm:"type:varchar(2);comment:'性别'"`
+	IDNumber string `gorm:"type:varchar(18);comment:'身份证号'"`
+	Avatar   string `gorm:"type:varchar(500);comment:'头像'"`
 }

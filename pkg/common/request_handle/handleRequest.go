@@ -28,12 +28,14 @@ func HandleRequest(c *gin.Context,
 
 	userID, exist := c.Get("userID")
 	if !exist {
-		userID = int64(0)
+		userID = uint(0)
 	} else {
 		switch id := userID.(type) {
 		case int:
-			userID = int64(id)
+			userID = uint(id)
 		case int64:
+			userID = uint(id)
+		case uint:
 			userID = id
 		default:
 			response.ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "非法的用户ID类型")

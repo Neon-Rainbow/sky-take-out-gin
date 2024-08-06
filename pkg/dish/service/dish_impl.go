@@ -7,7 +7,6 @@ import (
 	error2 "sky-take-out-gin/pkg/common/error"
 	paramModel "sky-take-out-gin/pkg/dish/DTO"
 	dishDao "sky-take-out-gin/pkg/dish/dao"
-	"time"
 )
 
 type DishServiceImpl struct {
@@ -31,8 +30,7 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 		}
 	}
 
-	dish.UpdateUser = ctx.Value("userID").(int64)
-	dish.UpdateTime = time.Now()
+	dish.UpdateUser = ctx.Value("userID").(uint)
 
 	err = service.dao.UpdateDish(ctx, *dish)
 	if err != nil {

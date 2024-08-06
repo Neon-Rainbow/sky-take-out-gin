@@ -2,13 +2,15 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"sky-take-out-gin/pkg/common/database"
 	employeeDao "sky-take-out-gin/pkg/employee/dao"
 	"sky-take-out-gin/pkg/employee/service"
 )
 
 func EmployeeRoutes(route *gin.RouterGroup) {
 	// 实例化EmployeeServiceImpl
-	dao := employeeDao.NewEmployeeDAOImpl()
+	db := database.GetDatabaseManager()
+	dao := employeeDao.NewEmployeeDAOImpl(db)
 	service := service.NewEmployeeService(dao)
 	controller := NewEmployeeControllerImpl(service)
 

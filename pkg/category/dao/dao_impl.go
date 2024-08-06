@@ -1,17 +1,15 @@
 package dao
 
 import (
-	"gorm.io/gorm"
-	"sky-take-out-gin/pkg/common/database/MySQL"
+	"sky-take-out-gin/pkg/common/database"
 )
 
 type CategoryDaoImpl struct {
-	*gorm.DB
+	db database.DatabaseInterface
 }
 
 // NewCategoryDaoImpl 实例化CategoryDaoImpl
-func NewCategoryDaoImpl() *CategoryDaoImpl {
-	db := MySQL.GetDB()
+func NewCategoryDaoImpl(db database.DatabaseInterface) *CategoryDaoImpl {
 	return &CategoryDaoImpl{
 		db,
 	}

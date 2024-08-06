@@ -1,13 +1,13 @@
 package model
 
-// DishFlavor 菜品口味
-type DishFlavor struct {
-	ID     int64  `json:"id" gorm:"primary_key;autoIncrement"`
-	DishID int64  `json:"dish_id"`
-	Name   string `json:"name" gorm:"type:longtext"`
-	Value  string `json:"value"`
-}
+import (
+	"encoding/json"
+	"gorm.io/gorm"
+)
 
-func (DishFlavor) TableName() string {
-	return "dish_flavor"
+type DishFlavor struct {
+	gorm.Model
+	DishID int64           `gorm:"not null;comment:'菜品'"`
+	Name   string          `gorm:"type:varchar(32);comment:'口味名称'"`
+	Value  json.RawMessage `gorm:"type:json;comment:'口味数据list'"`
 }

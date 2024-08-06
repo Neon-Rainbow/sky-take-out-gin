@@ -8,7 +8,6 @@ import (
 	error2 "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/setmeal/DTO"
 	setmealDAO "sky-take-out-gin/pkg/setmeal/dao"
-	"time"
 )
 
 type SetmealServiceImpl struct {
@@ -19,8 +18,7 @@ func (service SetmealServiceImpl) UpdateSetmeal(ctx context.Context, req *DTO.Up
 	s := &sqlModel.Setmeal{}
 	_ = convert.UpdateStructFields(req, s)
 
-	s.UpdateUser = ctx.Value("userID").(int64)
-	s.UpdateTime = time.Now()
+	s.UpdateUser = ctx.Value("userID").(uint)
 
 	err := service.dao.UpdateSetmeal(ctx, s)
 	if err != nil {
@@ -78,10 +76,8 @@ func (service SetmealServiceImpl) CreateSetmeals(ctx context.Context, req *DTO.A
 		}
 	}
 
-	s.CreateTime = time.Now()
-	s.UpdateTime = time.Now()
-	s.CreateUser = ctx.Value("userID").(int64)
-	s.UpdateUser = ctx.Value("userID").(int64)
+	s.CreateUser = ctx.Value("userID").(uint)
+	s.UpdateUser = ctx.Value("userID").(uint)
 	err = service.dao.CreateSetmeal(ctx, &s)
 	if err != nil {
 		return nil, &error2.ApiError{

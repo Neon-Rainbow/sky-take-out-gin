@@ -1,22 +1,17 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type Dish struct {
-	ID          int64        `json:"id" gorm:"primary_key;autoIncrement"`
-	Name        string       `json:"name" binding:"required" gorm:"type:longtext"`
-	CategoryID  int64        `json:"category_id" binding:"required"`
-	Price       float64      `json:"price"`
-	Image       string       `json:"image"`
-	Description string       `json:"description"`
-	Status      int          `json:"status"`
-	CreateTime  time.Time    `json:"create_time"`
-	UpdateTime  time.Time    `json:"update_time"`
-	CreateUser  int64        `json:"create_user"`
-	UpdateUser  int64        `json:"update_user"`
-	DishFlavors []DishFlavor `json:"dish_flavors" gorm:"foreignKey:DishID;references:ID"`
-}
-
-func (Dish) TableName() string {
-	return "dish"
+	gorm.Model
+	Name        string  `gorm:"type:varchar(32);not null;unique;comment:'菜品名称'"`
+	CategoryID  uint    `gorm:"not null;comment:'菜品分类id'"`
+	Price       float64 `gorm:"type:decimal(10,2);comment:'菜品价格'"`
+	Image       string  `gorm:"type:varchar(255);comment:'图片'"`
+	Description string  `gorm:"type:varchar(255);comment:'描述信息'"`
+	Status      int     `gorm:"default:1;comment:'0 停售 1 起售'"`
+	CreateUser  uint    `gorm:"comment:'创建人'"`
+	UpdateUser  uint    `gorm:"comment:'修改人'"`
 }

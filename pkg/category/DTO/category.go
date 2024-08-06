@@ -7,7 +7,7 @@ import (
 // AdminUpdateCategoryRequest 更新分类请求
 type AdminUpdateCategoryRequest struct {
 	// 分类ID
-	ID int64 `json:"id" binding:"required"`
+	ID uint `json:"id" binding:"required"`
 
 	// 分类名称
 	Name string `json:"name" binding:"required"`
@@ -20,16 +20,6 @@ type AdminUpdateCategoryRequest struct {
 
 	// 分类状态
 	Status int `json:"status" binding:"required"`
-}
-
-func (a *AdminUpdateCategoryRequest) ConvertToCategory() *model.Category {
-	return &model.Category{
-		ID:     a.ID,
-		Name:   a.Name,
-		Type:   a.Type,
-		Sort:   a.Sort,
-		Status: a.Status,
-	}
 }
 
 // AdminUpdateCategoryResponse 更新分类响应
@@ -53,7 +43,7 @@ type AdminCategoryPageRequest struct {
 
 // CategoryRecord 分类记录
 type CategoryRecord struct {
-	ID         int64  `json:"id"`
+	ID         uint   `json:"id"`
 	Type       int    `json:"type"`
 	Name       string `json:"name"`
 	Sort       int    `json:"sort"`
@@ -75,7 +65,7 @@ type AdminChangeCategoryStatusRequest struct {
 	// 分类状态 1:启用 2:禁用
 	Status int `uri:"status"`
 	// 分类ID
-	ID int64 `form:"id"`
+	ID uint `form:"id"`
 }
 
 // AdminChangeCategoryStatusResponse 启用、禁用分类响应
@@ -101,7 +91,7 @@ type AdminCreateCategoryResponse struct {
 // AdminDeleteCategoryRequest 删除分类请求
 type AdminDeleteCategoryRequest struct {
 	// 分类ID
-	ID int64 `form:"id" binding:"required"`
+	ID uint `form:"id" binding:"required"`
 }
 
 // AdminDeleteCategoryResponse 删除分类响应

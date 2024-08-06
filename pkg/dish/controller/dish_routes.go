@@ -2,13 +2,15 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"sky-take-out-gin/pkg/common/database"
 	dishDao "sky-take-out-gin/pkg/dish/dao"
 	dishService "sky-take-out-gin/pkg/dish/service"
 )
 
 func DishRoutes(route *gin.RouterGroup) {
 	// 实例化DishServiceImpl
-	dao := dishDao.NewDishDaoImpl()
+	db := database.GetDatabaseManager()
+	dao := dishDao.NewDishDaoImpl(db)
 	service := dishService.NewDishServiceImpl(dao)
 	controller := NewDishControllerImpl(service)
 

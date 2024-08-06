@@ -2,17 +2,11 @@ package controller
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	paramCategory "sky-take-out-gin/pkg/category/DTO"
 	serviceCategory "sky-take-out-gin/pkg/category/service"
-	"sky-take-out-gin/pkg/common/code"
 	controllerModel "sky-take-out-gin/pkg/common/error"
 	controllerResponse "sky-take-out-gin/pkg/common/request_handle"
-	"sky-take-out-gin/pkg/common/response"
-	"time"
 )
 
 type AdminCategoryControllerImpl struct {
@@ -41,73 +35,15 @@ func NewAdminCategoryControllerImpl(service serviceCategory.CategoryService) *Ad
 // @Failure http.StatusInternalServerError {object} controller.Response
 // @Router /admin/category [put]
 func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Second*5)
-	defer cancel()
-
-	resultChan := make(chan interface{})
-	defer close(resultChan)
-
-	go func() {
-
-		// 从请求中获取参数
-		var req paramCategory.AdminUpdateCategoryRequest
-		if err := c.ShouldBindBodyWithJSON(&req); err != nil {
-			resultChan <- &controllerModel.ApiError{
-				Code: code.CategoryBindParamError,
-				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
-					code.CategoryBindParamError,
-					code.CategoryBindParamError.Message(),
-					err.Error()),
-			}
-			return
-		}
-
-		// 转换参数
-		category := req.ConvertToCategory()
-
-		// 调用service层方法
-		if err := controller.CategoryService.UpdateCategory(ctx, category); err != nil {
-			resultChan <- &controllerModel.ApiError{
-				Code: code.CategoryUpdateFailed,
-				Msg: fmt.Sprintf("Code: %d, Message: %s, Error detail: %s",
-					code.CategoryUpdateFailed,
-					code.CategoryUpdateFailed.Message(),
-					err.Error()),
-			}
-			return
-		}
-		// 操作成功,返回响应
-		resultChan <- &paramCategory.AdminUpdateCategoryResponse{}
-		return
-	}()
-
-	select {
-	case <-ctx.Done():
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			response.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
-			return
-		}
-		if errors.Is(ctx.Err(), context.Canceled) {
-			response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
-			return
-		}
-	case result := <-resultChan:
-		switch res := result.(type) {
-		case *controllerModel.ApiError:
-			response.ResponseErrorWithApiError(c, http.StatusBadRequest, res)
-			return
-		case *paramCategory.AdminUpdateCategoryResponse:
-			response.ResponseSuccess(c, res)
-			return
-		default:
-			response.ResponseErrorWithApiError(c, http.StatusInternalServerError, &controllerModel.ApiError{
-				Code: code.ServerError,
-				Msg:  fmt.Sprintf("未知类型错误, 类型为: %T", res),
-			})
-			return
-		}
-	}
-
+	req := paramCategory.AdminUpdateCategoryRequest{}
+	controllerResponse.HandleRequest(
+		c,
+		&req,
+		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
+			return controller.CategoryService.UpdateCategory(ctx, req.(*paramCategory.AdminUpdateCategoryRequest))
+		},
+		c.ShouldBindBodyWithJSON,
+	)
 }
 
 // GetCategoryPage 分类分页查询
@@ -132,7 +68,8 @@ func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
 		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
 			return controller.CategoryService.GetCategoryPage(ctx, req.(*paramCategory.AdminCategoryPageRequest))
 		},
-		c.ShouldBindQuery)
+		c.ShouldBindQuery,
+	)
 }
 
 // ChangeCategoryStatus 启用、禁用分类
@@ -156,7 +93,8 @@ func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Conte
 			return controller.CategoryService.ChangeCategoryStatus(ctx, req.(*paramCategory.AdminChangeCategoryStatusRequest))
 		},
 		c.ShouldBindUri,
-		c.ShouldBindQuery)
+		c.ShouldBindQuery,
+	)
 }
 
 // CreateCategory 新增分类

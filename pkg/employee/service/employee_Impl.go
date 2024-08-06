@@ -10,7 +10,6 @@ import (
 	error2 "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/employee/DTO"
 	employeeDao "sky-take-out-gin/pkg/employee/dao"
-	"time"
 )
 
 type EmployeeServiceImpl struct {
@@ -18,7 +17,7 @@ type EmployeeServiceImpl struct {
 }
 
 func (service EmployeeServiceImpl) EditPassword(ctx context.Context, req DTO.EditPasswordRequest) (*DTO.EditPasswordResponse, *error2.ApiError) {
-	e, err := service.GetEmployeeByID(ctx, int64(req.ID))
+	e, err := service.GetEmployeeByID(ctx, req.ID)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.EmployeeNotFound,
@@ -66,7 +65,7 @@ func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req DTO.
 	}
 
 	return &DTO.EmployeePageResponse{
-		Total:   int64(len(employees)),
+		Total:   len(employees),
 		Records: employees,
 	}, nil
 }
@@ -112,8 +111,6 @@ func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req DTO.AddE
 		}
 	}
 
-	e.CreateTime = time.Now()
-	e.UpdateTime = time.Now()
 	e.Status = 1
 	e.Password = encrypt.EncryptPassword("123456")
 	err = service.EmployeeDAOInterface.AddEmployee(ctx, &e)

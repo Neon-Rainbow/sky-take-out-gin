@@ -5,7 +5,7 @@ import (
 )
 
 type EditPasswordRequest struct {
-	ID          int    `json:"id" binding:"required"`
+	ID          uint   `json:"id" binding:"required"`
 	NewPassword string `json:"newPassword" binding:"required"`
 	OldPassword string `json:"oldPassword" binding:"required"`
 }
@@ -14,8 +14,8 @@ type EditPasswordResponse struct {
 }
 
 type ChangeEmployeeStatusRequest struct {
-	Status int   `uri:"status" json:"status"`
-	ID     int64 `form:"id"`
+	Status int  `uri:"status" json:"status"`
+	ID     uint `form:"id"`
 }
 
 type ChangeEmployeeStatusResponse struct {
@@ -28,7 +28,7 @@ type EmployeePageRequest struct {
 }
 
 type EmployeePageResponse struct {
-	Total   int64            `json:"total"`
+	Total   int              `json:"total"`
 	Records []model.Employee `json:"records"`
 }
 
@@ -38,14 +38,14 @@ type EmployeeLoginRequest struct {
 }
 
 type EmployeeLoginResponse struct {
-	ID       int64  `json:"id"`
+	ID       uint   `json:"id"`
 	Name     string `json:"name"`
 	Token    string `json:"token"`
 	Username string `json:"username"`
 }
 
 type AddEmployeeRequest struct {
-	ID       int64  `json:"id" binding:"omitempty"`
+	ID       uint   `json:"id" binding:"omitempty"`
 	IdNumber string `json:"idNumber" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Phone    string `json:"phone" binding:"required"`
@@ -57,7 +57,7 @@ type AddEmployeeResponse struct {
 }
 
 type SearchEmployeeRequest struct {
-	ID int64 `uri:"id" binding:"required"`
+	ID uint `uri:"id" binding:"required"`
 }
 
 type SearchEmployeeResponse struct {
@@ -65,7 +65,7 @@ type SearchEmployeeResponse struct {
 }
 
 type EditEmployeeRequest struct {
-	ID       int64  `json:"id" binding:"omitempty"`
+	ID       uint   `json:"id" binding:"omitempty"`
 	IdNumber string `json:"idNumber" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Phone    string `json:"phone" binding:"required"`

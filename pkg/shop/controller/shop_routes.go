@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"sky-take-out-gin/pkg/common/database"
 	"sky-take-out-gin/pkg/common/middleware"
 	shopDao "sky-take-out-gin/pkg/shop/dao"
 	shopService "sky-take-out-gin/pkg/shop/service"
@@ -9,7 +10,8 @@ import (
 
 // ShopRoutes 商店信息相关路由
 func ShopRoutes(route *gin.RouterGroup) {
-	dao := shopDao.NewShopDaoImpl()
+	db := database.GetDatabaseManager()
+	dao := shopDao.NewShopDaoImpl(db)
 	service := shopService.NewShopServiceImpl(dao)
 	controller := NewShopControllerImpl(service)
 

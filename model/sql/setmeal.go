@@ -1,22 +1,17 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type Setmeal struct {
-	ID            int64         `json:"id" gorm:"primary_key;autoIncrement"`
-	CategoryID    int64         `json:"category_id"`
-	Name          string        `json:"name"`
-	Price         float64       `json:"price"`
-	Status        int           `json:"status"`
-	Description   string        `json:"description"`
-	Image         string        `json:"image"`
-	CreateTime    time.Time     `json:"create_time"`
-	UpdateTime    time.Time     `json:"update_time"`
-	CreateUser    int64         `json:"create_user"`
-	UpdateUser    int64         `json:"update_user"`
-	SetmealDishes []SetmealDish `json:"setmeal_dishes" gorm:"foreignKey:SetmealID;references:ID"`
-}
-
-func (Setmeal) TableName() string {
-	return "setmeal"
+	gorm.Model
+	CategoryID  uint    `gorm:"not null;comment:'菜品分类id'"`
+	Name        string  `gorm:"type:varchar(32);not null;unique;comment:'套餐名称'"`
+	Price       float64 `gorm:"type:decimal(10,2);not null;comment:'套餐价格'"`
+	Status      int     `gorm:"default:1;comment:'售卖状态 0:停售 1:起售'"`
+	Description string  `gorm:"type:varchar(255);comment:'描述信息'"`
+	Image       string  `gorm:"type:varchar(255);comment:'图片'"`
+	CreateUser  uint    `gorm:"comment:'创建人'"`
+	UpdateUser  uint    `gorm:"comment:'修改人'"`
 }

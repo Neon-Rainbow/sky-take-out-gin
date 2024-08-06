@@ -16,7 +16,7 @@ const (
 
 type MyClaims struct {
 	Username  string `json:"username"`
-	UserID    int64  `json:"user_id"`
+	UserID    uint   `json:"user_id"`
 	TokenType string `json:"token_type"`
 	jwt.RegisteredClaims
 }
@@ -29,7 +29,7 @@ type MyClaims struct {
 // @return accessToken string The access token
 // @return refreshToken string The refresh token
 // @return err error information
-func GenerateToken(username string, userId int64, isAdmin bool) (accessToken string, refreshToken string, err error) {
+func GenerateToken(username string, userId uint, isAdmin bool) (accessToken string, refreshToken string, err error) {
 	// Retrieve the secret key from the configuration
 	var jwtSecret = config.GetConfig().SecretConfig.JWTSecret
 	var mySecret = []byte(jwtSecret)
@@ -49,7 +49,7 @@ func GenerateToken(username string, userId int64, isAdmin bool) (accessToken str
 	// @Param expireDuration time.Duration 令牌过期时间
 	// @Return string 令牌字符串
 	// @Return error 错误信息
-	var function = func(username string, userId int64, tokenType string, expireDuration time.Duration) (string, error) {
+	var function = func(username string, userId uint, tokenType string, expireDuration time.Duration) (string, error) {
 		claims := MyClaims{
 			Username:  username,
 			UserID:    userId,
@@ -68,7 +68,7 @@ func GenerateToken(username string, userId int64, isAdmin bool) (accessToken str
 
 	// 使用两个goroutine分别生成访问令牌和刷新令牌
 	go func() {
-		accessToken, err = function(username, int64(userId), "access", accessTokenExpireDuration)
+		accessToken, err = function(username, userId, "access", accessTokenExpireDuration)
 		if err != nil {
 			errorChannel <- err
 			return
@@ -77,7 +77,7 @@ func GenerateToken(username string, userId int64, isAdmin bool) (accessToken str
 	}()
 
 	go func() {
-		refreshToken, err = function(username, int64(userId), "refresh", refreshTokenExpireDuration)
+		refreshToken, err = function(username, userId, "refresh", refreshTokenExpireDuration)
 		if err != nil {
 			errorChannel <- err
 			return

@@ -1,20 +1,17 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type ShoppingCart struct {
-	ID         int64     `json:"id" gorm:"primary_key;autoIncrement"`
-	Name       string    `json:"name"`
-	Image      string    `json:"image"`
-	UserID     int64     `json:"user_id"`
-	DishID     int64     `json:"dish_id"`
-	SetmealID  int64     `json:"setmeal_id"`
-	DishFlavor string    `json:"dish_flavor"`
-	Number     int       `json:"number"`
-	Amount     float64   `json:"amount"`
-	CreateTime time.Time `json:"create_time"`
-}
-
-func (ShoppingCart) TableName() string {
-	return "shopping_cart"
+	gorm.Model
+	Name       string  `gorm:"type:varchar(32);comment:'商品名称'"`
+	Image      string  `gorm:"type:varchar(255);comment:'图片'"`
+	UserID     uint    `gorm:"not null;comment:'主键'"`
+	DishID     uint    `gorm:"comment:'菜品id'"`
+	SetmealID  uint    `gorm:"comment:'套餐id'"`
+	DishFlavor string  `gorm:"type:varchar(50);comment:'口味'"`
+	Number     int     `gorm:"default:1;comment:'数量'"`
+	Amount     float64 `gorm:"type:decimal(10,2);not null;comment:'金额'"`
 }

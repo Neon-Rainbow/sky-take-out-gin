@@ -1,14 +1,12 @@
 package model
 
-type SetmealDish struct {
-	ID        int64   `json:"id" gorm:"primary_key;autoIncrement"`
-	SetmealID int64   `json:"setmeal_id"`
-	DishID    int64   `json:"dish_id"`
-	Name      string  `json:"name"`
-	Price     float64 `json:"price"`
-	Copies    int     `json:"copies"`
-}
+import "gorm.io/gorm"
 
-func (SetmealDish) TableName() string {
-	return "setmeal_dish"
+type SetmealDish struct {
+	gorm.Model
+	SetmealID uint    `gorm:"comment:'套餐id'"`
+	DishID    uint    `gorm:"comment:‘菜品id’"`
+	Name      string  `gorm:"type:varchar(32);comment:'菜品名称(冗余字段)'"`
+	Price     float64 `gorm:"type:decimal(10,2);comment:‘菜品单价（冗余字段）’"`
+	Copies    int     `gorm:"comment:‘菜品份数’"`
 }

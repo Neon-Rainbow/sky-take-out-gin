@@ -2,49 +2,48 @@ package dao
 
 import (
 	"context"
-	"gorm.io/gorm"
 	model "sky-take-out-gin/model/sql"
-	"sky-take-out-gin/pkg/common/database/MySQL"
+	"sky-take-out-gin/pkg/common/database"
 )
 
 type DishDaoImpl struct {
-	db *gorm.DB
+	db database.DatabaseInterface
 }
 
 func (dao DishDaoImpl) CreateDish(ctx context.Context, dish model.Dish) error {
-	err := dao.db.WithContext(ctx).Create(&dish).Error
+	err := dao.db.GetDB().WithContext(ctx).Create(&dish).Error
 	return err
 }
 
 func (dao DishDaoImpl) UpdateDish(ctx context.Context, dish model.Dish) error {
-	err := dao.db.WithContext(ctx).Save(&dish).Error
+	err := dao.db.GetDB().WithContext(ctx).Save(&dish).Error
 	return err
 }
 
-func (dao DishDaoImpl) DeleteDish(ctx context.Context, ids []int64) error {
-	err := dao.db.WithContext(ctx).Where("id in ?", ids).Delete(&model.Dish{}).Error
+func (dao DishDaoImpl) DeleteDish(ctx context.Context, ids []uint) error {
+	err := dao.db.GetDB().WithContext(ctx).Where("id in ?", ids).Delete(&model.Dish{}).Error
 	return err
 }
 
-func (dao DishDaoImpl) SearchDishByID(ctx context.Context, id int64) (*model.Dish, error) {
+func (dao DishDaoImpl) SearchDishByID(ctx context.Context, id uint) (*model.Dish, error) {
 	var dish *model.Dish
-	err := dao.db.WithContext(ctx).Preload("DishFlavors").Where("id = ?", id).First(&dish).Error
+	err := dao.db.GetDB().WithContext(ctx).Preload("DishFlavors").Where("id = ?", id).First(&dish).Error
 	if err != nil {
 		return nil, err
 	}
 	return dish, err
 }
 
-func (dao DishDaoImpl) SearchDishByCategory(ctx context.Context, categoryID int64) ([]model.Dish, error) {
+func (dao DishDaoImpl) SearchDishByCategory(ctx context.Context, categoryID uint) ([]model.Dish, error) {
 	var dishes []model.Dish
-	err := dao.db.WithContext(ctx).Where("category_id = ?", categoryID).Find(&dishes).Error
+	err := dao.db.GetDB().WithContext(ctx).Where("category_id = ?", categoryID).Find(&dishes).Error
 	return dishes, err
 }
 
-func (dao DishDaoImpl) SearchDishByPage(ctx context.Context, categoryID int64, name string, status, page, pageSize int) (int, []model.Dish, error) {
+func (dao DishDaoImpl) SearchDishByPage(ctx context.Context, categoryID uint, name string, status, page, pageSize int) (int, []model.Dish, error) {
 	var dishes []model.Dish
 	var count int64
-	db := dao.db.Model(&model.Dish{}).WithContext(ctx)
+	db := dao.db.GetDB().Model(&model.Dish{}).WithContext(ctx)
 	if categoryID != 0 {
 		db = db.Where("category_id = ?", categoryID)
 	}
@@ -62,11 +61,11 @@ func (dao DishDaoImpl) SearchDishByPage(ctx context.Context, categoryID int64, n
 	return int(count), dishes, err
 }
 
-func (dao DishDaoImpl) ChangeDishStatus(ctx context.Context, id int64, status int) error {
-	err := dao.db.WithContext(ctx).Model(&model.Dish{}).Where("id = ?", id).Update("status", status).Error
+func (dao DishDaoImpl) ChangeDishStatus(ctx context.Context, id uint, status int) error {
+	err := dao.db.GetDB().WithContext(ctx).Model(&model.Dish{}).Where("id = ?", id).Update("status", status).Error
 	return err
 }
 
-func NewDishDaoImpl() *DishDaoImpl {
-	return &DishDaoImpl{MySQL.GetDB()}
+func NewDishDaoImpl(db database.DatabaseInterface) *DishDaoImpl {
+	return &DishDaoImpl{db}
 }
