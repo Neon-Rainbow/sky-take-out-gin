@@ -20,8 +20,8 @@ import (
 	"sky-take-out-gin/pkg/common/config"
 )
 
-// NewLogger 创建并初始化zap日志库
-func NewLogger(logFilePath string) (*zap.Logger, error) {
+// newLogger 创建并初始化zap日志库
+func newLogger(logFilePath string) (*zap.Logger, error) {
 	logDir := filepath.Dir(logFilePath)
 	if _, err := os.Stat(logDir); os.IsNotExist(err) {
 		err = os.MkdirAll(logDir, 0755)

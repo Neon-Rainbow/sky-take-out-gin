@@ -1,7 +1,8 @@
-package init
+package initialize
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"sky-take-out-gin/pkg/common/config"
 	"sky-take-out-gin/pkg/common/database/MySQL"
 	"sky-take-out-gin/pkg/common/database/Redis"
@@ -15,6 +16,9 @@ func Initialize() error {
 	if err := config.InitConfig(); err != nil {
 		return fmt.Errorf("初始化配置失败: %w", err)
 	}
+
+	// 设置Gin模式
+	gin.SetMode(config.GetConfig().ServerConfig.Mode)
 
 	// 初始化数据库
 	if err := MySQL.InitDB(); err != nil {

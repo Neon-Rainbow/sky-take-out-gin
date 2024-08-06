@@ -14,7 +14,7 @@ func SetupGlobalLogger() error {
 	logFileName := fmt.Sprintf("./%s/%s.log",
 		config.GetConfig().ServerConfig.LogFilePath,
 		currentTime.Format("2006-01-02 15:04:05"))
-	logger, err := NewLogger(logFileName)
+	logger, err := newLogger(logFileName)
 	if err != nil {
 		return err
 	}
