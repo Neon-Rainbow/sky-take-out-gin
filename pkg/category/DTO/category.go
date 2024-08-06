@@ -17,9 +17,6 @@ type AdminUpdateCategoryRequest struct {
 
 	// 分类排序
 	Sort int `json:"sort" binding:"required"`
-
-	// 分类状态
-	Status int `json:"status" binding:"required"`
 }
 
 // AdminUpdateCategoryResponse 更新分类响应

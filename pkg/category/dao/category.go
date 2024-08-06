@@ -62,7 +62,7 @@ func (dao *CategoryDaoImpl) GetCategoryPage(ctx context.Context, name string, pa
 // @Return err error 错误信息
 func (dao *CategoryDaoImpl) ChangeCategoryStatus(ctx context.Context, id uint, status int) error {
 	query := dao.db.GetDB().Model(&model.Category{})
-	err := query.WithContext(ctx).Where("id = ?", id).Update("status = ?", status).Error
+	err := query.WithContext(ctx).Where("id = ?", id).Update("status", status).Error
 	return err
 }
 
