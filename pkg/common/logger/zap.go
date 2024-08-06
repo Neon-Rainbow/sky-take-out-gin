@@ -16,6 +16,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"sky-take-out-gin/pkg/common/config"
 )
 
 // NewLogger 创建并初始化zap日志库
@@ -29,11 +31,13 @@ func NewLogger(logFilePath string) (*zap.Logger, error) {
 	}
 
 	zapConfig := zap.NewProductionConfig()
-	var level zapcore.Level
-	err := level.UnmarshalText([]byte("debug"))
-	if err != nil {
-		return nil, err
+
+	cfg := config.GetConfig()
+	level := zapcore.InfoLevel
+	if err := level.UnmarshalText([]byte(cfg.Log.Level)); err != nil {
+		return nil, fmt.Errorf("invalid log level: %w", err)
 	}
+
 	zapConfig.Level = zap.NewAtomicLevelAt(level)
 	zapConfig.EncoderConfig = zapcore.EncoderConfig{
 		TimeKey:        "ts",
