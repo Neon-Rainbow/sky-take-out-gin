@@ -21,16 +21,6 @@ func Initialize() error {
 	// 设置Gin模式
 	gin.SetMode(config.GetConfig().ServerConfig.Mode)
 
-	//// 初始化数据库
-	//if err := MySQL.InitDB(); err != nil {
-	//	return fmt.Errorf("初始化数据库失败: %w", err)
-	//}
-	//
-	//// 初始化Redis
-	//if err := Redis.InitRedis(); err != nil {
-	//	return fmt.Errorf("初始化Redis失败: %w", err)
-	//}
-
 	fmt.Println("开始初始化数据库......")
 	err := database.NewCombinedDatabase()
 	if err != nil {

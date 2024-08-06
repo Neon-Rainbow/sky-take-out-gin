@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	categoryRoute "sky-take-out-gin/pkg/category/controller"
+	adminCategoryRoute "sky-take-out-gin/pkg/admin/category/controller"
+	adminDishRoute "sky-take-out-gin/pkg/admin/dish/controller"
+	adminEmployeeRoute "sky-take-out-gin/pkg/admin/employee/controller"
+	adminFileRoute "sky-take-out-gin/pkg/admin/file/controller"
+	adminSetmealRoute "sky-take-out-gin/pkg/admin/setmeal/controller"
+	adminShopRoute "sky-take-out-gin/pkg/admin/shop/controller"
 	"sky-take-out-gin/pkg/common/config"
 	"sky-take-out-gin/pkg/common/logger"
-	dishRoute "sky-take-out-gin/pkg/dish/controller"
-	employeeRoute "sky-take-out-gin/pkg/employee/controller"
-	fileRoute "sky-take-out-gin/pkg/file/controller"
-	setmealRoute "sky-take-out-gin/pkg/setmeal/controller"
-	shopRoute "sky-take-out-gin/pkg/shop/controller"
 	sseRoute "sky-take-out-gin/pkg/sse/controller"
+	userCategoryRoute "sky-take-out-gin/pkg/user/category/controller"
 )
 
 // SetupHTTPRoute 用于初始化 HTTP 路由
@@ -25,18 +26,19 @@ func SetupHTTPRoute() error {
 
 	ApiV1 := route.Group("/api/v1")
 	{
-		_ = ApiV1.Group("/user")
+		userAPI := ApiV1.Group("/user")
 		{
-
+			userCategoryRoute.CategoryRoute(userAPI)
 		}
-		AdminApi := ApiV1.Group("/admin")
+
+		adminAPI := ApiV1.Group("/admin")
 		{
-			categoryRoute.CategoryRoutes(AdminApi)
-			employeeRoute.EmployeeRoutes(AdminApi)
-			setmealRoute.SetmealRoutes(AdminApi)
-			shopRoute.ShopRoutes(AdminApi)
-			fileRoute.FileRoutes(AdminApi)
-			dishRoute.DishRoutes(AdminApi)
+			adminCategoryRoute.CategoryRoutes(adminAPI)
+			adminEmployeeRoute.EmployeeRoutes(adminAPI)
+			adminSetmealRoute.SetmealRoutes(adminAPI)
+			adminShopRoute.ShopRoutes(adminAPI)
+			adminFileRoute.FileRoutes(adminAPI)
+			adminDishRoute.DishRoutes(adminAPI)
 		}
 
 		sseApi := ApiV1.Group("/sse")

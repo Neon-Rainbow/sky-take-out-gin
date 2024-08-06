@@ -23,7 +23,7 @@ func GenerateResponseCode(ServiceError int, ModelError int, DetailError int) Res
 //2 位数进行表示
 //
 //01:管理端分类模块错误
-//
+//11:用户端分类模块错误
 //具体错误码
 //2 位数进行表示
 //具体根据模块中的操作定义
@@ -65,6 +65,9 @@ const (
 	// 商店模块错误
 	GetShopStatusError ResponseCode = 20401
 	SetShopStatusError ResponseCode = 20402
+
+	// 用户端分类模块错误
+	CategoryGetListError ResponseCode = 21101
 
 	// 菜品模块错误
 	UpdateDishError           ResponseCode = 20501
