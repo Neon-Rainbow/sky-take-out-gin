@@ -12,7 +12,7 @@ type RedisDB struct {
 	redisClient *redis.Client
 }
 
-func (r RedisDB) InitRedis() error {
+func (r *RedisDB) InitRedis() error {
 	cfg := config.GetConfig().RedisConfig
 	rdb = redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
@@ -30,7 +30,7 @@ func (r RedisDB) InitRedis() error {
 	return nil
 }
 
-func (r RedisDB) GetRedis() *redis.Client {
+func (r *RedisDB) GetRedis() *redis.Client {
 	if r.redisClient == nil {
 		zap.L().Fatal("Redis还未初始化")
 	}

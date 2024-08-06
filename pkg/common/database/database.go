@@ -1,60 +1,14 @@
 package database
 
 import (
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 	"sky-take-out-gin/pkg/common/database/PostgreSQL"
 	"sky-take-out-gin/pkg/common/database/Redis"
-	"sync"
 )
 
-var instance *DatabaseManager
-var once sync.Once
-
-type DatabaseManager struct {
-	CombinedDatabase
-	once       sync.Once
-	sqlError   error
-	redisError error
-}
-
-func (d *DatabaseManager) GetDB() *gorm.DB {
-	return d.CombinedDatabase.GetDB()
-}
-
-func (d *DatabaseManager) GetRedis() *redis.Client {
-	return d.CombinedDatabase.GetRedis()
-}
-
-// GetDatabaseManager 获取数据库管理器
-func GetDatabaseManager() *DatabaseManager {
-	// 保证只有一个实例
-	once.Do(func() {
-		instance = &DatabaseManager{}
-	})
-	return instance
-}
-
-// InitDB 初始化数据库
-func (d *DatabaseManager) InitDB() error {
-	d.once.Do(func() {
-		d.sqlError = d.CombinedDatabase.InitDB()
-	})
-	if d.sqlError != nil {
-		return d.sqlError
-	}
-	return nil
-}
-
-func (d *DatabaseManager) InitRedis() error {
-	d.once.Do(func() {
-		d.redisError = d.CombinedDatabase.InitRedis()
-	})
-	if d.redisError != nil {
-		return d.redisError
-	}
-	return nil
-}
+var dbManager *CombinedDatabase
 
 // Database 定义数据库接口
 type DatabaseInterface interface {
@@ -65,23 +19,50 @@ type DatabaseInterface interface {
 }
 
 type CombinedDatabase struct {
-	Redis.RedisDB
-	PostgreSQL.PostgresDB
+	redisClient *Redis.RedisDB
+	database    *PostgreSQL.PostgresDB
 }
 
 func (d *CombinedDatabase) GetDB() *gorm.DB {
-	return d.PostgresDB.GetDB()
+	return d.database.GetDB()
 }
 
 func (d *CombinedDatabase) GetRedis() *redis.Client {
-	return d.RedisDB.GetRedis()
+	return d.redisClient.GetRedis()
 }
 
 // InitDB 初始化数据库
 func (d *CombinedDatabase) InitDB() error {
-	return d.PostgresDB.InitDB()
+	return d.database.InitDB()
 }
 
 func (d *CombinedDatabase) InitRedis() error {
-	return d.RedisDB.InitRedis()
+	return d.redisClient.InitRedis()
+}
+
+func NewCombinedDatabase() error {
+	postgresDB := &PostgreSQL.PostgresDB{}
+	err := postgresDB.InitDB()
+	if err != nil {
+		return err
+	}
+
+	redisClient := &Redis.RedisDB{}
+	err = redisClient.InitRedis()
+	if err != nil {
+		return err
+	}
+
+	db := &CombinedDatabase{
+		redisClient: redisClient,
+		database:    postgresDB,
+	}
+	dbManager = db
+
+	fmt.Println("database", db.database)
+	return nil
+}
+
+func GetDatabaseManager() *CombinedDatabase {
+	return dbManager
 }

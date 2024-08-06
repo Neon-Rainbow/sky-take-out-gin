@@ -31,10 +31,8 @@ func Initialize() error {
 	//	return fmt.Errorf("初始化Redis失败: %w", err)
 	//}
 
-	dbManager := database.GetDatabaseManager()
-
 	fmt.Println("开始初始化数据库......")
-	err := dbManager.InitDB()
+	err := database.NewCombinedDatabase()
 	if err != nil {
 		return fmt.Errorf("初始化数据库失败: %w", err)
 	}
