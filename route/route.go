@@ -13,6 +13,7 @@ import (
 	"sky-take-out-gin/pkg/common/config"
 	"sky-take-out-gin/pkg/common/logger"
 	sseRoute "sky-take-out-gin/pkg/sse/controller"
+	userAddressBookRoute "sky-take-out-gin/pkg/user/address_book/controller"
 	userCategoryRoute "sky-take-out-gin/pkg/user/category/controller"
 )
 
@@ -29,6 +30,7 @@ func SetupHTTPRoute() error {
 		userAPI := ApiV1.Group("/user")
 		{
 			userCategoryRoute.CategoryRoute(userAPI)
+			userAddressBookRoute.AddressBookRoute(userAPI)
 		}
 
 		adminAPI := ApiV1.Group("/admin")

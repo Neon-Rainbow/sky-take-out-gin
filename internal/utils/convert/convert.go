@@ -3,6 +3,7 @@ package convert
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 )
 
 // UpdateStructFields 将 src 中非零值的字段更新到 dst 中
@@ -52,4 +53,15 @@ func isZeroValue(v reflect.Value) bool {
 	default:
 		return v.IsZero()
 	}
+}
+
+// StringToUint 将字符串转换为 uint
+func StringToUint(str string) (uint, error) {
+	// 使用 strconv.ParseUint 进行转换
+	u64, err := strconv.ParseUint(str, 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint(u64), nil
 }

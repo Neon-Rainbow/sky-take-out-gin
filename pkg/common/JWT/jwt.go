@@ -17,6 +17,7 @@ const (
 type MyClaims struct {
 	Username  string `json:"username"`
 	UserID    uint   `json:"user_id"`
+	UserType  string `json:"user_type"`
 	TokenType string `json:"token_type"`
 	jwt.RegisteredClaims
 }
@@ -29,7 +30,7 @@ type MyClaims struct {
 // @return accessToken string The access token
 // @return refreshToken string The refresh token
 // @return err error information
-func GenerateToken(username string, userId uint, isAdmin bool) (accessToken string, refreshToken string, err error) {
+func GenerateToken(username string, userId uint, userType string) (accessToken string, refreshToken string, err error) {
 	// Retrieve the secret key from the configuration
 	var jwtSecret = config.GetConfig().SecretConfig.JWTSecret
 	var mySecret = []byte(jwtSecret)
@@ -54,6 +55,7 @@ func GenerateToken(username string, userId uint, isAdmin bool) (accessToken stri
 			Username:  username,
 			UserID:    userId,
 			TokenType: tokenType,
+			UserType:  userType,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(time.Now().Add(expireDuration)),
 				IssuedAt:  jwt.NewNumericDate(time.Now()),

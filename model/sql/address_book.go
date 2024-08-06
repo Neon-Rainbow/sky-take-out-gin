@@ -7,7 +7,7 @@ import (
 // AddressBook 地址簿
 type AddressBook struct {
 	gorm.Model
-	UserID       int64  `gorm:"not null;comment:'用户id'"`
+	UserID       uint   `gorm:"not null;comment:'用户id'"`
 	Consignee    string `gorm:"type:varchar(50);comment:'收货人'"`
 	Sex          string `gorm:"type:varchar(2);comment:'性别'"`
 	Phone        string `gorm:"type:varchar(11);not null;comment:'手机号'"`

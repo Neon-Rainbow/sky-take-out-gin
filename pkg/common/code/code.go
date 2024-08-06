@@ -36,6 +36,7 @@ const (
 	UrlSignError       ResponseCode = 10105
 	MySQLExecError     ResponseCode = 10106
 	ParamError         ResponseCode = 10107
+	RequestForbidden   ResponseCode = 10108
 
 	// 管理端分类模块错误
 	CategoryBindParamError     ResponseCode = 20101
@@ -66,9 +67,6 @@ const (
 	GetShopStatusError ResponseCode = 20401
 	SetShopStatusError ResponseCode = 20402
 
-	// 用户端分类模块错误
-	CategoryGetListError ResponseCode = 21101
-
 	// 菜品模块错误
 	UpdateDishError           ResponseCode = 20501
 	DeleteDishError           ResponseCode = 20502
@@ -80,6 +78,17 @@ const (
 	UpdateDishFlavorError     ResponseCode = 20508
 	CreateDishFlavorError     ResponseCode = 20509
 	DeleteDishFlavorError     ResponseCode = 20510
+
+	// 用户端分类模块错误
+	CategoryGetListError ResponseCode = 21101
+
+	//地址模块错误
+	AddAddressError         ResponseCode = 21201
+	GetUserAddressListError ResponseCode = 21202
+	GetDefaultAddressError  ResponseCode = 21203
+	UpdateAddressError      ResponseCode = 21204
+	DeleteAddressError      ResponseCode = 21205
+	GetAddressByIDError     ResponseCode = 21206
 
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
@@ -93,6 +102,7 @@ var ResponseCodeMessageMap = map[ResponseCode]string{
 	UrlSignError:       "参数签名错误",
 	MySQLExecError:     "数据库执行错误",
 	ParamError:         "参数错误",
+	RequestForbidden:   "请求被拒绝",
 
 	//管理端分类模块错误
 	CategoryBindParamError:     "分类参数绑定错误",

@@ -24,42 +24,11 @@ func HandleRequest(c *gin.Context,
 	//ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	//defer cancel()
 
-	ctx := c.Request.Context()
-
-	userID, exist := c.Get("userID")
-	if !exist {
-		userID = uint(0)
-	} else {
-		switch id := userID.(type) {
-		case int:
-			userID = uint(id)
-		case int64:
-			userID = uint(id)
-		case uint:
-			userID = id
-		default:
-			response.ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "非法的用户ID类型")
-			zap.L().Error("非法的用户ID类型", zap.Any("userID", userID))
-			return
-		}
+	ctx, err := SetUserIDAndUsernameToContext(c)
+	if err != nil {
+		response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+		return
 	}
-
-	ctx = context.WithValue(ctx, "userID", userID)
-
-	username, exist := c.Get("username")
-	if !exist {
-		username = "guest"
-	} else {
-		if uname, ok := username.(string); ok {
-			username = uname
-		} else {
-			response.ResponseErrorWithMsg(c, http.StatusBadRequest, code.ParamError, "Invalid username type")
-			zap.L().Error("非法的username类型", zap.Any("username", username))
-			return
-		}
-	}
-
-	ctx = context.WithValue(ctx, "username", username)
 
 	resultChannel := make(chan interface{})
 	go func() {
@@ -97,16 +66,26 @@ func HandleRequest(c *gin.Context,
 	case <-ctx.Done():
 		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
 			response.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
+			zap.L().Error("请求超时",
+				zap.String("path", c.Request.URL.Path),
+			)
 			return
 		}
 		if errors.Is(ctx.Err(), context.Canceled) {
 			response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+			zap.L().Error("请求被取消",
+				zap.String("path", c.Request.URL.Path),
+			)
 			return
 		}
 	case result := <-resultChannel:
 		switch result.(type) {
 		case *error2.ApiError:
 			response.ResponseErrorWithApiError(c, http.StatusBadRequest, result.(*error2.ApiError))
+			zap.L().Error("请求失败",
+				zap.String("path", c.Request.URL.Path),
+				zap.Any("error", result),
+			)
 			return
 		default:
 			response.ResponseSuccess(c, result)
@@ -114,4 +93,46 @@ func HandleRequest(c *gin.Context,
 		}
 	}
 	response.ResponseErrorWithMsg(c, http.StatusInternalServerError, code.ServerError, "未知错误")
+	zap.L().Error("未知错误",
+		zap.String("path", c.Request.URL.Path),
+	)
+	return
+}
+
+// SetUserIDAndUsernameToContext 设置用户ID和用户名到上下文
+func SetUserIDAndUsernameToContext(c *gin.Context) (context.Context, error) {
+	ctx := c.Request.Context()
+	userID, exist := c.Get("userID")
+	if !exist {
+		userID = uint(0)
+	} else {
+		switch id := userID.(type) {
+		case int:
+			userID = uint(id)
+		case int64:
+			userID = uint(id)
+		case uint:
+			userID = id
+		default:
+			zap.L().Error("非法的用户ID类型", zap.Any("userID", userID))
+			return nil, errors.New("非法的用户ID类型")
+		}
+	}
+	ctx = context.WithValue(ctx, "userID", userID)
+
+	username, exist := c.Get("username")
+	if !exist {
+		username = "guest"
+	} else {
+		if uname, ok := username.(string); ok {
+			username = uname
+		} else {
+			zap.L().Error("非法的username类型", zap.Any("username", username))
+			return nil, errors.New("非法的username类型")
+		}
+	}
+
+	ctx = context.WithValue(ctx, "username", username)
+
+	return ctx, nil
 }

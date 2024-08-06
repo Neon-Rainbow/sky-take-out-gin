@@ -11,7 +11,7 @@ import (
 )
 
 // JWTMiddleware JWT中间件
-func JWTMiddleware() func(c *gin.Context) {
+func JWTMiddleware(userType string) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
@@ -47,8 +47,19 @@ func JWTMiddleware() func(c *gin.Context) {
 			return
 		}
 
+		if myClaims.UserType != userType {
+			response.ResponseErrorWithMsg(
+				c,
+				http.StatusForbidden,
+				code.RequestForbidden,
+				fmt.Sprintf("无效的用户类型,需要%s, 实际为%s", userType, myClaims.UserType))
+			c.Abort()
+			return
+		}
+
 		c.Set("userID", myClaims.UserID)
 		c.Set("username", myClaims.Username)
+		c.Set("userType", myClaims.UserType)
 		c.Next()
 	}
 }

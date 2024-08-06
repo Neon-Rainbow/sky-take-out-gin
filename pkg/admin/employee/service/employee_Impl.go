@@ -96,7 +96,7 @@ func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req DTO.Em
 	resp.ID = employeeResult.ID
 	resp.Name = employeeResult.Name
 	resp.Username = employeeResult.Username
-	resp.Token, _, err = JWT.GenerateToken(employeeResult.Username, employeeResult.ID, true)
+	resp.Token, _, err = JWT.GenerateToken(employeeResult.Username, employeeResult.ID, "employee")
 
 	return resp, nil
 }
@@ -112,7 +112,8 @@ func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req DTO.AddE
 	}
 
 	e.Status = 1
-	e.Password = encrypt.EncryptPassword("123456")
+	defaultPassword := "123456"
+	e.Password = encrypt.EncryptPassword(defaultPassword)
 	err = service.EmployeeDAOInterface.AddEmployee(ctx, &e)
 	if err != nil {
 		return nil, &error2.ApiError{
