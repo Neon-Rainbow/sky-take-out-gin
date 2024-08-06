@@ -56,29 +56,14 @@ func FileRoutes(routes *gin.RouterGroup) {
 			return
 		}
 
+		// 修改 filepath 字段
+		if filepath, ok := result["filepath"].(string); ok {
+			result["filepath"] = "http://124.223.10.155:8080/image-server/image/" + filepath[len("uploads/"):]
+		}
+
 		c.JSON(http.StatusOK, result)
 
 		os.Remove(tempFilePath)
-	})
-
-	// 获取图片的接口
-	routes.GET("/image/:filename", func(c *gin.Context) {
-		filename := c.Param("filename")
-		resp, err := fetchImageFromServer(filename)
-		if err != nil {
-			c.String(http.StatusInternalServerError, fmt.Sprintf("fetch image err: %s", err.Error()))
-			return
-		}
-		defer resp.Body.Close()
-
-		if resp.StatusCode != http.StatusOK {
-			c.String(http.StatusInternalServerError, fmt.Sprintf("fetch image failed, status code: %d", resp.StatusCode))
-			return
-		}
-
-		c.Header("Content-Type", resp.Header.Get("Content-Type"))
-		c.Header("Content-Length", resp.Header.Get("Content-Length"))
-		io.Copy(c.Writer, resp.Body)
 	})
 }
 
@@ -114,14 +99,4 @@ func uploadFileToServer(filePath string, targetURL string) (*http.Response, erro
 
 	client := &http.Client{}
 	return client.Do(request)
-}
-
-// fetchImageFromServer 获取图片
-// @Summary 获取图片
-// @Param filename path string true "文件名"
-// @Router /api/v1/common/image/{filename} [post]
-func fetchImageFromServer(filename string) (*http.Response, error) {
-	url := fmt.Sprintf("http://124.223.10.155:8080/image-server/image/%s", filename)
-	client := &http.Client{}
-	return client.Get(url)
 }
