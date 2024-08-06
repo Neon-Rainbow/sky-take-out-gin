@@ -3,7 +3,6 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"sky-take-out-gin/pkg/common/database"
-	"sky-take-out-gin/pkg/common/middleware"
 	shopDao "sky-take-out-gin/pkg/shop/dao"
 	shopService "sky-take-out-gin/pkg/shop/service"
 )
@@ -15,7 +14,7 @@ func ShopRoutes(route *gin.RouterGroup) {
 	service := shopService.NewShopServiceImpl(dao)
 	controller := NewShopControllerImpl(service)
 
-	shopRoute := route.Group("/shop").Use(middleware.JWTMiddleware())
+	shopRoute := route.Group("/shop")
 	{
 		shopRoute.GET("/status", controller.GetShopStatus)
 		shopRoute.PUT("/status/:status", controller.SetShopStatus)
