@@ -24,10 +24,17 @@ func SetupHTTPRoute() error {
 	// 初始化路由
 	route := gin.New()
 
+	// 日志中间件
 	route.Use(logger.GinLogger(zap.L()))
+
+	// 恢复中间件
 	route.Use(logger.GinRecovery(zap.L(), true))
 
-	route.Use(middleware.TimeoutMiddleware(time.Second * 4))
+	// 超时中间件
+	route.Use(middleware.TimeoutMiddleware(time.Second * 10))
+
+	// CORS 中间件
+	route.Use(middleware.CORSMiddleware())
 
 	ApiV1 := route.Group("/api/v1")
 	{
