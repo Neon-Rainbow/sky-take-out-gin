@@ -12,9 +12,11 @@ import (
 	adminShopRoute "sky-take-out-gin/pkg/admin/shop/controller"
 	"sky-take-out-gin/pkg/common/config"
 	"sky-take-out-gin/pkg/common/logger"
+	"sky-take-out-gin/pkg/common/middleware"
 	sseRoute "sky-take-out-gin/pkg/sse/controller"
 	userAddressBookRoute "sky-take-out-gin/pkg/user/address_book/controller"
 	userCategoryRoute "sky-take-out-gin/pkg/user/category/controller"
+	"time"
 )
 
 // SetupHTTPRoute 用于初始化 HTTP 路由
@@ -24,6 +26,8 @@ func SetupHTTPRoute() error {
 
 	route.Use(logger.GinLogger(zap.L()))
 	route.Use(logger.GinRecovery(zap.L(), true))
+
+	route.Use(middleware.TimeoutMiddleware(time.Second * 10))
 
 	ApiV1 := route.Group("/api/v1")
 	{
