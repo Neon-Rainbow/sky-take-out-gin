@@ -32,6 +32,7 @@ type ServerConfig struct {
 	Port        int    `mapstructure:"port"`
 	LogFilePath string `mapstructure:"logFilePath"`
 	Mode        string `mapstructure:"mode"`
+	Timeout     int    `mapstructure:"timeout"`
 }
 
 type SecretConfig struct {
@@ -73,6 +74,7 @@ func InitConfig() error {
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.logFilePath", "./logs")
 	viper.SetDefault("server.mode", "release")
+	viper.SetDefault("server.timeout", 20)
 
 	viper.SetDefault("secret.passwordSecret", "default_secret")
 	viper.SetDefault("secret.jwtSecret", "default_jwt_secret")
