@@ -27,7 +27,7 @@ func SetupHTTPRoute() error {
 	route.Use(logger.GinLogger(zap.L()))
 	route.Use(logger.GinRecovery(zap.L(), true))
 
-	route.Use(middleware.TimeoutMiddleware(time.Second * 10))
+	route.Use(middleware.TimeoutMiddleware(time.Second * 4))
 
 	ApiV1 := route.Group("/api/v1")
 	{
@@ -35,6 +35,7 @@ func SetupHTTPRoute() error {
 		{
 			userCategoryRoute.CategoryRoute(userAPI)
 			userAddressBookRoute.AddressBookRoute(userAPI)
+
 		}
 
 		adminAPI := ApiV1.Group("/admin")
