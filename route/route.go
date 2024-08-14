@@ -16,6 +16,7 @@ import (
 	sseRoute "sky-take-out-gin/pkg/sse/controller"
 	userAddressBookRoute "sky-take-out-gin/pkg/user/address_book/controller"
 	userCategoryRoute "sky-take-out-gin/pkg/user/category/controller"
+	userSetMealRoute "sky-take-out-gin/pkg/user/set_meal/controller"
 	"time"
 )
 
@@ -31,7 +32,7 @@ func SetupHTTPRoute() error {
 	route.Use(logger.GinRecovery(zap.L(), true))
 
 	// 超时中间件
-	route.Use(middleware.TimeoutMiddleware(time.Second * 10))
+	route.Use(middleware.TimeoutMiddleware(time.Duration(config.GetConfig().Timeout) * time.Second))
 
 	// CORS 中间件
 	route.Use(middleware.CORSMiddleware())
@@ -42,7 +43,7 @@ func SetupHTTPRoute() error {
 		{
 			userCategoryRoute.CategoryRoute(userAPI)
 			userAddressBookRoute.AddressBookRoute(userAPI)
-
+			userSetMealRoute.SetMealRoute(userAPI)
 		}
 
 		adminAPI := ApiV1.Group("/admin")

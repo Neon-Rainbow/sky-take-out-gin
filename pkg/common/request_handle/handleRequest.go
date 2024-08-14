@@ -100,6 +100,9 @@ func HandleRequest(c *gin.Context,
 }
 
 // SetUserIDAndUsernameToContext 设置用户ID和用户名到上下文
+// @Param c *gin.Context gin上下文
+// @Return context.Context 上下文
+// @Return error 错误
 func SetUserIDAndUsernameToContext(c *gin.Context) (context.Context, error) {
 	ctx := c.Request.Context()
 	userID, exist := c.Get("userID")

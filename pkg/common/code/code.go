@@ -90,6 +90,10 @@ const (
 	DeleteAddressError      ResponseCode = 21205
 	GetAddressByIDError     ResponseCode = 21206
 
+	// 套餐模块错误
+	SetMealGetListError   ResponseCode = 21301
+	SetMealGetDetailError ResponseCode = 21302
+
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
 )
