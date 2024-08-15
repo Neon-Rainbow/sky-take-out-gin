@@ -33,8 +33,8 @@ func (p *PostgresDB) InitDB() error {
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // 将日志输出到终端
 		logger.Config{
 			SlowThreshold: time.Second, // 慢 SQL 阈值
-			LogLevel:      logger.Info, // 日志级别
-			Colorful:      true,        // 彩色打印
+			//LogLevel:      logger.Info, // 日志级别
+			Colorful: true, // 彩色打印
 		},
 	)
 

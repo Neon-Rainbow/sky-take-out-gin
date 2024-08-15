@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	daoCategory "sky-take-out-gin/pkg/admin/category/dao"
 	serviceCategory "sky-take-out-gin/pkg/admin/category/service"
+	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
 )
 
@@ -12,7 +13,8 @@ func CategoryRoutes(route *gin.RouterGroup) {
 
 	db := database.GetDatabaseManager()
 	dao := daoCategory.NewCategoryDaoImpl(db)
-	service := serviceCategory.NewCategoryService(dao)
+	cache := cache2.NewCache(db)
+	service := serviceCategory.NewCategoryService(dao, cache)
 	controller := NewAdminCategoryControllerImpl(service)
 
 	categoryRoute := route.Group("/category")

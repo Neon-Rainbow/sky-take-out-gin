@@ -20,6 +20,14 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 		}
 	}
 
+	err = service.cache.Invalidate(ctx, fmt.Sprintf("category_list_type:%v", existingCategory.Type))
+	if err != nil {
+		return nil, &controllerModel.ApiError{
+			Code: code.CacheInvalidateFailed,
+			Msg:  fmt.Sprintf("缓存失效失败, err: %v", err),
+		}
+	}
+
 	err = convert.UpdateStructFields(category, existingCategory)
 	if err != nil {
 		return nil, &controllerModel.ApiError{
@@ -77,6 +85,15 @@ func (service *CategoryServiceImpl) ChangeCategoryStatus(ctx context.Context, p 
 			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
 		}
 	}
+
+	err = service.cache.InvalidatePattern(ctx, fmt.Sprintf("category_list_type:%v", "*"))
+	if err != nil {
+		return nil, &controllerModel.ApiError{
+			Code: code.CacheInvalidateFailed,
+			Msg:  fmt.Sprintf("缓存失效失败, err: %v", err),
+		}
+	}
+
 	return nil, nil
 }
 
@@ -119,6 +136,14 @@ func (service *CategoryServiceImpl) DeleteCategory(ctx context.Context, p *param
 			Msg:  fmt.Sprintf("删除分类失败, err: %v", err),
 		}
 	}
+	err = service.cache.InvalidatePattern(ctx, fmt.Sprintf("category_list_type:%v", "*"))
+	if err != nil {
+		return nil, &controllerModel.ApiError{
+			Code: code.CacheInvalidateFailed,
+			Msg:  fmt.Sprintf("缓存失效失败, err: %v", err),
+		}
+	}
+
 	return nil, nil
 }
 

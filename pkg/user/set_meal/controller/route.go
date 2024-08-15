@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
 	setMealDao "sky-take-out-gin/pkg/user/set_meal/dao"
 	setMealService "sky-take-out-gin/pkg/user/set_meal/service"
@@ -11,7 +12,8 @@ import (
 func SetMealRoute(route *gin.RouterGroup) {
 	db := database.GetDatabaseManager()
 	dao := setMealDao.NewSetMealDaoImpl(db)
-	service := setMealService.NewSetMealServiceImpl(dao)
+	cache := cache2.NewCache(db)
+	service := setMealService.NewSetMealServiceImpl(dao, cache)
 	controller := NewSetMealController(service)
 
 	setMealRoute := route.Group("/setmeal")

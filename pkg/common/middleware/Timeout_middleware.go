@@ -38,7 +38,9 @@ func TimeoutMiddleware(timeout time.Duration) gin.HandlerFunc {
 				})
 				c.Abort()
 			}
+			return
 		case <-done:
+			return
 			// 处理完成
 		}
 	}

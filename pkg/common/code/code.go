@@ -29,14 +29,15 @@ func GenerateResponseCode(ServiceError int, ModelError int, DetailError int) Res
 //具体根据模块中的操作定义
 
 const (
-	ServerError        ResponseCode = 10101
-	TooManyRequests    ResponseCode = 10102
-	ParamBindError     ResponseCode = 10103
-	AuthorizationError ResponseCode = 10104
-	UrlSignError       ResponseCode = 10105
-	MySQLExecError     ResponseCode = 10106
-	ParamError         ResponseCode = 10107
-	RequestForbidden   ResponseCode = 10108
+	ServerError           ResponseCode = 10101
+	TooManyRequests       ResponseCode = 10102
+	ParamBindError        ResponseCode = 10103
+	AuthorizationError    ResponseCode = 10104
+	UrlSignError          ResponseCode = 10105
+	MySQLExecError        ResponseCode = 10106
+	ParamError            ResponseCode = 10107
+	RequestForbidden      ResponseCode = 10108
+	CacheInvalidateFailed ResponseCode = 10109
 
 	// 管理端分类模块错误
 	CategoryBindParamError     ResponseCode = 20101
