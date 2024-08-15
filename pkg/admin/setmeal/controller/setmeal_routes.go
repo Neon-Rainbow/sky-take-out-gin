@@ -4,13 +4,15 @@ import (
 	"github.com/gin-gonic/gin"
 	setmealDao "sky-take-out-gin/pkg/admin/setmeal/dao"
 	setmealService "sky-take-out-gin/pkg/admin/setmeal/service"
+	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
 )
 
 func SetmealRoutes(route *gin.RouterGroup) {
 	db := database.GetDatabaseManager()
 	dao := setmealDao.NewSetmealDAOImpl(db)
-	service := setmealService.NewSetmealServiceImpl(dao)
+	cache := cache2.NewCache(db)
+	service := setmealService.NewSetmealServiceImpl(dao, cache)
 	controller := NewSetmealControllerImpl(service)
 
 	setmealRoute := route.Group("/setmeal")
