@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"sky-take-out-gin/internal/utils/convert"
+	"github.com/jinzhu/copier"
 	model "sky-take-out-gin/model/sql"
 	"sky-take-out-gin/pkg/common/code"
 	apiErrorModel "sky-take-out-gin/pkg/common/error"
@@ -18,7 +18,8 @@ func (service AddressBookServiceImpl) AddAddress(ctx context.Context, req *DTO.A
 	userID := ctx.Value("userID").(uint)
 	req.UserID = userID
 	address := &model.AddressBook{}
-	err := convert.UpdateStructFields(req, address)
+	err := copier.CopyWithOption(address, req, copier.Option{IgnoreEmpty: true})
+	//err := convert.UpdateStructFields(req, address)
 	if err != nil {
 		return &apiErrorModel.ApiError{
 			Code: code.AddAddressError,
@@ -59,7 +60,8 @@ func (service AddressBookServiceImpl) GetDefaultAddress(ctx context.Context) (*m
 
 func (service AddressBookServiceImpl) UpdateAddress(ctx context.Context, req *DTO.AddressBookRequestDTO) *apiErrorModel.ApiError {
 	book := &model.AddressBook{}
-	err := convert.UpdateStructFields(book, req)
+	err := copier.CopyWithOption(book, req, copier.Option{IgnoreEmpty: true})
+	//err := convert.UpdateStructFields(book, req)
 	if err != nil {
 		return &apiErrorModel.ApiError{
 			Code: code.UpdateAddressError,

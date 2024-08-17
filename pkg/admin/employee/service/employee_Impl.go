@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"sky-take-out-gin/internal/utils/convert"
+	"github.com/jinzhu/copier"
 	"sky-take-out-gin/internal/utils/encrypt"
 	paramModel "sky-take-out-gin/model/sql"
 	"sky-take-out-gin/pkg/admin/employee/DTO"
@@ -103,7 +103,10 @@ func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req DTO.Em
 
 func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req DTO.AddEmployeeRequest) (resp *DTO.AddEmployeeResponse, apiError *error2.ApiError) {
 	var e paramModel.Employee
-	err := convert.UpdateStructFields(&req, &e)
+
+	err := copier.CopyWithOption(&e, &req, copier.Option{IgnoreEmpty: true})
+
+	//err := convert.UpdateStructFields(&req, &e)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.EmployeeAddFailed,
@@ -149,7 +152,8 @@ func (service EmployeeServiceImpl) EditEmployee(ctx context.Context, req DTO.Edi
 		}
 	}
 
-	err = convert.UpdateStructFields(&req, e)
+	err = copier.CopyWithOption(e, &req, copier.Option{IgnoreEmpty: true})
+	//err = convert.UpdateStructFields(&req, e)
 	if err != nil {
 		return nil, nil
 	}

@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/jinzhu/copier"
 	"go.uber.org/zap"
-	"sky-take-out-gin/internal/utils/convert"
 	sqlModel "sky-take-out-gin/model/sql"
 	"sky-take-out-gin/pkg/admin/setmeal/DTO"
 	setmealDAO "sky-take-out-gin/pkg/admin/setmeal/dao"
@@ -21,12 +21,21 @@ type SetmealServiceImpl struct {
 
 func (service SetmealServiceImpl) UpdateSetmeal(ctx context.Context, req *DTO.UpdateSetmealRequest) (resp *DTO.UpdateSetmealResponse, apiError *error2.ApiError) {
 	s := &sqlModel.Setmeal{}
-	_ = convert.UpdateStructFields(req, s)
+
+	err := copier.CopyWithOption(s, req, copier.Option{IgnoreEmpty: true})
+	if err != nil {
+		return nil, &error2.ApiError{
+			Code: code.UpdateSetmealError,
+			Msg:  err.Error(),
+		}
+	}
+
+	//_ = convert.UpdateStructFields(req, s)
 
 	s.UpdateUser = ctx.Value("userID").(uint)
 
 	cacheKey := fmt.Sprintf("set_meal_detail_id:%v", s.ID)
-	err := service.cache.Invalidate(ctx, cacheKey)
+	err = service.cache.Invalidate(ctx, cacheKey)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.CacheInvalidateFailed,
@@ -127,7 +136,9 @@ func (service SetmealServiceImpl) DeleteSetmeals(ctx context.Context, req *DTO.D
 
 func (service SetmealServiceImpl) CreateSetmeals(ctx context.Context, req *DTO.AddSetmealRequest) (resp *DTO.AddSetmealResponse, apiError *error2.ApiError) {
 	var s sqlModel.Setmeal
-	err := convert.UpdateStructFields(req, &s)
+	err := copier.Copy(&s, req)
+
+	//err := convert.UpdateStructFields(req, &s)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.ParamError,
@@ -167,7 +178,9 @@ func (service SetmealServiceImpl) GetSetmealsByID(ctx context.Context, req *DTO.
 	}
 	resp = &DTO.GetSetmealByIDResponse{}
 
-	err = convert.UpdateStructFields(s, resp)
+	err = copier.Copy(resp, s)
+
+	//err = convert.UpdateStructFields(s, resp)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.ParamError,

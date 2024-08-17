@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"sky-take-out-gin/internal/utils/convert"
+	"github.com/jinzhu/copier"
 	model "sky-take-out-gin/model/sql"
 	paramModel "sky-take-out-gin/pkg/admin/dish/DTO"
 	dishDao "sky-take-out-gin/pkg/admin/dish/dao"
@@ -25,14 +25,22 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 		}
 	}
 
-	// 更新菜品字段
-	err = convert.UpdateStructFields(req, dish)
+	err = copier.CopyWithOption(dish, req, copier.Option{IgnoreEmpty: true})
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.UpdateDishError,
 			Msg:  err.Error(),
 		}
 	}
+
+	//// 更新菜品字段
+	//err = convert.UpdateStructFields(req, dish)
+	//if err != nil {
+	//	return nil, &error2.ApiError{
+	//		Code: code.UpdateDishError,
+	//		Msg:  err.Error(),
+	//	}
+	//}
 
 	dish.UpdateUser = ctx.Value("userID").(uint)
 
@@ -119,7 +127,8 @@ func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddD
 
 	// 创建 Dish 实例
 	dish := &model.Dish{}
-	err := convert.UpdateStructFields(req, dish)
+
+	err := copier.CopyWithOption(dish, req, copier.Option{IgnoreEmpty: true})
 	if err != nil {
 		tx.Rollback()
 		return nil, &error2.ApiError{
@@ -127,6 +136,15 @@ func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddD
 			Msg:  err.Error(),
 		}
 	}
+	//
+	//err := convert.UpdateStructFields(req, dish)
+	//if err != nil {
+	//	tx.Rollback()
+	//	return nil, &error2.ApiError{
+	//		Code: code.CreateDishError,
+	//		Msg:  err.Error(),
+	//	}
+	//}
 
 	// 设置创建人
 	dish.CreateUser = ctx.Value("userID").(uint)

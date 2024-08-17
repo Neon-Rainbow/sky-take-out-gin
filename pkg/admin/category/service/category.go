@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"sky-take-out-gin/internal/utils/convert"
+	"github.com/jinzhu/copier"
 	"sky-take-out-gin/model/sql"
 	paramModel "sky-take-out-gin/pkg/admin/category/DTO"
 	"sky-take-out-gin/pkg/common/code"
@@ -28,13 +28,21 @@ func (service *CategoryServiceImpl) UpdateCategory(ctx context.Context, category
 		}
 	}
 
-	err = convert.UpdateStructFields(category, existingCategory)
+	err = copier.CopyWithOption(existingCategory, category, copier.Option{IgnoreEmpty: true})
 	if err != nil {
 		return nil, &controllerModel.ApiError{
 			Code: code.CategoryUpdateFailed,
 			Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
 		}
 	}
+
+	//err = convert.UpdateStructFields(category, existingCategory)
+	//if err != nil {
+	//	return nil, &controllerModel.ApiError{
+	//		Code: code.CategoryUpdateFailed,
+	//		Msg:  fmt.Sprintf("更新分类失败, err: %v", err),
+	//	}
+	//}
 
 	err = service.UpdateCategoryType(ctx, existingCategory)
 	if err != nil {
