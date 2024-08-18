@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	paramModel "sky-take-out-gin/pkg/admin/dish/DTO"
-	error2 "sky-take-out-gin/pkg/common/error"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 )
 
 type DishServiceInterface interface {

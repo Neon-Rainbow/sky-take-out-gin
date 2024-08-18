@@ -1,12 +1,15 @@
 package middleware
 
 import (
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"sky-take-out-gin/pkg/common/JWT"
 	"sky-take-out-gin/pkg/common/code"
+	"sky-take-out-gin/pkg/common/database"
 	"sky-take-out-gin/pkg/common/response"
+	dao2 "sky-take-out-gin/pkg/user/user/dao"
 	"strings"
 )
 
@@ -53,6 +56,21 @@ func JWTMiddleware(userType string) func(c *gin.Context) {
 				http.StatusForbidden,
 				code.RequestForbidden,
 				fmt.Sprintf("无效的用户类型,需要%s, 实际为%s", userType, myClaims.UserType))
+			c.Abort()
+			return
+		}
+
+		db := database.GetDatabaseManager()
+		dao := dao2.NewUserTokenDaoImpl(db)
+		var redisAccessToken string
+		redisAccessToken, _, err = dao.GetTokens(context.Background(), myClaims.UserID)
+		if err != nil {
+			response.ResponseErrorWithMsg(c, http.StatusInternalServerError, code.ServerError, "查询Redis中的token失败")
+			c.Abort()
+			return
+		}
+		if redisAccessToken != tkn {
+			response.ResponseErrorWithMsg(c, http.StatusUnauthorized, code.RequestUnauthorized, "Token 已过期")
 			c.Abort()
 			return
 		}

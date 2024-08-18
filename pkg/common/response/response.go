@@ -3,8 +3,8 @@ package response
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 )
 
 // Response 用于返回响应

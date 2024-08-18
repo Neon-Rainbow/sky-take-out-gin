@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/jinzhu/copier"
 	model "sky-take-out-gin/model/sql"
+	apiErrorModel "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/user/address_book/DTO"
 	"sky-take-out-gin/pkg/user/address_book/dao"
 )

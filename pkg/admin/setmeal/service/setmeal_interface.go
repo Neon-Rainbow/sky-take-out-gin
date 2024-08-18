@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"sky-take-out-gin/pkg/admin/setmeal/DTO"
-	error2 "sky-take-out-gin/pkg/common/error"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 )
 
 type SetmealServiceInterface interface {

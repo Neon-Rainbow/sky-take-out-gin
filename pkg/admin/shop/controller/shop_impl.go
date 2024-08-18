@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	paramModel "sky-take-out-gin/pkg/admin/shop/DTO"
 	shopService "sky-take-out-gin/pkg/admin/shop/service"
-	error2 "sky-take-out-gin/pkg/common/error"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	HandleRequest "sky-take-out-gin/pkg/common/request_handle"
 )
 

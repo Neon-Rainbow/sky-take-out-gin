@@ -7,6 +7,7 @@ import (
 )
 
 // UpdateStructFields 将 src 中非零值的字段更新到 dst 中
+// 目前项目中已经使用了copier库实现该功能,该函数已经废弃,仅供学习使用
 func UpdateStructFields(src, dst interface{}) error {
 	srcVal := reflect.ValueOf(src)
 	dstVal := reflect.ValueOf(dst)

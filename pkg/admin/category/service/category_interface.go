@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	paramModel "sky-take-out-gin/pkg/admin/category/DTO"
-	model2 "sky-take-out-gin/pkg/common/error"
+	model2 "sky-take-out-gin/pkg/common/api_error"
 )
 
 type CategoryService interface {

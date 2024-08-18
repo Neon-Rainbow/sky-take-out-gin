@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
+	apiErrorModel "sky-take-out-gin/pkg/common/api_error"
 )
 
 type ShopStatusServiceInterface interface {

@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"context"
 	"github.com/gin-gonic/gin"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
-	HandleRequest "sky-take-out-gin/pkg/common/request_handle"
+	"net/http"
+	"sky-take-out-gin/pkg/common/code"
+	"sky-take-out-gin/pkg/common/response"
 	"sky-take-out-gin/pkg/user/category/DTO"
 	"sky-take-out-gin/pkg/user/category/service"
 )
@@ -15,14 +15,17 @@ type CategoryControllerImpl struct {
 
 func (controller CategoryControllerImpl) GetCategoryList(c *gin.Context) {
 	req := DTO.CategoryRequestDTO{}
-	HandleRequest.HandleRequest(
-		c,
-		&req,
-		func(ctx context.Context, req interface{}) (successResponse interface{}, apiError *apiErrorModel.ApiError) {
-			return controller.CategoryServiceInterface.GetCategoryList(ctx, req.(*DTO.CategoryRequestDTO))
-		},
-		c.ShouldBindQuery,
-	)
+
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.ResponseErrorWithCode(c, http.StatusBadRequest, code.ParamError)
+		return
+	}
+	resp, apiError := controller.CategoryServiceInterface.GetCategoryList(c.Request.Context(), &req)
+	if apiError != nil {
+		response.ResponseErrorWithApiError(c, http.StatusBadRequest, apiError)
+		return
+	}
+	response.ResponseSuccess(c, resp.Categories)
 }
 
 func NewCategoryController(service service.CategoryServiceInterface) CategoryControllerImpl {

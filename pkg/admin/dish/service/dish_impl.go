@@ -7,8 +7,8 @@ import (
 	model "sky-take-out-gin/model/sql"
 	paramModel "sky-take-out-gin/pkg/admin/dish/DTO"
 	dishDao "sky-take-out-gin/pkg/admin/dish/dao"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 )
 
 type DishServiceImpl struct {

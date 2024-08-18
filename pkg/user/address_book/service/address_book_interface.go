@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	model "sky-take-out-gin/model/sql"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
+	apiErrorModel "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/user/address_book/DTO"
 )
 

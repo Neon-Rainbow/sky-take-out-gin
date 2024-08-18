@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
+	apiErrorModel "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/user/shop/dao"
 )
 

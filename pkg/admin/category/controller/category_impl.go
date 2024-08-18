@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	paramCategory "sky-take-out-gin/pkg/admin/category/DTO"
 	serviceCategory "sky-take-out-gin/pkg/admin/category/service"
-	controllerModel "sky-take-out-gin/pkg/common/error"
+	controllerModel "sky-take-out-gin/pkg/common/api_error"
 	controllerResponse "sky-take-out-gin/pkg/common/request_handle"
 )
 

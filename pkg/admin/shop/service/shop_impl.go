@@ -4,8 +4,8 @@ import (
 	"context"
 	"sky-take-out-gin/pkg/admin/shop/DTO"
 	shopDao "sky-take-out-gin/pkg/admin/shop/dao"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 )
 
 type ShopServiceImpl struct {

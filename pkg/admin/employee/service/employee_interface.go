@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"sky-take-out-gin/pkg/admin/employee/DTO"
-	apiErrorModel "sky-take-out-gin/pkg/common/error"
+	apiErrorModel "sky-take-out-gin/pkg/common/api_error"
 )
 
 type EmployeeService interface {

@@ -8,8 +8,8 @@ import (
 	"sky-take-out-gin/pkg/admin/employee/DTO"
 	employeeDao "sky-take-out-gin/pkg/admin/employee/dao"
 	"sky-take-out-gin/pkg/common/JWT"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 )
 
 type EmployeeServiceImpl struct {

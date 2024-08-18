@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	model "sky-take-out-gin/model/sql"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/user/set_meal/dao"
 	"time"
 )

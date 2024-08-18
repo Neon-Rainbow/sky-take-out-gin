@@ -6,8 +6,8 @@ import (
 	"github.com/jinzhu/copier"
 	"sky-take-out-gin/model/sql"
 	paramModel "sky-take-out-gin/pkg/admin/category/DTO"
+	controllerModel "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	controllerModel "sky-take-out-gin/pkg/common/error"
 )
 
 // UpdateCategory 更新分类

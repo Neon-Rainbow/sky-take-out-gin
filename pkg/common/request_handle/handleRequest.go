@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
+	error2 "sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
-	error2 "sky-take-out-gin/pkg/common/error"
 	"sky-take-out-gin/pkg/common/response"
 )
 
@@ -21,8 +21,6 @@ func HandleRequest(c *gin.Context,
 	req interface{},
 	serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err *error2.ApiError),
 	bindFunc ...func(interface{}) error) {
-	//ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	//defer cancel()
 
 	ctx, err := SetUserIDAndUsernameToContext(c)
 	if err != nil {
@@ -30,72 +28,47 @@ func HandleRequest(c *gin.Context,
 		return
 	}
 
-	resultChannel := make(chan interface{})
-	go func() {
-		if len(bindFunc) == 0 {
-			err := c.ShouldBind(req)
+	var apiError *error2.ApiError
+	var resp interface{}
+
+	if len(bindFunc) == 0 {
+		err := c.ShouldBind(req)
+		if err != nil {
+			apiError = &error2.ApiError{
+				Code: code.ParamError,
+				Msg:  err.Error(),
+			}
+			goto RESPONSE
+		}
+	} else {
+		for _, bindFunc := range bindFunc {
+			err := bindFunc(req)
 			if err != nil {
-				resultChannel <- &error2.ApiError{
+				apiError = &error2.ApiError{
 					Code: code.ParamError,
 					Msg:  err.Error(),
 				}
-				return
+				goto RESPONSE
 			}
-		} else {
-			for _, bindFunc := range bindFunc {
-				if err := bindFunc(req); err != nil {
-					resultChannel <- &error2.ApiError{
-						Code: code.ParamError,
-						Msg:  err.Error(),
-					}
-					return
-				}
-			}
-		}
-		resp, apiError := serviceFunc(ctx, req)
-		if apiError != nil {
-			resultChannel <- apiError
-			return
-		}
-
-		resultChannel <- resp
-		return
-	}()
-
-	select {
-	case <-ctx.Done():
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			response.ResponseErrorWithCode(c, http.StatusRequestTimeout, code.ServerError)
-			zap.L().Error("请求超时",
-				zap.String("path", c.Request.URL.Path),
-			)
-			return
-		}
-		if errors.Is(ctx.Err(), context.Canceled) {
-			response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
-			zap.L().Error("请求被取消",
-				zap.String("path", c.Request.URL.Path),
-			)
-			return
-		}
-	case result := <-resultChannel:
-		switch result.(type) {
-		case *error2.ApiError:
-			response.ResponseErrorWithApiError(c, http.StatusBadRequest, result.(*error2.ApiError))
-			zap.L().Error("请求失败",
-				zap.String("path", c.Request.URL.Path),
-				zap.Any("error", result),
-			)
-			return
-		default:
-			response.ResponseSuccess(c, result)
-			return
 		}
 	}
-	response.ResponseErrorWithMsg(c, http.StatusInternalServerError, code.ServerError, "未知错误")
-	zap.L().Error("未知错误",
-		zap.String("path", c.Request.URL.Path),
-	)
+
+	resp, apiError = serviceFunc(ctx, req)
+	if apiError != nil {
+		goto RESPONSE
+	}
+
+RESPONSE:
+	if apiError != nil {
+		response.ResponseErrorWithApiError(c, http.StatusBadRequest, apiError)
+		zap.L().Error("请求失败",
+			zap.String("path", c.Request.URL.Path),
+			zap.Any("error", apiError),
+		)
+		return
+	}
+	response.ResponseSuccess(c, resp)
+
 	return
 }
 

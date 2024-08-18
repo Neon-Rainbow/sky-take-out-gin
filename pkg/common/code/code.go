@@ -95,6 +95,15 @@ const (
 	SetMealGetListError   ResponseCode = 21301
 	SetMealGetDetailError ResponseCode = 21302
 
+	// 用户端登录模块
+	UserLoginError        ResponseCode = 21401
+	UserLogoutError       ResponseCode = 21402
+	UserRefreshTokenError ResponseCode = 21403
+	UserRegisterError     ResponseCode = 21404
+
+	// 菜品浏览模块
+	GetDishByIdError ResponseCode = 21501
+
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
 )
