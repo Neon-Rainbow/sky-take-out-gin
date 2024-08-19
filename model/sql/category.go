@@ -6,7 +6,7 @@ import (
 
 // Category 分类
 type Category struct {
-	gorm.Model
+	gorm.Model `copier:"-"`
 	Type       int    `gorm:"comment:'类型 1 菜品分类 2 套餐分类'"`
 	Name       string `gorm:"type:varchar(32);not null;unique;comment:'分类名称'"`
 	Sort       int    `gorm:"default:0;comment:'顺序'"`

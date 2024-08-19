@@ -5,7 +5,7 @@ import (
 )
 
 type OrderDetail struct {
-	gorm.Model
+	gorm.Model `copier:"-"`
 	Name       string  `gorm:"type:varchar(32);comment:'名字'"`
 	Image      string  `gorm:"type:varchar(255);comment:'图片'"`
 	OrderID    uint    `gorm:"not null;comment:'订单id'"`

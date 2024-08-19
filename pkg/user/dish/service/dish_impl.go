@@ -28,7 +28,7 @@ func (service DishServiceImpl) GetDishByID(ctx context.Context, categoryID uint)
 		time.Hour,
 		&dishes,
 		func(ctx context.Context, args ...interface{}) (interface{}, error) {
-			return service.dao.GetDishById(ctx, categoryID)
+			return service.dao.GetDishByCategoryId(ctx, categoryID)
 		},
 	)
 	if err != nil {

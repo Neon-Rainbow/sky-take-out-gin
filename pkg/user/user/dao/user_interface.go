@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	model "sky-take-out-gin/model/sql"
 	"time"
 )
 
@@ -29,4 +30,5 @@ type UserDaoInterface interface {
 	// GetUserByUsername 根据用户名从数据库中检索用户信息，包括用户的 ID 和加密后的密码
 	GetUserByUsername(ctx context.Context, username string) (userID uint, hashedPassword string, error error)
 	CreateUser(ctx context.Context, username string, hashedPassword string) (userID uint, error error)
+	GetUserByID(ctx context.Context, userID uint) (user *model.User, error error)
 }

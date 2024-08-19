@@ -5,7 +5,7 @@ import (
 )
 
 type Setmeal struct {
-	gorm.Model
+	gorm.Model  `copier:"-"`
 	CategoryID  uint    `gorm:"not null;comment:'菜品分类id'"`
 	Name        string  `gorm:"type:varchar(32);not null;unique;comment:'套餐名称'"`
 	Price       float64 `gorm:"type:decimal(10,2);not null;comment:'套餐价格'"`

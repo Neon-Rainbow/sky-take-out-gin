@@ -11,4 +11,7 @@ type SetMealDaoInterface interface {
 
 	// GetSetMealDetail 获取套餐详情
 	GetSetMealDetail(ctx context.Context, setMealID int) (setMealDetail []model.SetmealDish, err error)
+
+	// GetSetMealBySetMealID 根据套餐 ID 获取套餐
+	GetSetMealBySetMealID(ctx context.Context, setMealID uint) (setMeal model.Setmeal, err error)
 }

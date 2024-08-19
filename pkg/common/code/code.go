@@ -104,6 +104,20 @@ const (
 	// 菜品浏览模块
 	GetDishByIdError ResponseCode = 21501
 
+	// 用户端订单模块
+	GetOrderDetailError  ResponseCode = 21601
+	SubmitOrderError     ResponseCode = 21602
+	GetHistoryOrderError ResponseCode = 21603
+	CancelOrderError     ResponseCode = 21604
+	PayOrderError        ResponseCode = 21605
+
+	// 购物车模块
+	AddCartToCacheError              ResponseCode = 21701
+	GetCartListFromCacheError        ResponseCode = 21702
+	DeleteCartFromCacheError         ResponseCode = 21703
+	GetCartTotalAmountFromRedisError ResponseCode = 21704
+	SaveRedisToDatabaseError         ResponseCode = 21705
+
 	// 权限校验失败
 	RequestUnauthorized ResponseCode = 21001
 )

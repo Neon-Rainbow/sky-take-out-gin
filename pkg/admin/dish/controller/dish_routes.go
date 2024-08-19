@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	dishDao "sky-take-out-gin/pkg/admin/dish/dao"
 	dishService "sky-take-out-gin/pkg/admin/dish/service"
+	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
 )
 
@@ -11,7 +12,8 @@ func DishRoutes(route *gin.RouterGroup) {
 	// 实例化DishServiceImpl
 	db := database.GetDatabaseManager()
 	dao := dishDao.NewDishDaoImpl(db)
-	service := dishService.NewDishServiceImpl(dao)
+	cache := cache2.NewCache(db)
+	service := dishService.NewDishServiceImpl(dao, cache)
 	controller := NewDishControllerImpl(service)
 
 	dishRoute := route.Group("/dish")

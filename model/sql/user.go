@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	gorm.Model
+	gorm.Model `copier:"-"`
 	//OpenID   string `gorm:"type:varchar(45);comment:'微信用户唯一标识'"`
 	Name     string `gorm:"type:varchar(32);comment:'姓名'"`
 	Username string `gorm:"type:varchar(32);comment:'用户名'"`

@@ -7,11 +7,18 @@ import (
 	sseModel "sky-take-out-gin/pkg/sse/DTO"
 	"sky-take-out-gin/pkg/sse/service"
 	"strconv"
+	"time"
 )
 
 var sseEvent = service.NewSSEvent()
 
+func GetSseEvent() *service.SSEvent {
+	return sseEvent
+}
+
 // SSEHandler 定义了SSE事件处理函数
+// @Summary SSE事件处理函数
+// @Description 通过SSE协议向客户端推送消息,该函数与客户端建立长连接，当有消息到达时，向客户端推送消息
 func SSEHandler(c *gin.Context) {
 	idStr := c.Query("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
@@ -35,7 +42,7 @@ func SSEHandler(c *gin.Context) {
 	}
 
 	participant := sseModel.Participant{
-		ID:   id,
+		ID:   uint(id),
 		Type: t,
 	}
 
@@ -44,11 +51,18 @@ func SSEHandler(c *gin.Context) {
 	defer sseEvent.RemoveClient(participant)
 
 	c.Stream(func(w io.Writer) bool {
-		if msg, ok := <-clientChan; ok {
-			c.SSEvent("message", msg)
+		select {
+		case msg, ok := <-clientChan:
+			if ok {
+				c.SSEvent("message", msg)
+				return true
+			}
+			return false
+		case <-time.After(50 * time.Second):
+			// 如果长时间没有消息，则发送一个心跳消息，保持连接
+			c.SSEvent("heartbeat", "keepalive")
 			return true
 		}
-		return false
 	})
 }
 

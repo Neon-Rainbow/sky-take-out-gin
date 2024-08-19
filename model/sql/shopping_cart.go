@@ -5,7 +5,7 @@ import (
 )
 
 type ShoppingCart struct {
-	gorm.Model
+	gorm.Model `copier:"-"`
 	Name       string  `gorm:"type:varchar(32);comment:'商品名称'"`
 	Image      string  `gorm:"type:varchar(255);comment:'图片'"`
 	UserID     uint    `gorm:"not null;comment:'主键'"`

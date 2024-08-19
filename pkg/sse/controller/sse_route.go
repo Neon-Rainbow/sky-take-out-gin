@@ -3,8 +3,8 @@ package sseRoute
 import "github.com/gin-gonic/gin"
 
 func SSERoute(route *gin.RouterGroup) {
-	sse_route := route
+	sseRoute := route
 
-	sse_route.GET("/", SSEHandler)
-	sse_route.POST("/send_message", SendMessageHandler)
+	sseRoute.GET("", SSEHandler)
+	sseRoute.POST("/send_message", SendMessageHandler)
 }

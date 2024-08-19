@@ -87,6 +87,14 @@ func (dao *UserDaoImpl) CreateUser(ctx context.Context, username string, hashedP
 	return user.ID, nil
 }
 
+func (dao *UserDaoImpl) GetUserByID(ctx context.Context, userID uint) (user *model.User, error error) {
+	err := dao.db.GetDB().WithContext(ctx).Where("id = ?", userID).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 func NewUserDaoImpl(db database.DatabaseInterface) *UserDaoImpl {
 	return &UserDaoImpl{db: db}
 }

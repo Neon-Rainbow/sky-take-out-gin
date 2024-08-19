@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	sseModel "sky-take-out-gin/pkg/sse/DTO"
 )
 
@@ -42,6 +43,7 @@ func NewSSEvent() *SSEvent {
 		Clients:     make(map[sseModel.Participant]ClientChan),
 		Messages:    make(map[sseModel.Participant][]sseModel.Message),
 	}
+	fmt.Println("启动SSE事件监听")
 	go sse.listen()
 	return sse
 }

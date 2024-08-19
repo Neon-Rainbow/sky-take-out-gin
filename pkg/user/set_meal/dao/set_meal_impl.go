@@ -30,6 +30,14 @@ func (s SetMealDaoImpl) GetSetMealDetail(ctx context.Context, setMealID int) (se
 	return setMealDishes, nil
 }
 
+func (s SetMealDaoImpl) GetSetMealBySetMealID(ctx context.Context, setMealID uint) (setMeal model.Setmeal, err error) {
+	err = s.db.GetDB().WithContext(ctx).Where("id = ?", setMealID).First(&setMeal).Error
+	if err != nil {
+		return model.Setmeal{}, err
+	}
+	return setMeal, nil
+}
+
 // NewSetMealDaoImpl 实例化SetMealDaoImpl
 func NewSetMealDaoImpl(db database.DatabaseInterface) *SetMealDaoImpl {
 	return &SetMealDaoImpl{db: db}

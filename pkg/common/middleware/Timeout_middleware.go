@@ -13,8 +13,11 @@ import (
 func TimeoutMiddleware(timeout time.Duration) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 创建一个带有超时的上下文
-		ctx, cancel := context.WithTimeout(c.Request.Context(), timeout)
-		defer cancel()
+		//ctx, cancel := context.WithTimeout(c.Request.Context(), timeout)
+		//
+		//defer cancel()
+
+		ctx := c.Request.Context()
 
 		// 用新的上下文替换请求的上下文
 		c.Request = c.Request.WithContext(ctx)

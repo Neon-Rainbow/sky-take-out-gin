@@ -5,7 +5,7 @@ import (
 )
 
 type Dish struct {
-	gorm.Model
+	gorm.Model  `copier:"-"`
 	Name        string       `gorm:"type:varchar(32);not null;unique;comment:'菜品名称'"`
 	CategoryID  uint         `gorm:"not null;comment:'菜品分类id'"`
 	Price       float64      `gorm:"type:decimal(10,2);comment:'菜品价格'"`

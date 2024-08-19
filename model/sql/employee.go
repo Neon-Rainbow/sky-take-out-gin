@@ -5,7 +5,7 @@ import (
 )
 
 type Employee struct {
-	gorm.Model
+	gorm.Model `copier:"-"`
 	Name       string `gorm:"type:varchar(32);not null;comment:'姓名'"`
 	Username   string `gorm:"type:varchar(32);not null;unique;comment:'用户名'"`
 	Password   string `gorm:"type:varchar(64);not null;comment:'密码'"`

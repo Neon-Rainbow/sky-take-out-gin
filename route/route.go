@@ -17,8 +17,10 @@ import (
 	userAddressBookRoute "sky-take-out-gin/pkg/user/address_book/controller"
 	userCategoryRoute "sky-take-out-gin/pkg/user/category/controller"
 	userDishRoute "sky-take-out-gin/pkg/user/dish/controller"
+	userOrderRoute "sky-take-out-gin/pkg/user/order/controller"
 	userSetMealRoute "sky-take-out-gin/pkg/user/set_meal/controller"
 	userShopRoute "sky-take-out-gin/pkg/user/shop/controller"
+	userShoppingCartRoute "sky-take-out-gin/pkg/user/shopping_cart/controller"
 	userLoginRoute "sky-take-out-gin/pkg/user/user/controller"
 	"time"
 )
@@ -35,7 +37,7 @@ func SetupHTTPRoute() error {
 	route.Use(logger.GinRecovery(zap.L(), true))
 
 	// 超时中间件
-	route.Use(middleware.TimeoutMiddleware(time.Duration(config.GetConfig().Timeout) * time.Second))
+	//route.Use(middleware.TimeoutMiddleware(time.Duration(config.GetConfig().Timeout) * time.Second))
 
 	// CORS 中间件
 	route.Use(middleware.CORSMiddleware())
@@ -43,6 +45,7 @@ func SetupHTTPRoute() error {
 	ApiV1 := route.Group("/api/v1")
 	{
 		userAPI := ApiV1.Group("/user")
+		userAPI.Use(middleware.TimeoutMiddleware(time.Duration(config.GetConfig().Timeout) * time.Second))
 		{
 			userCategoryRoute.CategoryRoute(userAPI)
 			userAddressBookRoute.AddressBookRoute(userAPI)
@@ -50,9 +53,12 @@ func SetupHTTPRoute() error {
 			userShopRoute.ShopRoute(userAPI)
 			userLoginRoute.UserRoute(userAPI)
 			userDishRoute.DishRoute(userAPI)
+			userOrderRoute.UserOrderRoute(userAPI)
+			userShoppingCartRoute.UserShoppingCartRoute(userAPI)
 		}
 
 		adminAPI := ApiV1.Group("/admin")
+		adminAPI.Use(middleware.TimeoutMiddleware(time.Duration(config.GetConfig().Timeout) * time.Second))
 		{
 			adminCategoryRoute.CategoryRoutes(adminAPI)
 			adminEmployeeRoute.EmployeeRoutes(adminAPI)

@@ -8,14 +8,21 @@ import (
 	paramModel "sky-take-out-gin/pkg/admin/dish/DTO"
 	dishDao "sky-take-out-gin/pkg/admin/dish/dao"
 	error2 "sky-take-out-gin/pkg/common/api_error"
+	"sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/code"
 )
 
 type DishServiceImpl struct {
-	dao dishDao.DishDaoInterface
+	dao   dishDao.DishDaoInterface
+	cache cache.RedisCacheInterface
 }
 
 func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.UpdateDishRequest) (*paramModel.UpdateDishResponse, *error2.ApiError) {
+	err := service.cache.InvalidatePattern(ctx, "dish_by_category_id:*")
+	if err != nil {
+		return nil, error2.NewApiError(code.CacheInvalidateFailed, err)
+	}
+
 	// 查找菜品并预加载口味
 	dish, err := service.dao.SearchDishByID(ctx, req.ID)
 	if err != nil {
@@ -111,7 +118,12 @@ func (service DishServiceImpl) UpdateDish(ctx context.Context, req *paramModel.U
 	return &paramModel.UpdateDishResponse{}, nil
 }
 func (service DishServiceImpl) DeleteDish(ctx context.Context, req *paramModel.DeleteDishRequest) (resp *paramModel.DeleteDishResponse, apiError *error2.ApiError) {
-	err := service.dao.DeleteDish(ctx, req.IDs)
+	err := service.cache.InvalidatePattern(ctx, "dish_by_category_id:*")
+	if err != nil {
+		return nil, error2.NewApiError(code.CacheInvalidateFailed, err)
+	}
+
+	err = service.dao.DeleteDish(ctx, req.IDs)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.DeleteDishError,
@@ -122,13 +134,17 @@ func (service DishServiceImpl) DeleteDish(ctx context.Context, req *paramModel.D
 }
 
 func (service DishServiceImpl) AddDish(ctx context.Context, req *paramModel.AddDishRequest) (*paramModel.AddDishResponse, *error2.ApiError) {
+	err := service.cache.InvalidatePattern(ctx, "dish_by_category_id:*")
+	if err != nil {
+		return nil, error2.NewApiError(code.CacheInvalidateFailed, err)
+	}
 	// 开始事务
 	tx := service.dao.BeginTransaction()
 
 	// 创建 Dish 实例
 	dish := &model.Dish{}
 
-	err := copier.CopyWithOption(dish, req, copier.Option{IgnoreEmpty: true})
+	err = copier.CopyWithOption(dish, req, copier.Option{IgnoreEmpty: true})
 	if err != nil {
 		tx.Rollback()
 		return nil, &error2.ApiError{
@@ -235,7 +251,12 @@ func (service DishServiceImpl) SearchDishByPage(ctx context.Context, req *paramM
 }
 
 func (service DishServiceImpl) ChangeDishStatus(ctx context.Context, req *paramModel.ChangeDishStatusRequest) (resp *paramModel.ChangeDishStatusResponse, apiError *error2.ApiError) {
-	err := service.dao.ChangeDishStatus(ctx, req.ID, req.Status)
+	err := service.cache.InvalidatePattern(ctx, "dish_by_category_id:*")
+	if err != nil {
+		return nil, error2.NewApiError(code.CacheInvalidateFailed, err)
+	}
+
+	err = service.dao.ChangeDishStatus(ctx, req.ID, req.Status)
 	if err != nil {
 		return nil, &error2.ApiError{
 			Code: code.ChangeDishStatusError,
@@ -245,6 +266,6 @@ func (service DishServiceImpl) ChangeDishStatus(ctx context.Context, req *paramM
 	return &paramModel.ChangeDishStatusResponse{}, nil
 }
 
-func NewDishServiceImpl(dao dishDao.DishDaoInterface) DishServiceImpl {
-	return DishServiceImpl{dao: dao}
+func NewDishServiceImpl(dao dishDao.DishDaoInterface, cache cache.RedisCacheInterface) DishServiceImpl {
+	return DishServiceImpl{dao, cache}
 }

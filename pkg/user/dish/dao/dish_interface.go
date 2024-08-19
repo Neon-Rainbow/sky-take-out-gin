@@ -6,5 +6,6 @@ import (
 )
 
 type DishDaoInterface interface {
-	GetDishById(ctx context.Context, categoryID uint) (dishes []model.Dish, err error)
+	GetDishByCategoryId(ctx context.Context, categoryID uint) (dishes []model.Dish, err error)
+	GetDishByDishID(ctx context.Context, dishID uint) (dish model.Dish, err error)
 }
