@@ -1,11 +1,9 @@
 package controller
 
 import (
-	"context"
 	"github.com/gin-gonic/gin"
 	paramCategory "sky-take-out-gin/pkg/admin/category/DTO"
 	serviceCategory "sky-take-out-gin/pkg/admin/category/service"
-	controllerModel "sky-take-out-gin/pkg/common/api_error"
 	controllerResponse "sky-take-out-gin/pkg/common/request_handle"
 )
 
@@ -39,9 +37,7 @@ func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
 	controllerResponse.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.UpdateCategory(ctx, req.(*paramCategory.AdminUpdateCategoryRequest))
-		},
+		controller.CategoryService.UpdateCategory,
 		c.ShouldBindBodyWithJSON,
 	)
 }
@@ -65,9 +61,7 @@ func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
 	controllerResponse.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.GetCategoryPage(ctx, req.(*paramCategory.AdminCategoryPageRequest))
-		},
+		controller.CategoryService.GetCategoryPage,
 		c.ShouldBindQuery,
 	)
 }
@@ -89,9 +83,7 @@ func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Conte
 	controllerResponse.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.ChangeCategoryStatus(ctx, req.(*paramCategory.AdminChangeCategoryStatusRequest))
-		},
+		controller.CategoryService.ChangeCategoryStatus,
 		c.ShouldBindUri,
 		c.ShouldBindQuery,
 	)
@@ -116,9 +108,7 @@ func (controller *AdminCategoryControllerImpl) CreateCategory(c *gin.Context) {
 	controllerResponse.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.CreateCategory(ctx, req.(*paramCategory.AdminCreateCategoryRequest))
-		},
+		controller.CategoryService.CreateCategory,
 		c.ShouldBindBodyWithJSON,
 	)
 }
@@ -139,9 +129,7 @@ func (controller *AdminCategoryControllerImpl) DeleteCategory(c *gin.Context) {
 	controllerResponse.HandleRequest(
 		c,
 		&req,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.DeleteCategory(ctx, req.(*paramCategory.AdminDeleteCategoryRequest))
-		},
+		controller.CategoryService.DeleteCategory,
 		c.ShouldBindQuery,
 	)
 }
@@ -162,9 +150,7 @@ func (controller *AdminCategoryControllerImpl) GetCategoryListByType(c *gin.Cont
 	controllerResponse.HandleRequest(
 		c,
 		&resp,
-		func(ctx context.Context, req interface{}) (interface{}, *controllerModel.ApiError) {
-			return controller.CategoryService.GetCategoryByType(ctx, req.(*paramCategory.AdminGetCategoryListByTypeRequest))
-		},
+		controller.CategoryService.GetCategoryByType,
 		c.ShouldBindQuery,
 	)
 }

@@ -11,16 +11,19 @@ import (
 	"sky-take-out-gin/pkg/common/response"
 )
 
+type BindCommonFunc func(interface{}) error
+
 // HandleRequest 处理请求的通用方法
 // @Param c *gin.Context gin上下文
 // @Param req interface{} 请求参数
 // @Param serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err error) 需要调用的service层的方法
 // @Param bindFunc ...func(interface{}) error 绑定请求参数的方法,默认使用ShouldBind
 // @Return
-func HandleRequest(c *gin.Context,
-	req interface{},
-	serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err *error2.ApiError),
-	bindFunc ...func(interface{}) error) {
+func HandleRequest[T any, R any](
+	c *gin.Context,
+	req *T,
+	serviceFunc func(ctx context.Context, req *T) (*R, *error2.ApiError),
+	bindFunc ...BindCommonFunc) {
 
 	ctx, err := SetUserIDAndUsernameToContext(c)
 	if err != nil {

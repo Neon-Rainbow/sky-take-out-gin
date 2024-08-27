@@ -7,12 +7,12 @@ import (
 )
 
 type EmployeeService interface {
-	EditPassword(ctx context.Context, req DTO.EditPasswordRequest) (*DTO.EditPasswordResponse, *apiErrorModel.ApiError)
-	ChangeEmployeeStatus(ctx context.Context, request DTO.ChangeEmployeeStatusRequest) (*DTO.ChangeEmployeeStatusResponse, *apiErrorModel.ApiError)
-	GetEmployeePage(ctx context.Context, request DTO.EmployeePageRequest) (*DTO.EmployeePageResponse, *apiErrorModel.ApiError)
-	EmployeeLogin(ctx context.Context, request DTO.EmployeeLoginRequest) (*DTO.EmployeeLoginResponse, *apiErrorModel.ApiError)
-	AddEmployee(ctx context.Context, request DTO.AddEmployeeRequest) (*DTO.AddEmployeeResponse, *apiErrorModel.ApiError)
-	SearchEmployee(ctx context.Context, request DTO.SearchEmployeeRequest) (*DTO.SearchEmployeeResponse, *apiErrorModel.ApiError)
-	EditEmployee(ctx context.Context, request DTO.EditEmployeeRequest) (*DTO.EditEmployeeResponse, *apiErrorModel.ApiError)
-	EmployeeLogout(ctx context.Context, request DTO.EmployeeLogoutRequest) (*DTO.EmployeeLogoutResponse, *apiErrorModel.ApiError)
+	EditPassword(ctx context.Context, req *DTO.EditPasswordRequest) (*DTO.EditPasswordResponse, *apiErrorModel.ApiError)
+	ChangeEmployeeStatus(ctx context.Context, req *DTO.ChangeEmployeeStatusRequest) (*DTO.ChangeEmployeeStatusResponse, *apiErrorModel.ApiError)
+	GetEmployeePage(ctx context.Context, req *DTO.EmployeePageRequest) (*DTO.EmployeePageResponse, *apiErrorModel.ApiError)
+	EmployeeLogin(ctx context.Context, req *DTO.EmployeeLoginRequest) (*DTO.EmployeeLoginResponse, *apiErrorModel.ApiError)
+	AddEmployee(ctx context.Context, req *DTO.AddEmployeeRequest) (*DTO.AddEmployeeResponse, *apiErrorModel.ApiError)
+	SearchEmployee(ctx context.Context, req *DTO.SearchEmployeeRequest) (*DTO.SearchEmployeeResponse, *apiErrorModel.ApiError)
+	EditEmployee(ctx context.Context, req *DTO.EditEmployeeRequest) (*DTO.EditEmployeeResponse, *apiErrorModel.ApiError)
+	EmployeeLogout(ctx context.Context, req *DTO.EmployeeLogoutRequest) (*DTO.EmployeeLogoutResponse, *apiErrorModel.ApiError)
 }

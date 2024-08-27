@@ -16,7 +16,7 @@ type EmployeeServiceImpl struct {
 	employeeDao.EmployeeDAOInterface
 }
 
-func (service EmployeeServiceImpl) EditPassword(ctx context.Context, req DTO.EditPasswordRequest) (*DTO.EditPasswordResponse, *error2.ApiError) {
+func (service EmployeeServiceImpl) EditPassword(ctx context.Context, req *DTO.EditPasswordRequest) (*DTO.EditPasswordResponse, *error2.ApiError) {
 	e, err := service.GetEmployeeByID(ctx, req.ID)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -35,7 +35,7 @@ func (service EmployeeServiceImpl) EditPassword(ctx context.Context, req DTO.Edi
 	return nil, nil
 }
 
-func (service EmployeeServiceImpl) ChangeEmployeeStatus(ctx context.Context, req DTO.ChangeEmployeeStatusRequest) (*DTO.ChangeEmployeeStatusResponse, *error2.ApiError) {
+func (service EmployeeServiceImpl) ChangeEmployeeStatus(ctx context.Context, req *DTO.ChangeEmployeeStatusRequest) (*DTO.ChangeEmployeeStatusResponse, *error2.ApiError) {
 	e, err := service.GetEmployeeByID(ctx, req.ID)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -55,7 +55,7 @@ func (service EmployeeServiceImpl) ChangeEmployeeStatus(ctx context.Context, req
 	return nil, nil
 }
 
-func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req DTO.EmployeePageRequest) (*DTO.EmployeePageResponse, *error2.ApiError) {
+func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req *DTO.EmployeePageRequest) (*DTO.EmployeePageResponse, *error2.ApiError) {
 	employees, err := service.GetEmployees(ctx, req.Page, req.PageSize)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -70,7 +70,7 @@ func (service EmployeeServiceImpl) GetEmployeePage(ctx context.Context, req DTO.
 	}, nil
 }
 
-func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req DTO.EmployeeLoginRequest) (resp *DTO.EmployeeLoginResponse, apiError *error2.ApiError) {
+func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req *DTO.EmployeeLoginRequest) (resp *DTO.EmployeeLoginResponse, apiError *error2.ApiError) {
 	employees, err := service.SearchEmployees(ctx, "username = ?", req.Username)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -101,7 +101,7 @@ func (service EmployeeServiceImpl) EmployeeLogin(ctx context.Context, req DTO.Em
 	return resp, nil
 }
 
-func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req DTO.AddEmployeeRequest) (resp *DTO.AddEmployeeResponse, apiError *error2.ApiError) {
+func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req *DTO.AddEmployeeRequest) (resp *DTO.AddEmployeeResponse, apiError *error2.ApiError) {
 	var e paramModel.Employee
 
 	err := copier.CopyWithOption(&e, &req, copier.Option{IgnoreEmpty: true})
@@ -128,7 +128,7 @@ func (service EmployeeServiceImpl) AddEmployee(ctx context.Context, req DTO.AddE
 
 }
 
-func (service EmployeeServiceImpl) SearchEmployee(ctx context.Context, req DTO.SearchEmployeeRequest) (resp *DTO.SearchEmployeeResponse, apiError *error2.ApiError) {
+func (service EmployeeServiceImpl) SearchEmployee(ctx context.Context, req *DTO.SearchEmployeeRequest) (resp *DTO.SearchEmployeeResponse, apiError *error2.ApiError) {
 	employees, err := service.GetEmployeeByID(ctx, req.ID)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -143,7 +143,7 @@ func (service EmployeeServiceImpl) SearchEmployee(ctx context.Context, req DTO.S
 	return resp, nil
 }
 
-func (service EmployeeServiceImpl) EditEmployee(ctx context.Context, req DTO.EditEmployeeRequest) (resp *DTO.EditEmployeeResponse, apiError *error2.ApiError) {
+func (service EmployeeServiceImpl) EditEmployee(ctx context.Context, req *DTO.EditEmployeeRequest) (resp *DTO.EditEmployeeResponse, apiError *error2.ApiError) {
 	e, err := service.GetEmployeeByID(ctx, req.ID)
 	if err != nil {
 		return nil, &error2.ApiError{
@@ -169,7 +169,7 @@ func (service EmployeeServiceImpl) EditEmployee(ctx context.Context, req DTO.Edi
 	return nil, nil
 }
 
-func (service EmployeeServiceImpl) EmployeeLogout(ctx context.Context, req DTO.EmployeeLogoutRequest) (resp *DTO.EmployeeLogoutResponse, apiError *error2.ApiError) {
+func (service EmployeeServiceImpl) EmployeeLogout(ctx context.Context, req *DTO.EmployeeLogoutRequest) (resp *DTO.EmployeeLogoutResponse, apiError *error2.ApiError) {
 	// Implement logout logic here, if needed
 	return nil, nil
 }
