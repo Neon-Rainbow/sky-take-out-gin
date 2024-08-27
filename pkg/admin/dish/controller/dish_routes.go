@@ -6,6 +6,7 @@ import (
 	dishService "sky-take-out-gin/pkg/admin/dish/service"
 	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 )
 
 func DishRoutes(route *gin.RouterGroup) {
@@ -16,7 +17,7 @@ func DishRoutes(route *gin.RouterGroup) {
 	service := dishService.NewDishServiceImpl(dao, cache)
 	controller := NewDishControllerImpl(service)
 
-	dishRoute := route.Group("/dish")
+	dishRoute := route.Group("/dish").Use(middleware.JWTMiddleware(middleware.Admin))
 	{
 		dishRoute.PUT("", controller.UpdateDish)
 		dishRoute.DELETE("", controller.DeleteDish)

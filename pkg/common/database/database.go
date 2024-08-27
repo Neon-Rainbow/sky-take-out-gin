@@ -10,7 +10,7 @@ import (
 
 var dbManager *CombinedDatabase
 
-// Database 定义数据库接口
+// DatabaseInterface 定义数据库接口
 type DatabaseInterface interface {
 	InitDB() error
 	InitRedis() error

@@ -6,22 +6,23 @@ import (
 	setmealService "sky-take-out-gin/pkg/admin/setmeal/service"
 	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 )
 
-func SetmealRoutes(route *gin.RouterGroup) {
+func SetMealRoutes(route *gin.RouterGroup) {
 	db := database.GetDatabaseManager()
 	dao := setmealDao.NewSetmealDAOImpl(db)
 	cache := cache2.NewCache(db)
 	service := setmealService.NewSetmealServiceImpl(dao, cache)
 	controller := NewSetmealControllerImpl(service)
 
-	setmealRoute := route.Group("/setmeal")
+	setMealRoute := route.Group("/set_meal").Use(middleware.JWTMiddleware(middleware.Admin))
 	{
-		setmealRoute.PUT("/", controller.UpdateSetmeal)
-		setmealRoute.GET("/page", controller.GetSetmealPage)
-		setmealRoute.POST("/status/:status", controller.ChangeSetmealStatus)
-		setmealRoute.DELETE("/", controller.DeleteSetmeals)
-		setmealRoute.POST("/", controller.CreateSetmeals)
-		setmealRoute.GET("/:id", controller.GetSetmealsByID)
+		setMealRoute.PUT("/", controller.UpdateSetmeal)
+		setMealRoute.GET("/page", controller.GetSetmealPage)
+		setMealRoute.POST("/status/:status", controller.ChangeSetmealStatus)
+		setMealRoute.DELETE("/", controller.DeleteSetmeals)
+		setMealRoute.POST("/", controller.CreateSetmeals)
+		setMealRoute.GET("/:id", controller.GetSetmealsByID)
 	}
 }

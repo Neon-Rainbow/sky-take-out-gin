@@ -5,6 +5,7 @@ import (
 	employeeDao "sky-take-out-gin/pkg/admin/employee/dao"
 	"sky-take-out-gin/pkg/admin/employee/service"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 )
 
 func EmployeeRoutes(route *gin.RouterGroup) {
@@ -16,13 +17,13 @@ func EmployeeRoutes(route *gin.RouterGroup) {
 
 	employeeRoute := route.Group("/employee")
 	{
-		employeeRoute.PUT("/password", controller.EditPassword)
-		employeeRoute.POST("/status/:status", controller.ChangeEmployeeStatus)
-		employeeRoute.GET("/page", controller.EmployeePage)
+		employeeRoute.PUT("/password", middleware.JWTMiddleware(middleware.Admin), controller.EditPassword)
+		employeeRoute.POST("/status/:status", middleware.JWTMiddleware(middleware.Admin), controller.ChangeEmployeeStatus)
+		employeeRoute.GET("/page", middleware.JWTMiddleware(middleware.Admin), controller.EmployeePage)
 		employeeRoute.POST("/login", controller.EmployeeLogin)
-		employeeRoute.POST("/", controller.AddEmployee)
-		employeeRoute.GET("/:id", controller.SearchEmployee)
-		employeeRoute.PUT("/", controller.EditEmployee)
-		employeeRoute.POST("/logout", controller.EmployeeLogout)
+		employeeRoute.POST("/", middleware.JWTMiddleware(middleware.Admin), controller.AddEmployee)
+		employeeRoute.GET("/:id", middleware.JWTMiddleware(middleware.Admin), controller.SearchEmployee)
+		employeeRoute.PUT("/", middleware.JWTMiddleware(middleware.Admin), controller.EditEmployee)
+		employeeRoute.POST("/logout", middleware.JWTMiddleware(middleware.Admin), controller.EmployeeLogout)
 	}
 }

@@ -8,6 +8,7 @@ import (
 	adminDishRoute "sky-take-out-gin/pkg/admin/dish/controller"
 	adminEmployeeRoute "sky-take-out-gin/pkg/admin/employee/controller"
 	adminFileRoute "sky-take-out-gin/pkg/admin/file/controller"
+	adminOrderRoute "sky-take-out-gin/pkg/admin/order/controller"
 	adminSetmealRoute "sky-take-out-gin/pkg/admin/setmeal/controller"
 	adminShopRoute "sky-take-out-gin/pkg/admin/shop/controller"
 	"sky-take-out-gin/pkg/common/config"
@@ -62,10 +63,11 @@ func SetupHTTPRoute() error {
 		{
 			adminCategoryRoute.CategoryRoutes(adminAPI)
 			adminEmployeeRoute.EmployeeRoutes(adminAPI)
-			adminSetmealRoute.SetmealRoutes(adminAPI)
+			adminSetmealRoute.SetMealRoutes(adminAPI)
 			adminShopRoute.ShopRoutes(adminAPI)
 			adminFileRoute.FileRoutes(adminAPI)
 			adminDishRoute.DishRoutes(adminAPI)
+			adminOrderRoute.AdminOrderRoutes(adminAPI)
 		}
 
 		sseApi := ApiV1.Group("/sse")

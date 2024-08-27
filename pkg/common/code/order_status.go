@@ -1,4 +1,4 @@
-package DTO
+package code
 
 // 订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消 7退款
 const (

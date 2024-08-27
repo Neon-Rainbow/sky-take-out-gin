@@ -62,7 +62,7 @@ func (service *UserOrderServiceImpl) GetHistoryOrder(ctx context.Context, userID
 func (service *UserOrderServiceImpl) CancelOrder(ctx context.Context, userID uint, orderID uint, cancelReason string) *api_error.ApiError {
 
 	var updateColumns = make(map[string]interface{})
-	updateColumns["status"] = DTO.OrderStatusCanceled
+	updateColumns["status"] = code.OrderStatusCanceled
 	updateColumns["cancel_reason"] = cancelReason
 	updateColumns["cancel_time"] = time.Now()
 
@@ -170,7 +170,7 @@ func (service *UserOrderServiceImpl) SubmitOrder(ctx context.Context, userID uin
 }
 
 func (service *UserOrderServiceImpl) PayOrder(ctx context.Context, userID uint, orderID uint, payMethod int) *api_error.ApiError {
-	err := service.userOrderDao.UpdateOrderPayStatus(ctx, orderID, DTO.OrderPayStatusPaid, payMethod)
+	err := service.userOrderDao.UpdateOrderPayStatus(ctx, orderID, code.OrderPayStatusPaid, payMethod)
 	if err != nil {
 		return api_error.NewApiError(code.PayOrderError, err)
 	}

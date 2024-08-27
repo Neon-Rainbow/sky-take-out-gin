@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 	dao2 "sky-take-out-gin/pkg/user/address_book/dao"
 	"sky-take-out-gin/pkg/user/order/dao"
 	"sky-take-out-gin/pkg/user/order/service"
@@ -19,7 +20,7 @@ func UserOrderRoute(route *gin.RouterGroup) {
 	userOrderService := service.NewUserOrderServiceImpl(userOrderDao, userAddressDao, userInfoDao, shoppingCartDao)
 	userOrderController := NewUserOrderController(userOrderService)
 
-	orderRoute := route.Group("/order")
+	orderRoute := route.Group("/order").Use(middleware.JWTMiddleware(middleware.User))
 	{
 		orderRoute.GET("/reminder/:orderID", userOrderController.ReminderOrder)
 		orderRoute.POST("/repetition/:orderID", userOrderController.RepetitionOrder)

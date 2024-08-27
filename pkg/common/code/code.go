@@ -105,11 +105,16 @@ const (
 	GetDishByIdError ResponseCode = 21501
 
 	// 用户端订单模块
-	GetOrderDetailError  ResponseCode = 21601
-	SubmitOrderError     ResponseCode = 21602
-	GetHistoryOrderError ResponseCode = 21603
-	CancelOrderError     ResponseCode = 21604
-	PayOrderError        ResponseCode = 21605
+	GetOrderDetailError       ResponseCode = 21601 // 获取订单详情失败
+	SubmitOrderError          ResponseCode = 21602 // 提交订单失败
+	GetHistoryOrderError      ResponseCode = 21603 // 获取历史订单失败
+	CancelOrderError          ResponseCode = 21604 // 取消订单失败
+	PayOrderError             ResponseCode = 21605 // 支付订单失败
+	FinishOrderError          ResponseCode = 21606 // 完成订单失败
+	RejectOrderError          ResponseCode = 21607 // 拒绝订单失败
+	ConfirmOrderError         ResponseCode = 21608 // 确认订单失败
+	DeliveryOrderError        ResponseCode = 21609 // 发货订单失败
+	ConditionSearchOrderError ResponseCode = 21610 // 条件查询订单失败
 
 	// 购物车模块
 	AddCartToCacheError              ResponseCode = 21701

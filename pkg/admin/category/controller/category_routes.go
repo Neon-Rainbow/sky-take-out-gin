@@ -6,6 +6,7 @@ import (
 	serviceCategory "sky-take-out-gin/pkg/admin/category/service"
 	cache2 "sky-take-out-gin/pkg/common/cache"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 )
 
 func CategoryRoutes(route *gin.RouterGroup) {
@@ -17,7 +18,7 @@ func CategoryRoutes(route *gin.RouterGroup) {
 	service := serviceCategory.NewCategoryService(dao, cache)
 	controller := NewAdminCategoryControllerImpl(service)
 
-	categoryRoute := route.Group("/category")
+	categoryRoute := route.Group("/category").Use(middleware.JWTMiddleware(middleware.Admin))
 	{
 		categoryRoute.PUT("/", controller.UpdateCategory)
 		categoryRoute.GET("/page", controller.GetCategoryPage)

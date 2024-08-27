@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"sky-take-out-gin/pkg/common/database"
+	"sky-take-out-gin/pkg/common/middleware"
 	dao2 "sky-take-out-gin/pkg/user/user/dao"
 	service2 "sky-take-out-gin/pkg/user/user/service"
 )
@@ -20,6 +21,6 @@ func UserRoute(route *gin.RouterGroup) {
 		userRoute.POST("/login", controller.Login)
 		userRoute.POST("/register", controller.Register)
 		userRoute.POST("/refresh_token", controller.RefreshToken)
-		userRoute.POST("/logout", controller.Logout)
+		userRoute.POST("/logout", middleware.JWTMiddleware(middleware.User), controller.Logout)
 	}
 }
