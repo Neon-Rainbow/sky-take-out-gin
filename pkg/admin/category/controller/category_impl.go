@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	paramCategory "sky-take-out-gin/pkg/admin/category/DTO"
 	serviceCategory "sky-take-out-gin/pkg/admin/category/service"
 	controllerResponse "sky-take-out-gin/pkg/common/request_handle"
 )
@@ -33,13 +32,7 @@ func NewAdminCategoryControllerImpl(service serviceCategory.CategoryService) *Ad
 // @Failure http.StatusInternalServerError {object} controller.Response
 // @Router /admin/category [put]
 func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
-	req := paramCategory.AdminUpdateCategoryRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&req,
-		controller.CategoryService.UpdateCategory,
-		c.ShouldBindBodyWithJSON,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.UpdateCategory, c.ShouldBindBodyWithJSON)
 }
 
 // GetCategoryPage 分类分页查询
@@ -57,13 +50,7 @@ func (controller *AdminCategoryControllerImpl) UpdateCategory(c *gin.Context) {
 // @Failure 500 {object} controller.Response
 // @Router /admin/category/page [get]
 func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
-	req := paramCategory.AdminCategoryPageRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&req,
-		controller.CategoryService.GetCategoryPage,
-		c.ShouldBindQuery,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.GetCategoryPage, c.ShouldBindQuery)
 }
 
 // ChangeCategoryStatus 启用、禁用分类
@@ -79,14 +66,7 @@ func (controller *AdminCategoryControllerImpl) GetCategoryPage(c *gin.Context) {
 // @Failure 500 {object} controller.Response
 // @Router /admin/category/status/{status} [post]
 func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Context) {
-	req := paramCategory.AdminChangeCategoryStatusRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&req,
-		controller.CategoryService.ChangeCategoryStatus,
-		c.ShouldBindUri,
-		c.ShouldBindQuery,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.ChangeCategoryStatus, c.ShouldBindUri, c.ShouldBindQuery)
 }
 
 // CreateCategory 新增分类
@@ -104,13 +84,7 @@ func (controller *AdminCategoryControllerImpl) ChangeCategoryStatus(c *gin.Conte
 // @Failure 500 {object} controller.Response
 // @Router /admin/category [post]
 func (controller *AdminCategoryControllerImpl) CreateCategory(c *gin.Context) {
-	req := paramCategory.AdminCreateCategoryRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&req,
-		controller.CategoryService.CreateCategory,
-		c.ShouldBindBodyWithJSON,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.CreateCategory, c.ShouldBindBodyWithJSON)
 }
 
 // DeleteCategory 根据ID删除分类
@@ -125,13 +99,7 @@ func (controller *AdminCategoryControllerImpl) CreateCategory(c *gin.Context) {
 // @Failure 500 {object} controller.Response
 // @Router /admin/category [delete]
 func (controller *AdminCategoryControllerImpl) DeleteCategory(c *gin.Context) {
-	req := paramCategory.AdminDeleteCategoryRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&req,
-		controller.CategoryService.DeleteCategory,
-		c.ShouldBindQuery,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.DeleteCategory, c.ShouldBindQuery)
 }
 
 // GetCategoryListByType 根据类型查询分类
@@ -146,11 +114,5 @@ func (controller *AdminCategoryControllerImpl) DeleteCategory(c *gin.Context) {
 // @Failure 500 {object} controller.Response
 // @Router /admin/category/list [get]
 func (controller *AdminCategoryControllerImpl) GetCategoryListByType(c *gin.Context) {
-	resp := paramCategory.AdminGetCategoryListByTypeRequest{}
-	controllerResponse.HandleRequest(
-		c,
-		&resp,
-		controller.CategoryService.GetCategoryByType,
-		c.ShouldBindQuery,
-	)
+	controllerResponse.HandleRequest(c, controller.CategoryService.GetCategoryByType, c.ShouldBindQuery)
 }

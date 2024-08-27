@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
-	error2 "sky-take-out-gin/pkg/common/api_error"
+	"sky-take-out-gin/pkg/common/api_error"
 	"sky-take-out-gin/pkg/common/code"
 	"sky-take-out-gin/pkg/common/response"
 )
@@ -15,29 +15,28 @@ type BindCommonFunc func(interface{}) error
 
 // HandleRequest 处理请求的通用方法
 // @Param c *gin.Context gin上下文
-// @Param req interface{} 请求参数
-// @Param serviceFunc func(ctx context.Context, req interface{}) (successResponse interface{}, err error) 需要调用的service层的方法
+// @Param serviceFunc func(ctx context.Context, req *T) (*R, *api_error.ApiError) 调用的service层方法
 // @Param bindFunc ...func(interface{}) error 绑定请求参数的方法,默认使用ShouldBind
 // @Return
 func HandleRequest[T any, R any](
 	c *gin.Context,
-	req *T,
-	serviceFunc func(ctx context.Context, req *T) (*R, *error2.ApiError),
+	serviceFunc func(ctx context.Context, req *T) (*R, *api_error.ApiError),
 	bindFunc ...BindCommonFunc) {
 
 	ctx, err := SetUserIDAndUsernameToContext(c)
 	if err != nil {
-		response.ResponseErrorWithCode(c, http.StatusInternalServerError, code.ServerError)
+		response.ResponseErrorWithApiError(c, http.StatusInternalServerError, api_error.NewApiError(code.ServerError, err))
 		return
 	}
 
-	var apiError *error2.ApiError
-	var resp interface{}
+	var apiError *api_error.ApiError
+	var req *T
+	var resp *R
 
 	if len(bindFunc) == 0 {
 		err := c.ShouldBind(req)
 		if err != nil {
-			apiError = &error2.ApiError{
+			apiError = &api_error.ApiError{
 				Code: code.ParamError,
 				Msg:  err.Error(),
 			}
@@ -47,7 +46,7 @@ func HandleRequest[T any, R any](
 		for _, bindFunc := range bindFunc {
 			err := bindFunc(req)
 			if err != nil {
-				apiError = &error2.ApiError{
+				apiError = &api_error.ApiError{
 					Code: code.ParamError,
 					Msg:  err.Error(),
 				}
