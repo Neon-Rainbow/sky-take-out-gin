@@ -2,7 +2,7 @@
 
 一个使用Gin框架重构的外卖系统
 
-技术栈:
+## 技术栈:
 Go + Gin + Gorm + PostgreSQL + Redis + Server-Sent Events
 
 + 项目框架:[Gin](https://gin-gonic.com/)
@@ -11,11 +11,17 @@ Go + Gin + Gorm + PostgreSQL + Redis + Server-Sent Events
 + ORM工具:[Gorm](https://gorm.io/zh_CN/)
 + 项目内部通信:[Server-Sent Events](https://en.wikipedia.org/wiki/Server-sent_events)
 
+## 接口设计
 项目实现了大多数苍穹外卖的后端接口
 其中未实现的接口:
 + [ ] 微信登录(项目中使用了账号密码登录)
 + [ ] 微信支付(项目中使用了模拟支付)
 
+## 项目接口文档:
+[接口文档](./docs/外卖系统.postman_collection.json)
+改接口文档为postman格式,可以导入到postman使用
+
+## 与原项目的区别
 该项目与苍穹外卖项目的一些接口的区别:
 + 接口使用下划线命名法,如`/api/v1/user_info`而不是`/api/v1/userInfo`
 + 接口返回的数据格式统一为:
@@ -32,7 +38,7 @@ Go + Gin + Gorm + PostgreSQL + Redis + Server-Sent Events
 + 使用了双token刷新,同时对token使用了白名单机制,将合法的token存储在了redis中,并且设置了过期时间.增加了刷新token的接口
 + 使用了Server-Sent Events实现了一个简单的消息推送功能,而不是使用WebSocket.由于项目的消息推送的时效性的要求不是很高,因此采用了更加轻量级的Server-Sent Events,同时也减少了开发成本
 
-项目配置文件格式:
+## 项目配置文件格式:
 ```yaml
 # config.yaml
 
